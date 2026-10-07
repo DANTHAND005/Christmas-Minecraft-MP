@@ -38,5 +38,10 @@
     "flipbook_texture": "textures/blocks/reindeer",
     "atlas_tile": "santa_reindeer",
     "ticks_per_frame": 4
+  },
+  {
+    "flipbook_texture": "textures/blocks/decor_lit",
+    "atlas_tile": "santa_decor_lit",
+    "ticks_per_frame": 8
   }
 ]

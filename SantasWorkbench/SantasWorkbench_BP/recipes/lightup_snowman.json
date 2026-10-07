@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "santa:lightup_snowman_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:snowball"
+      },
+      {
+        "item": "minecraft:snowball"
+      },
+      {
+        "item": "minecraft:snowball"
+      },
+      {
+        "item": "minecraft:glowstone_dust"
+      },
+      {
+        "item": "minecraft:coal"
+      }
+    ],
+    "result": {
+      "item": "santa:lightup_snowman",
+      "count": 1
+    }
+  }
+}

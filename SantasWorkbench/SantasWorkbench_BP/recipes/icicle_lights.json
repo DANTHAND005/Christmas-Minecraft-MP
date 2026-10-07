@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "santa:icicle_lights_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:ice"
+      },
+      {
+        "item": "minecraft:glowstone_dust"
+      },
+      {
+        "item": "minecraft:string"
+      }
+    ],
+    "result": {
+      "item": "santa:icicle_lights",
+      "count": 1
+    }
+  }
+}

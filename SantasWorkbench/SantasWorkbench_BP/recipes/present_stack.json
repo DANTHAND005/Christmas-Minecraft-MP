@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "santa:present_stack_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:paper"
+      },
+      {
+        "item": "minecraft:paper"
+      },
+      {
+        "item": "minecraft:red_dye"
+      },
+      {
+        "item": "minecraft:green_dye"
+      },
+      {
+        "item": "minecraft:string"
+      }
+    ],
+    "result": {
+      "item": "santa:present_stack",
+      "count": 1
+    }
+  }
+}

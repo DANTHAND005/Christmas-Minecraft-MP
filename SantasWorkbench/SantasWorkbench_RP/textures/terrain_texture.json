@@ -108,6 +108,15 @@
     },
     "santa_greenery": {
       "textures": "textures/blocks/greenery"
+    },
+    "santa_decor": {
+      "textures": "textures/blocks/decor"
+    },
+    "santa_decor_lit": {
+      "textures": "textures/blocks/decor_lit"
+    },
+    "santa_glass": {
+      "textures": "textures/blocks/glass"
     }
   }
 }

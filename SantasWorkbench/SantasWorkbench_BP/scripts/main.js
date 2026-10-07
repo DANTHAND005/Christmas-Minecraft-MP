@@ -1,5 +1,6 @@
 import { world, system, ItemStack, BlockPermutation } from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
+import { NEW_DECOR, NEW_PARTS } from "./decor_config.js";
 
 const TOYS = ["santa:teddy_bear", "santa:toy_train", "santa:toy_soldier", "santa:spinning_top", "santa:rubber_duck", "santa:yo_yo", "santa:rocking_horse", "santa:jack_in_the_box", "santa:nutcracker", "santa:toy_drum", "santa:toy_robot", "santa:snow_globe", "santa:toy_airplane", "santa:toy_penguin", "santa:toy_car", "santa:toy_sled", "santa:stuffed_reindeer", "santa:toy_snowman", "santa:wooden_blocks", "santa:toy_castle"];
 // Every present gives one toy and one food. With the Gingerbread Oven add-on on, the food can be any of its foods:
@@ -147,49 +148,56 @@ function takeGiftData(dimension, loc) {
 
 // ---- decorations: right-click switches lights on/off (with a flicker) or rings the bells; the reindeer grazes now and then ----
 const DECOR = {"christmas_tree": {"toggle": true, "flicker": true, "sound": "random.click"}, "christmas_tree_medium": {"toggle": true, "flicker": true, "sound": "random.click"}, "tall_christmas_tree": {"toggle": true, "flicker": true, "sound": "random.click"}, "string_lights_multi": {"toggle": true, "flicker": true, "sound": "random.click"}, "string_lights_warm": {"toggle": true, "flicker": true, "sound": "random.click"}, "string_lights_redgreen": {"toggle": true, "flicker": true, "sound": "random.click"}, "candy_cane_lamp": {"toggle": true, "flicker": true, "sound": "random.click"}, "christmas_candles": {"toggle": true, "sound_on": "fire.ignite", "sound_off": "random.fizz"}, "golden_bells": {"anim": [1, 2, 1, 2, 1, 0], "delay": 2, "sound": "block.bell.hit", "every": 2}, "lawn_reindeer": {"toggle": true, "flicker": true, "sound": "random.click", "idle": [2, 1, 1, 1, 2, 0], "idle_delay": 6}};
+Object.assign(DECOR, NEW_DECOR);
 const decorBusy = new Set();
-// ---- tall decorations (trees, lamp post, giant cane, reindeer) are a base block with part blocks stacked on top ----
-const MULTI = {"santa:christmas_tree_medium": 2, "santa:tall_christmas_tree": 3, "santa:candy_cane_lamp": 3, "santa:giant_candy_cane": 3, "santa:lawn_reindeer": 2};
+// ---- big decorations are a base block plus _partN blocks; PARTS lists each part's [right, up, back] offset in blocks
+const PARTS = {"santa:christmas_tree_medium": [[0, 1, 0]], "santa:tall_christmas_tree": [[0, 1, 0], [0, 2, 0]], "santa:candy_cane_lamp": [[0, 1, 0], [0, 2, 0]],
+               "santa:giant_candy_cane": [[0, 1, 0], [0, 2, 0]], "santa:lawn_reindeer": [[0, 1, 0]]};
+Object.assign(PARTS, NEW_PARTS);
+const FRONT = { north: [0, -1], south: [0, 1], west: [-1, 0], east: [1, 0] };   // which way a placed block faces (towards the player)
+function partPos(from, dir, o, sign = 1) {   // right = viewer's right looking at the front, back = away from the viewer
+  const [fx, fz] = FRONT[dir] || FRONT.north;
+  return { x: from.x + sign * (o[0] * fz - o[2] * fx), y: from.y + sign * o[1], z: from.z + sign * (-o[0] * fx - o[2] * fz) };
+}
+function splitId(id) { const m = id.match(/^(santa:.+)_part(\d+)$/); return m && PARTS[m[1]] ? [m[1], Number(m[2])] : [id, 0]; }
 function stackOf(block) {
-  const m = block.typeId.match(/^(santa:.+)_part(\d+)$/);
-  const base = m ? block.dimension.getBlock({ x: block.x, y: block.y - Number(m[2]), z: block.z }) : block;
-  const id = m ? m[1] : block.typeId;
+  const [id, n] = splitId(block.typeId), offs = PARTS[id];
+  if (!offs) return [block];
+  const dir = block.permutation.getState("minecraft:cardinal_direction");
+  const base = n ? block.dimension.getBlock(partPos(block, dir, offs[n - 1], -1)) : block;
   if (!base || base.typeId !== id) return [block];
   const out = [base];
-  for (let k = 1; k < (MULTI[id] || 1); k++) {
-    const b = base.dimension.getBlock({ x: base.x, y: base.y + k, z: base.z });
-    if (b && b.typeId === id + "_part" + k) out.push(b);
-  }
+  offs.forEach((o, k) => { const b = base.dimension.getBlock(partPos(base, dir, o)); if (b && b.typeId === id + "_part" + (k + 1)) out.push(b); });
   return out;
 }
 function setStack(stack, state, value) { for (const b of stack) { try { b.setPermutation(b.permutation.withState(state, value)); } catch (e) {} } }
 world.afterEvents.playerPlaceBlock.subscribe((e) => {
-  const b = e.block, n = MULTI[b.typeId];
-  if (!n) return;
+  const b = e.block, offs = PARTS[b.typeId];
+  if (!offs) return;
   const dir = b.permutation.getState("minecraft:cardinal_direction");
-  for (let k = 1; k < n; k++) {
-    const above = b.dimension.getBlock({ x: b.x, y: b.y + k, z: b.z });
-    if (!above || !above.isAir) {
-      const id = b.typeId; b.setType("minecraft:air");
-      if (String(e.player.getGameMode()).toLowerCase() !== "creative") b.dimension.spawnItem(new ItemStack(id, 1), b.center());
-      e.player.onScreenDisplay.setActionBar("This needs " + n + " blocks of empty space above the ground");
-      return;
-    }
+  const spots = offs.map((o) => b.dimension.getBlock(partPos(b, dir, o)));
+  if (spots.some((s) => !s || !s.isAir)) {
+    const id = b.typeId; b.setType("minecraft:air");
+    if (String(e.player.getGameMode()).toLowerCase() !== "creative") b.dimension.spawnItem(new ItemStack(id, 1), b.center());
+    const tall = offs.every((o) => !o[0] && !o[2]);
+    e.player.onScreenDisplay.setActionBar(tall ? "This needs " + (offs.length + 1) + " blocks of empty space above the ground" : "Not enough empty space here for this decoration");
+    return;
   }
-  for (let k = 1; k < n; k++) {
-    b.dimension.getBlock({ x: b.x, y: b.y + k, z: b.z }).setPermutation(BlockPermutation.resolve(b.typeId + "_part" + k, { "minecraft:cardinal_direction": dir }));
-  }
+  spots.forEach((s, k) => s.setPermutation(BlockPermutation.resolve(b.typeId + "_part" + (k + 1), { "minecraft:cardinal_direction": dir })));
 });
 function breakStack(event) {   // breaking any piece removes the whole decoration (the base drops it once)
   const { block, dimension, brokenBlockPermutation, player } = event;
-  const id = brokenBlockPermutation.type.id, m = id.match(/^(santa:.+)_part(\d+)$/);
-  const baseId = m ? m[1] : id, baseY = m ? block.y - Number(m[2]) : block.y;
-  for (let k = 0; k < (MULTI[baseId] || 1); k++) {
-    const y = baseY + k; if (y === block.y) continue;
-    const b = dimension.getBlock({ x: block.x, y, z: block.z });
-    if (b && (b.typeId === baseId || b.typeId === baseId + "_part" + k)) b.setType("minecraft:air");
-  }
-  if (m && player && String(player.getGameMode()).toLowerCase() !== "creative") dimension.spawnItem(new ItemStack(baseId, 1), { x: block.x + 0.5, y: baseY + 0.5, z: block.z + 0.5 });
+  const [id, n] = splitId(brokenBlockPermutation.type.id), offs = PARTS[id];
+  if (!offs) return;
+  const dir = brokenBlockPermutation.getState("minecraft:cardinal_direction");
+  const base = n ? partPos(block, dir, offs[n - 1], -1) : { x: block.x, y: block.y, z: block.z };
+  [[0, 0, 0], ...offs].forEach((o, k) => {
+    const p = partPos(base, dir, o);
+    if (p.x === block.x && p.y === block.y && p.z === block.z) return;
+    const b = dimension.getBlock(p);
+    if (b && b.typeId === (k ? id + "_part" + k : id)) b.setType("minecraft:air");
+  });
+  if (n && player && String(player.getGameMode()).toLowerCase() !== "creative") dimension.spawnItem(new ItemStack(id, 1), { x: base.x + 0.5, y: base.y + 0.5, z: base.z + 0.5 });
 }
 function stepStates(block, dimension, state, seq, delay, onStep) {
   const stack = stackOf(block), base = stack[0];
@@ -210,12 +218,24 @@ function stepStates(block, dimension, state, seq, delay, onStep) {
 function decorSound(dimension, block, id, pitch) {
   try { dimension.playSound(id, { x: block.x + 0.5, y: block.y + 0.5, z: block.z + 0.5 }, { volume: 0.7, pitch: pitch || 1 }); } catch (e) {}
 }
-function useDecor(block, dimension) {
+function useDecor(block, dimension, player) {
   const stack = stackOf(block), base = stack[0];
   const cfg = DECOR[base.typeId.slice("santa:".length)];
   if (!cfg) return;
+  if (cfg.advent) { openAdvent(base, dimension, player); return; }
+  if (cfg.flip) {   // doors: frame 0 shut, 1 open
+    const open = base.permutation.getState("santa:frame") === 1;
+    setStack(stack, "santa:frame", open ? 0 : 1);
+    decorSound(dimension, base, open ? cfg.sound_off : cfg.sound_on);
+    return;
+  }
   if (cfg.anim) {
     stepStates(base, dimension, "santa:frame", cfg.anim, cfg.delay, (i) => { if (i % (cfg.every || 99) === 0) decorSound(dimension, base, cfg.sound, 1.2 + Math.random() * 0.3); });
+    if (cfg.particle) {
+      for (let i = 0; i < 12; i++) {
+        try { dimension.spawnParticle(cfg.particle, { x: base.x + 0.2 + Math.random() * 0.6, y: base.y + 0.4 + Math.random() * 0.6, z: base.z + 0.2 + Math.random() * 0.6 }); } catch (e) {}
+      }
+    }
     return;
   }
   if (!cfg.toggle) return;
@@ -231,7 +251,23 @@ function useDecor(block, dimension) {
 }
 function idleDecor(block, dimension) {
   const cfg = DECOR[block.typeId.slice("santa:".length)];
-  if (cfg && cfg.idle && block.permutation.getState("santa:on") === 1) stepStates(block, dimension, "santa:frame", cfg.idle, cfg.idle_delay);
+  if (!cfg) return;
+  if (cfg.night) {   // village windows light up from dusk to dawn
+    const t = world.getTimeOfDay(), on = t > 12500 && t < 23500 ? 1 : 0;
+    if (block.permutation.getState("santa:on") !== on) block.setPermutation(block.permutation.withState("santa:on", on));
+    return;
+  }
+  if (cfg.idle && (!cfg.toggle || block.permutation.getState("santa:on") === 1)) stepStates(block, dimension, "santa:frame", cfg.idle, cfg.idle_delay);
+}
+// advent calendar: each click opens the next door and pops out one treat
+function openAdvent(block, dimension, player) {
+  const day = block.permutation.getState("santa:day");
+  if (day >= 24) { if (player) player.onScreenDisplay.setActionBar("All 24 doors are open. Merry Christmas!"); return; }
+  block.setPermutation(block.permutation.withState("santa:day", day + 1));
+  decorSound(dimension, block, "random.orb", 1.3 + day / 40);
+  const treat = pickFood();
+  if (treat) { treat.amount = 1; dimension.spawnItem(treat, { x: block.x + 0.5, y: block.y + 0.6, z: block.z + 0.5 }); }
+  if (player) player.onScreenDisplay.setActionBar("Door " + (day + 1) + " of 24");
 }
 
 // ---- holiday tools: Jingle Bells plays the tune, the Snowball Launcher fires bursts of snowballs ----
@@ -288,7 +324,7 @@ system.beforeEvents.startup.subscribe((startup) => {
   startup.itemComponentRegistry.registerCustomComponent("santa:gift_box", { onUse(e) { system.run(() => boxMenu(e.source)); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:multipart", { onPlayerBreak(e) { breakStack(e); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:decor", {
-    onPlayerInteract(e) { useDecor(e.block, e.dimension); },
+    onPlayerInteract(e) { useDecor(e.block, e.dimension, e.player); },
     onTick(e) { idleDecor(e.block, e.dimension); },
   });
   startup.blockComponentRegistry.registerCustomComponent("santa:toy", { onPlayerInteract(event) { playToy(event.block, event.dimension); } });

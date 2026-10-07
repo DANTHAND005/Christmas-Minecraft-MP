@@ -1,0 +1,184 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "santa:advent_calendar",
+      "menu_category": {
+        "category": "items"
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180
+        }
+      },
+      "states": {
+        "santa:day": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": {
+        "identifier": "geometry.santa_advent_calendar",
+        "bone_visibility": {
+          "c2": "q.block_state('santa:day') < 2",
+          "o2": "q.block_state('santa:day') >= 2",
+          "c4": "q.block_state('santa:day') < 4",
+          "o4": "q.block_state('santa:day') >= 4",
+          "c14": "q.block_state('santa:day') < 14",
+          "o14": "q.block_state('santa:day') >= 14",
+          "c11": "q.block_state('santa:day') < 11",
+          "o11": "q.block_state('santa:day') >= 11",
+          "c10": "q.block_state('santa:day') < 10",
+          "o10": "q.block_state('santa:day') >= 10",
+          "c17": "q.block_state('santa:day') < 17",
+          "o17": "q.block_state('santa:day') >= 17",
+          "c18": "q.block_state('santa:day') < 18",
+          "o18": "q.block_state('santa:day') >= 18",
+          "c9": "q.block_state('santa:day') < 9",
+          "o9": "q.block_state('santa:day') >= 9",
+          "c8": "q.block_state('santa:day') < 8",
+          "o8": "q.block_state('santa:day') >= 8",
+          "c1": "q.block_state('santa:day') < 1",
+          "o1": "q.block_state('santa:day') >= 1",
+          "c5": "q.block_state('santa:day') < 5",
+          "o5": "q.block_state('santa:day') >= 5",
+          "c15": "q.block_state('santa:day') < 15",
+          "o15": "q.block_state('santa:day') >= 15",
+          "c16": "q.block_state('santa:day') < 16",
+          "o16": "q.block_state('santa:day') >= 16",
+          "c24": "q.block_state('santa:day') < 24",
+          "o24": "q.block_state('santa:day') >= 24",
+          "c12": "q.block_state('santa:day') < 12",
+          "o12": "q.block_state('santa:day') >= 12",
+          "c3": "q.block_state('santa:day') < 3",
+          "o3": "q.block_state('santa:day') >= 3",
+          "c22": "q.block_state('santa:day') < 22",
+          "o22": "q.block_state('santa:day') >= 22",
+          "c20": "q.block_state('santa:day') < 20",
+          "o20": "q.block_state('santa:day') >= 20",
+          "c21": "q.block_state('santa:day') < 21",
+          "o21": "q.block_state('santa:day') >= 21",
+          "c7": "q.block_state('santa:day') < 7",
+          "o7": "q.block_state('santa:day') >= 7",
+          "c6": "q.block_state('santa:day') < 6",
+          "o6": "q.block_state('santa:day') >= 6",
+          "c19": "q.block_state('santa:day') < 19",
+          "o19": "q.block_state('santa:day') >= 19",
+          "c13": "q.block_state('santa:day') < 13",
+          "o13": "q.block_state('santa:day') >= 13",
+          "c23": "q.block_state('santa:day') < 23",
+          "o23": "q.block_state('santa:day') >= 23"
+        }
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "santa_decor",
+          "render_method": "alpha_test"
+        },
+        "glow": {
+          "texture": "santa_decor_lit",
+          "render_method": "alpha_test",
+          "face_dimming": false,
+          "ambient_occlusion": false
+        }
+      },
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.3
+      },
+      "minecraft:custom_components": [
+        "santa:decor"
+      ]
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

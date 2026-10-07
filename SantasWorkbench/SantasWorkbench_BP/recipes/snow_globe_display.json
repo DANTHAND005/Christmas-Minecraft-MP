@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "santa:snow_globe_display_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:glass"
+      },
+      {
+        "item": "minecraft:glass"
+      },
+      {
+        "item": "minecraft:snowball"
+      },
+      {
+        "item": "minecraft:gold_nugget"
+      },
+      {
+        "item": "minecraft:spruce_planks"
+      }
+    ],
+    "result": {
+      "item": "santa:snow_globe_display",
+      "count": 1
+    }
+  }
+}

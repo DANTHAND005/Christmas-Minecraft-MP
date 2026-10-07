@@ -1,0 +1,139 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "santa:holly_centerpiece",
+      "menu_category": {
+        "category": "items"
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180
+        }
+      },
+      "states": {
+        "santa:on": [
+          1,
+          0
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": "geometry.santa_holly_centerpiece",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "santa_decor",
+          "render_method": "alpha_test"
+        },
+        "glow": {
+          "texture": "santa_decor_lit",
+          "render_method": "alpha_test",
+          "face_dimming": false,
+          "ambient_occlusion": false
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          5,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.3
+      },
+      "minecraft:light_emission": 10,
+      "minecraft:custom_components": [
+        "santa:decor"
+      ]
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('santa:on') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "santa_decor",
+              "render_method": "alpha_test"
+            },
+            "glow": {
+              "texture": "santa_decor",
+              "render_method": "alpha_test",
+              "face_dimming": true,
+              "ambient_occlusion": false
+            }
+          },
+          "minecraft:light_emission": 0
+        }
+      }
+    ]
+  }
+}
