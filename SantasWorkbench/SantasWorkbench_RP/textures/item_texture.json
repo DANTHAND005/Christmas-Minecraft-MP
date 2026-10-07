@@ -1,0 +1,138 @@
+{
+  "resource_pack_name": "santa",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "santa_toy_parts": {
+      "textures": "textures/items/toy_parts"
+    },
+    "santa_gift_green": {
+      "textures": "textures/items/gift_green"
+    },
+    "santa_gift_red": {
+      "textures": "textures/items/gift_red"
+    },
+    "santa_gift_cyan": {
+      "textures": "textures/items/gift_cyan"
+    },
+    "santa_gift_blue": {
+      "textures": "textures/items/gift_blue"
+    },
+    "santa_gift_purple": {
+      "textures": "textures/items/gift_purple"
+    },
+    "santa_gift_candy": {
+      "textures": "textures/items/gift_candy"
+    },
+    "santa_gift_gold": {
+      "textures": "textures/items/gift_gold"
+    },
+    "santa_gift_pink": {
+      "textures": "textures/items/gift_pink"
+    },
+    "santa_gift_orange": {
+      "textures": "textures/items/gift_orange"
+    },
+    "santa_gift_silver": {
+      "textures": "textures/items/gift_silver"
+    },
+    "santa_santa_hat": {
+      "textures": "textures/items/santa_hat"
+    },
+    "santa_elf_hat": {
+      "textures": "textures/items/elf_hat"
+    },
+    "santa_reindeer_antlers": {
+      "textures": "textures/items/reindeer_antlers"
+    },
+    "santa_earmuffs": {
+      "textures": "textures/items/earmuffs"
+    },
+    "santa_sweater_red": {
+      "textures": "textures/items/sweater_red"
+    },
+    "santa_sweater_green": {
+      "textures": "textures/items/sweater_green"
+    },
+    "santa_sweater_blue": {
+      "textures": "textures/items/sweater_blue"
+    },
+    "santa_santa_coat": {
+      "textures": "textures/items/santa_coat"
+    },
+    "santa_santa_pants": {
+      "textures": "textures/items/santa_pants"
+    },
+    "santa_santa_boots": {
+      "textures": "textures/items/santa_boots"
+    },
+    "santa_elf_shoes": {
+      "textures": "textures/items/elf_shoes"
+    },
+    "santa_sweater_snowflake_navy": {
+      "textures": "textures/items/sweater_snowflake_navy"
+    },
+    "santa_sweater_gingerbread": {
+      "textures": "textures/items/sweater_gingerbread"
+    },
+    "santa_sweater_star": {
+      "textures": "textures/items/sweater_star"
+    },
+    "santa_sweater_hearts": {
+      "textures": "textures/items/sweater_hearts"
+    },
+    "santa_sweater_bauble": {
+      "textures": "textures/items/sweater_bauble"
+    },
+    "santa_sweater_snowman": {
+      "textures": "textures/items/sweater_snowman"
+    },
+    "santa_sweater_reindeer_gray": {
+      "textures": "textures/items/sweater_reindeer_gray"
+    },
+    "santa_sweater_candy_cane": {
+      "textures": "textures/items/sweater_candy_cane"
+    },
+    "santa_sweater_present": {
+      "textures": "textures/items/sweater_present"
+    },
+    "santa_sweater_forest": {
+      "textures": "textures/items/sweater_forest"
+    },
+    "santa_sweater_midnight": {
+      "textures": "textures/items/sweater_midnight"
+    },
+    "santa_sweater_mint": {
+      "textures": "textures/items/sweater_mint"
+    },
+    "santa_mrs_claus_dress": {
+      "textures": "textures/items/mrs_claus_dress"
+    },
+    "santa_elf_tunic": {
+      "textures": "textures/items/elf_tunic"
+    },
+    "santa_pajama_top": {
+      "textures": "textures/items/pajama_top"
+    },
+    "santa_pajama_pants": {
+      "textures": "textures/items/pajama_pants"
+    },
+    "santa_bobble_beanie": {
+      "textures": "textures/items/bobble_beanie"
+    },
+    "santa_gift_box": {
+      "textures": "textures/items/gift_box"
+    },
+    "santa_candy_cane_sword": {
+      "textures": "textures/items/candy_cane_sword"
+    },
+    "santa_candy_cane_pickaxe": {
+      "textures": "textures/items/candy_cane_pickaxe"
+    },
+    "santa_snowball_launcher": {
+      "textures": "textures/items/snowball_launcher"
+    },
+    "santa_jingle_bells": {
+      "textures": "textures/items/jingle_bells"
+    }
+  }
+}

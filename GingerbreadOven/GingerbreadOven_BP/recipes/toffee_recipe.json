@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:toffee_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:sugar"
+      },
+      {
+        "item": "minecraft:sugar"
+      },
+      {
+        "item": "minecraft:honey_bottle"
+      }
+    ],
+    "result": {
+      "item": "xmas:toffee",
+      "count": 4
+    }
+  }
+}

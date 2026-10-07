@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "santa:spinning_top_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "santa:toy_parts"
+      },
+      {
+        "item": "santa:toy_parts"
+      },
+      {
+        "item": "minecraft:yellow_dye"
+      }
+    ],
+    "result": {
+      "item": "santa:spinning_top",
+      "count": 1
+    }
+  }
+}

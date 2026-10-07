@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:chocolate_coins_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:chocolate_bar"
+      },
+      {
+        "item": "minecraft:yellow_dye"
+      }
+    ],
+    "result": {
+      "item": "xmas:chocolate_coins",
+      "count": 4
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:carrot_cake_recipe_blue_egg"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:carrot"
+      },
+      {
+        "item": "minecraft:carrot"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:sugar"
+      },
+      {
+        "item": "xmas:cinnamon"
+      },
+      {
+        "item": "minecraft:blue_egg"
+      }
+    ],
+    "result": {
+      "item": "xmas:carrot_cake",
+      "count": 1
+    }
+  }
+}

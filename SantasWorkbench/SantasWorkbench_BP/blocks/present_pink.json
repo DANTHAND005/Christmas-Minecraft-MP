@@ -1,0 +1,69 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "santa:present_pink",
+      "menu_category": {
+        "category": "items"
+      },
+      "states": {
+        "santa:open": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": {
+        "identifier": "geometry.santa_present",
+        "bone_visibility": {
+          "lid0": "q.block_state('santa:open') == 0",
+          "lid1": "q.block_state('santa:open') == 1",
+          "lid2": "q.block_state('santa:open') == 2",
+          "lid3": "q.block_state('santa:open') == 3",
+          "lid4": "q.block_state('santa:open') == 4"
+        }
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "santa_present_pink",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -5.5,
+          0,
+          -5.5
+        ],
+        "size": [
+          11,
+          15,
+          11
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -5.5,
+          0,
+          -5.5
+        ],
+        "size": [
+          11,
+          15,
+          11
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.3
+      },
+      "minecraft:loot": "loot_tables/empty.json",
+      "minecraft:custom_components": [
+        "santa:present"
+      ]
+    }
+  }
+}

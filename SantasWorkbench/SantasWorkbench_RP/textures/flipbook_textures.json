@@ -1,0 +1,42 @@
+[
+  {
+    "flipbook_texture": "textures/blocks/tree",
+    "atlas_tile": "santa_tree",
+    "ticks_per_frame": 7
+  },
+  {
+    "flipbook_texture": "textures/blocks/ornaments",
+    "atlas_tile": "santa_ornaments",
+    "ticks_per_frame": 10
+  },
+  {
+    "flipbook_texture": "textures/blocks/lights_multi",
+    "atlas_tile": "santa_lights_multi",
+    "ticks_per_frame": 7
+  },
+  {
+    "flipbook_texture": "textures/blocks/lights_warm",
+    "atlas_tile": "santa_lights_warm",
+    "ticks_per_frame": 7
+  },
+  {
+    "flipbook_texture": "textures/blocks/lights_redgreen",
+    "atlas_tile": "santa_lights_redgreen",
+    "ticks_per_frame": 7
+  },
+  {
+    "flipbook_texture": "textures/blocks/lamp",
+    "atlas_tile": "santa_lamp",
+    "ticks_per_frame": 5
+  },
+  {
+    "flipbook_texture": "textures/blocks/candles",
+    "atlas_tile": "santa_candles",
+    "ticks_per_frame": 3
+  },
+  {
+    "flipbook_texture": "textures/blocks/reindeer",
+    "atlas_tile": "santa_reindeer",
+    "ticks_per_frame": 4
+  }
+]

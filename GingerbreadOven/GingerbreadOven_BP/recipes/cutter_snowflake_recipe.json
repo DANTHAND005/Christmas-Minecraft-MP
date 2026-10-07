@@ -1,0 +1,32 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "xmas:cutter_snowflake_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "pattern": [
+      " N ",
+      "NCN",
+      " N "
+    ],
+    "key": {
+      "N": {
+        "item": "minecraft:iron_nugget"
+      },
+      "C": {
+        "item": "minecraft:snowball"
+      }
+    },
+    "result": {
+      "item": "xmas:cutter_snowflake"
+    }
+  }
+}

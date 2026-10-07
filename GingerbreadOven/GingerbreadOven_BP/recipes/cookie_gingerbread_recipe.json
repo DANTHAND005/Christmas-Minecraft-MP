@@ -1,0 +1,34 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:cookie_gingerbread_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:sugar"
+      },
+      {
+        "item": "xmas:cinnamon"
+      }
+    ],
+    "result": {
+      "item": "xmas:cookie_gingerbread",
+      "count": 4
+    }
+  }
+}

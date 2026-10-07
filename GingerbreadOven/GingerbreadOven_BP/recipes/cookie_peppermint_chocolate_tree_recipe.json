@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:cookie_peppermint_chocolate_tree_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:cutter_tree"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "xmas:chocolate_bar"
+      },
+      {
+        "item": "xmas:peppermint_candy"
+      }
+    ],
+    "result": {
+      "item": "xmas:cookie_peppermint_chocolate_tree",
+      "count": 3
+    }
+  }
+}

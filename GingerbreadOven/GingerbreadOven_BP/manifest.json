@@ -1,0 +1,39 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Christmas Add-On BP",
+    "description": "Gingerbread Oven block and recipes",
+    "uuid": "3f0c6a52-8b1e-4d7a-9a41-6c2d5e8f1a02",
+    "version": [
+      1,
+      0,
+      53
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "3f0c6a52-8b1e-4d7a-9a41-6c2d5e8f1a04",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "3f0c6a52-8b1e-4d7a-9a41-6c2d5e8f1a01",
+      "version": [
+        1,
+        0,
+        53
+      ]
+    }
+  ]
+}

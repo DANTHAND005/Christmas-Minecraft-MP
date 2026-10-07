@@ -1,0 +1,40 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:cookie_snickerdoodle_gingerbread_man_recipe_brown_egg"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:cutter_gingerbread_man"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:sugar"
+      },
+      {
+        "item": "xmas:cinnamon"
+      },
+      {
+        "item": "minecraft:brown_egg"
+      }
+    ],
+    "result": {
+      "item": "xmas:cookie_snickerdoodle_gingerbread_man",
+      "count": 3
+    }
+  }
+}

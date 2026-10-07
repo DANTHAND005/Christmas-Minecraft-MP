@@ -1,0 +1,32 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "xmas:gingerbread_oven_recipe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "unlock": [
+      {
+        "item": "minecraft:brick"
+      }
+    ],
+    "pattern": [
+      "BBB",
+      "BFB",
+      "BBB"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:brick"
+      },
+      "F": {
+        "item": "minecraft:furnace"
+      }
+    },
+    "result": {
+      "item": "xmas:gingerbread_oven"
+    }
+  }
+}

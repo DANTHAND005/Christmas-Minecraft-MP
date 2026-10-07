@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Santa's Workbench RP",
+    "description": "Santa's Workbench textures and models",
+    "uuid": "8561893a-82c6-4b4d-a37f-95cf71ae470b",
+    "version": [
+      1,
+      0,
+      21
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "98629a71-b0c3-4744-8296-b694e8f3b1bb",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ]
+}

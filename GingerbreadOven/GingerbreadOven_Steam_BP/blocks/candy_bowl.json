@@ -1,0 +1,194 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "xmas:candy_bowl",
+      "menu_category": {
+        "category": "items"
+      },
+      "states": {
+        "xmas:h1": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xmas:h2": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xmas:h3": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xmas:h4": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "xmas:fill": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": "geometry.xmas_candy_bowl_0",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "xmas_candy_bowl",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -7.5,
+          0,
+          -7.5
+        ],
+        "size": [
+          15,
+          6,
+          15
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -7.5,
+          0,
+          -7.5
+        ],
+        "size": [
+          15,
+          6,
+          15
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:custom_components": [
+        "xmas:candy_bowl"
+      ]
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('xmas:fill') == 1",
+        "components": {
+          "minecraft:geometry": {
+            "identifier": "geometry.xmas_candy_bowl_1",
+            "bone_visibility": {
+              "h1_1": "q.block_state('xmas:h1') == 1",
+              "h1_2": "q.block_state('xmas:h1') == 2",
+              "h1_4": "q.block_state('xmas:h1') == 4",
+              "h1_5": "q.block_state('xmas:h1') == 5",
+              "h1_6": "q.block_state('xmas:h1') == 6",
+              "h2_1": "q.block_state('xmas:h2') == 1",
+              "h2_2": "q.block_state('xmas:h2') == 2",
+              "h2_4": "q.block_state('xmas:h2') == 4",
+              "h2_5": "q.block_state('xmas:h2') == 5",
+              "h2_6": "q.block_state('xmas:h2') == 6",
+              "h3_1": "q.block_state('xmas:h3') == 1",
+              "h3_2": "q.block_state('xmas:h3') == 2",
+              "h3_3": "q.block_state('xmas:h3') == 3",
+              "h3_4": "q.block_state('xmas:h3') == 4",
+              "h3_5": "q.block_state('xmas:h3') == 5",
+              "h3_6": "q.block_state('xmas:h3') == 6",
+              "h4_1": "q.block_state('xmas:h4') == 1",
+              "h4_2": "q.block_state('xmas:h4') == 2",
+              "h4_4": "q.block_state('xmas:h4') == 4",
+              "h4_5": "q.block_state('xmas:h4') == 5",
+              "h4_6": "q.block_state('xmas:h4') == 6"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('xmas:fill') == 2",
+        "components": {
+          "minecraft:geometry": {
+            "identifier": "geometry.xmas_candy_bowl_2",
+            "bone_visibility": {
+              "h1_1": "q.block_state('xmas:h1') == 1",
+              "h1_2": "q.block_state('xmas:h1') == 2",
+              "h1_3": "q.block_state('xmas:h1') == 3",
+              "h1_4": "q.block_state('xmas:h1') == 4",
+              "h1_5": "q.block_state('xmas:h1') == 5",
+              "h1_6": "q.block_state('xmas:h1') == 6",
+              "h2_1": "q.block_state('xmas:h2') == 1",
+              "h2_2": "q.block_state('xmas:h2') == 2",
+              "h2_4": "q.block_state('xmas:h2') == 4",
+              "h2_5": "q.block_state('xmas:h2') == 5",
+              "h2_6": "q.block_state('xmas:h2') == 6",
+              "h3_1": "q.block_state('xmas:h3') == 1",
+              "h3_2": "q.block_state('xmas:h3') == 2",
+              "h3_3": "q.block_state('xmas:h3') == 3",
+              "h3_4": "q.block_state('xmas:h3') == 4",
+              "h3_5": "q.block_state('xmas:h3') == 5",
+              "h3_6": "q.block_state('xmas:h3') == 6",
+              "h4_1": "q.block_state('xmas:h4') == 1",
+              "h4_2": "q.block_state('xmas:h4') == 2",
+              "h4_3": "q.block_state('xmas:h4') == 3",
+              "h4_4": "q.block_state('xmas:h4') == 4",
+              "h4_5": "q.block_state('xmas:h4') == 5",
+              "h4_6": "q.block_state('xmas:h4') == 6"
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('xmas:fill') == 3",
+        "components": {
+          "minecraft:geometry": {
+            "identifier": "geometry.xmas_candy_bowl_3",
+            "bone_visibility": {
+              "h1_1": "q.block_state('xmas:h1') == 1",
+              "h1_2": "q.block_state('xmas:h1') == 2",
+              "h1_3": "q.block_state('xmas:h1') == 3",
+              "h1_4": "q.block_state('xmas:h1') == 4",
+              "h1_5": "q.block_state('xmas:h1') == 5",
+              "h1_6": "q.block_state('xmas:h1') == 6",
+              "h2_1": "q.block_state('xmas:h2') == 1",
+              "h2_2": "q.block_state('xmas:h2') == 2",
+              "h2_3": "q.block_state('xmas:h2') == 3",
+              "h2_4": "q.block_state('xmas:h2') == 4",
+              "h2_5": "q.block_state('xmas:h2') == 5",
+              "h2_6": "q.block_state('xmas:h2') == 6",
+              "h3_1": "q.block_state('xmas:h3') == 1",
+              "h3_2": "q.block_state('xmas:h3') == 2",
+              "h3_3": "q.block_state('xmas:h3') == 3",
+              "h3_4": "q.block_state('xmas:h3') == 4",
+              "h3_5": "q.block_state('xmas:h3') == 5",
+              "h3_6": "q.block_state('xmas:h3') == 6",
+              "h4_1": "q.block_state('xmas:h4') == 1",
+              "h4_2": "q.block_state('xmas:h4') == 2",
+              "h4_3": "q.block_state('xmas:h4') == 3",
+              "h4_4": "q.block_state('xmas:h4') == 4",
+              "h4_5": "q.block_state('xmas:h4') == 5",
+              "h4_6": "q.block_state('xmas:h4') == 6"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

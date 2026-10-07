@@ -1,0 +1,35 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "santa:workbench_recipe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "unlock": [
+      {
+        "item": "minecraft:crafting_table"
+      }
+    ],
+    "pattern": [
+      "RRR",
+      "PCP",
+      "P P"
+    ],
+    "key": {
+      "R": {
+        "item": "minecraft:red_wool"
+      },
+      "P": {
+        "item": "minecraft:spruce_planks"
+      },
+      "C": {
+        "item": "minecraft:crafting_table"
+      }
+    },
+    "result": {
+      "item": "santa:workbench"
+    }
+  }
+}

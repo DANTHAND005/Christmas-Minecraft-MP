@@ -1,0 +1,39 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "santa:present_gold_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "pattern": [
+      " R ",
+      "PBP",
+      " S "
+    ],
+    "key": {
+      "R": {
+        "item": "minecraft:green_dye"
+      },
+      "B": {
+        "item": "minecraft:yellow_dye"
+      },
+      "P": {
+        "item": "minecraft:paper"
+      },
+      "S": {
+        "item": "minecraft:string"
+      }
+    },
+    "result": {
+      "item": "santa:present_gold",
+      "count": 2
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:apple_pie_slice_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:apple"
+      },
+      {
+        "item": "minecraft:apple"
+      },
+      {
+        "item": "minecraft:wheat"
+      },
+      {
+        "item": "minecraft:sugar"
+      },
+      {
+        "item": "xmas:cinnamon"
+      }
+    ],
+    "result": {
+      "item": "xmas:apple_pie_slice",
+      "count": 2
+    }
+  }
+}

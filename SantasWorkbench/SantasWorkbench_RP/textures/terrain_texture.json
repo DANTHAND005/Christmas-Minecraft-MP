@@ -1,0 +1,113 @@
+{
+  "resource_pack_name": "santa",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "santa_workbench": {
+      "textures": "textures/blocks/santa_workbench"
+    },
+    "santa_present": {
+      "textures": "textures/blocks/present_green"
+    },
+    "santa_present_red": {
+      "textures": "textures/blocks/present_red"
+    },
+    "santa_present_cyan": {
+      "textures": "textures/blocks/present_cyan"
+    },
+    "santa_present_blue": {
+      "textures": "textures/blocks/present_blue"
+    },
+    "santa_present_purple": {
+      "textures": "textures/blocks/present_purple"
+    },
+    "santa_present_candy": {
+      "textures": "textures/blocks/present_candy"
+    },
+    "santa_present_gold": {
+      "textures": "textures/blocks/present_gold"
+    },
+    "santa_present_pink": {
+      "textures": "textures/blocks/present_pink"
+    },
+    "santa_present_orange": {
+      "textures": "textures/blocks/present_orange"
+    },
+    "santa_present_silver": {
+      "textures": "textures/blocks/present_silver"
+    },
+    "santa_toys": {
+      "textures": "textures/blocks/toys"
+    },
+    "santa_tree": {
+      "textures": "textures/blocks/tree"
+    },
+    "santa_tree_off": {
+      "textures": "textures/blocks/tree_off"
+    },
+    "santa_ornaments": {
+      "textures": "textures/blocks/ornaments"
+    },
+    "santa_lights_multi": {
+      "textures": "textures/blocks/lights_multi"
+    },
+    "santa_lights_multi_off": {
+      "textures": "textures/blocks/lights_multi_off"
+    },
+    "santa_lights_warm": {
+      "textures": "textures/blocks/lights_warm"
+    },
+    "santa_lights_warm_off": {
+      "textures": "textures/blocks/lights_warm_off"
+    },
+    "santa_lights_redgreen": {
+      "textures": "textures/blocks/lights_redgreen"
+    },
+    "santa_lights_redgreen_off": {
+      "textures": "textures/blocks/lights_redgreen_off"
+    },
+    "santa_stocking_red": {
+      "textures": "textures/blocks/stocking_red"
+    },
+    "santa_stocking_green": {
+      "textures": "textures/blocks/stocking_green"
+    },
+    "santa_stocking_striped": {
+      "textures": "textures/blocks/stocking_striped"
+    },
+    "santa_stocking_plaid": {
+      "textures": "textures/blocks/stocking_plaid"
+    },
+    "santa_lamp": {
+      "textures": "textures/blocks/lamp"
+    },
+    "santa_lamp_off": {
+      "textures": "textures/blocks/lamp_off"
+    },
+    "santa_candles": {
+      "textures": "textures/blocks/candles"
+    },
+    "santa_candles_off": {
+      "textures": "textures/blocks/candles_off"
+    },
+    "santa_bells": {
+      "textures": "textures/blocks/bells"
+    },
+    "santa_mistletoe": {
+      "textures": "textures/blocks/mistletoe"
+    },
+    "santa_icicles": {
+      "textures": "textures/blocks/icicles"
+    },
+    "santa_reindeer": {
+      "textures": "textures/blocks/reindeer"
+    },
+    "santa_reindeer_off": {
+      "textures": "textures/blocks/reindeer_off"
+    },
+    "santa_greenery": {
+      "textures": "textures/blocks/greenery"
+    }
+  }
+}

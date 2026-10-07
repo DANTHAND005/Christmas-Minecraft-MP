@@ -1,0 +1,111 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.xmas_cake_3",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 1,
+        "visible_bounds_offset": [
+          0,
+          0.5,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -1,
+                0,
+                -7
+              ],
+              "size": [
+                8,
+                8,
+                14
+              ],
+              "uv": {
+                "north": {
+                  "uv": [
+                    7,
+                    0
+                  ],
+                  "uv_size": [
+                    8,
+                    8
+                  ],
+                  "material_instance": "side"
+                },
+                "south": {
+                  "uv": [
+                    7,
+                    0
+                  ],
+                  "uv_size": [
+                    8,
+                    8
+                  ],
+                  "material_instance": "side"
+                },
+                "east": {
+                  "uv": [
+                    1,
+                    0
+                  ],
+                  "uv_size": [
+                    14,
+                    8
+                  ],
+                  "material_instance": "side"
+                },
+                "west": {
+                  "uv": [
+                    1,
+                    0
+                  ],
+                  "uv_size": [
+                    14,
+                    8
+                  ],
+                  "material_instance": "cut"
+                },
+                "up": {
+                  "uv": [
+                    7,
+                    1
+                  ],
+                  "uv_size": [
+                    8,
+                    14
+                  ],
+                  "material_instance": "top"
+                },
+                "down": {
+                  "uv": [
+                    7,
+                    1
+                  ],
+                  "uv_size": [
+                    8,
+                    14
+                  ],
+                  "material_instance": "side"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:santa_pants",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_santa_pants",
+      "minecraft:max_stack_size": 1,
+      "minecraft:wearable": {
+        "slot": "slot.armor.legs",
+        "protection": 2
+      },
+      "minecraft:enchantable": {
+        "slot": "armor_legs",
+        "value": 12
+      }
+    }
+  }
+}

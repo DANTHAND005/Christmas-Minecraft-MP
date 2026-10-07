@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "santa:candy_cane_pickaxe_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:candy_cane"
+      },
+      {
+        "item": "xmas:candy_cane"
+      },
+      {
+        "item": "xmas:candy_cane"
+      },
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "minecraft:stick"
+      }
+    ],
+    "result": {
+      "item": "santa:candy_cane_pickaxe",
+      "count": 1
+    }
+  }
+}

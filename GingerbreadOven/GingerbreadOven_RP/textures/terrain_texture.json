@@ -1,0 +1,119 @@
+{
+  "resource_pack_name": "xmas",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "xmas_gingerbread_oven": {
+      "textures": "textures/blocks/gingerbread_oven"
+    },
+    "xmas_cocoa_steam": {
+      "textures": "textures/blocks/cocoa_steam"
+    },
+    "xmas_cocoa_mug": {
+      "textures": "textures/blocks/cocoa_mug"
+    },
+    "xmas_cocoa_mug_marshmallow": {
+      "textures": "textures/blocks/cocoa_mug_marshmallow"
+    },
+    "xmas_eggnog_glass": {
+      "textures": "textures/blocks/eggnog_glass"
+    },
+    "xmas_red_velvet_cake_top": {
+      "textures": "textures/blocks/red_velvet_cake_top"
+    },
+    "xmas_red_velvet_cake_side": {
+      "textures": "textures/blocks/red_velvet_cake_side"
+    },
+    "xmas_red_velvet_cake_cut": {
+      "textures": "textures/blocks/red_velvet_cake_cut"
+    },
+    "xmas_carrot_cake_top": {
+      "textures": "textures/blocks/carrot_cake_top"
+    },
+    "xmas_carrot_cake_side": {
+      "textures": "textures/blocks/carrot_cake_side"
+    },
+    "xmas_carrot_cake_cut": {
+      "textures": "textures/blocks/carrot_cake_cut"
+    },
+    "xmas_fruitcake_top": {
+      "textures": "textures/blocks/fruitcake_top"
+    },
+    "xmas_fruitcake_side": {
+      "textures": "textures/blocks/fruitcake_side"
+    },
+    "xmas_fruitcake_cut": {
+      "textures": "textures/blocks/fruitcake_cut"
+    },
+    "xmas_peppermint_chocolate_cake_top": {
+      "textures": "textures/blocks/peppermint_chocolate_cake_top"
+    },
+    "xmas_peppermint_chocolate_cake_side": {
+      "textures": "textures/blocks/peppermint_chocolate_cake_side"
+    },
+    "xmas_peppermint_chocolate_cake_cut": {
+      "textures": "textures/blocks/peppermint_chocolate_cake_cut"
+    },
+    "xmas_pumpkin_pie_top": {
+      "textures": "textures/blocks/pumpkin_pie_top"
+    },
+    "xmas_pumpkin_pie_side": {
+      "textures": "textures/blocks/pumpkin_pie_side"
+    },
+    "xmas_pumpkin_pie_cut": {
+      "textures": "textures/blocks/pumpkin_pie_cut"
+    },
+    "xmas_apple_pie_top": {
+      "textures": "textures/blocks/apple_pie_top"
+    },
+    "xmas_apple_pie_side": {
+      "textures": "textures/blocks/apple_pie_side"
+    },
+    "xmas_apple_pie_cut": {
+      "textures": "textures/blocks/apple_pie_cut"
+    },
+    "xmas_big_christmas_pudding_top": {
+      "textures": "textures/blocks/big_christmas_pudding_top"
+    },
+    "xmas_big_christmas_pudding_side": {
+      "textures": "textures/blocks/big_christmas_pudding_side"
+    },
+    "xmas_big_christmas_pudding_cut": {
+      "textures": "textures/blocks/big_christmas_pudding_cut"
+    },
+    "xmas_cinnamon_bun_tray_top": {
+      "textures": "textures/blocks/cinnamon_bun_tray_top"
+    },
+    "xmas_cinnamon_bun_tray_side": {
+      "textures": "textures/blocks/cinnamon_bun_tray_side"
+    },
+    "xmas_cinnamon_bun_tray_cut": {
+      "textures": "textures/blocks/cinnamon_bun_tray_cut"
+    },
+    "xmas_candy_bowl": {
+      "textures": "textures/blocks/candy_bowl"
+    },
+    "xmas_cp3d_0": {
+      "textures": "textures/blocks/cp3d_gingerbread"
+    },
+    "xmas_cp3d_1": {
+      "textures": "textures/blocks/cp3d_sugar"
+    },
+    "xmas_cp3d_2": {
+      "textures": "textures/blocks/cp3d_chocolate_chip"
+    },
+    "xmas_cp3d_3": {
+      "textures": "textures/blocks/cp3d_snickerdoodle"
+    },
+    "xmas_cp3d_4": {
+      "textures": "textures/blocks/cp3d_peppermint_chocolate"
+    },
+    "xmas_cookie_plate": {
+      "textures": "textures/blocks/cookie_plate"
+    },
+    "xmas_yule_log_platter": {
+      "textures": "textures/blocks/yule_log_platter"
+    }
+  }
+}

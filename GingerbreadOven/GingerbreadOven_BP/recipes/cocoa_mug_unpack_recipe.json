@@ -1,0 +1,25 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:cocoa_mug_unpack_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:cocoa_mug"
+      }
+    ],
+    "result": {
+      "item": "xmas:hot_cocoa",
+      "count": 3
+    }
+  }
+}

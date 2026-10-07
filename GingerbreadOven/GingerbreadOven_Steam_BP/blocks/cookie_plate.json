@@ -1,0 +1,62 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "xmas:cookie_plate",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:geometry": "geometry.xmas_cookie_plate_0",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "xmas_cookie_plate",
+          "render_method": "alpha_test"
+        },
+        "m1": {
+          "texture": "xmas_cp3d_1",
+          "render_method": "alpha_test"
+        },
+        "m2": {
+          "texture": "xmas_cp3d_1",
+          "render_method": "alpha_test"
+        },
+        "m3": {
+          "texture": "xmas_cp3d_1",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -7.5,
+          0,
+          -7.5
+        ],
+        "size": [
+          15,
+          3.5,
+          15
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -7.5,
+          0,
+          -7.5
+        ],
+        "size": [
+          15,
+          3.5,
+          15
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:custom_components": [
+        "xmas:cookie_plate"
+      ]
+    }
+  }
+}

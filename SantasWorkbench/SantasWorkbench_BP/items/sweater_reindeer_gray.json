@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:sweater_reindeer_gray",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_sweater_reindeer_gray",
+      "minecraft:max_stack_size": 1,
+      "minecraft:wearable": {
+        "slot": "slot.armor.chest",
+        "protection": 3
+      },
+      "minecraft:enchantable": {
+        "slot": "armor_torso",
+        "value": 12
+      }
+    }
+  }
+}

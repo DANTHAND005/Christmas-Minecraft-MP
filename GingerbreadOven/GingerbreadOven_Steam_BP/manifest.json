@@ -1,0 +1,41 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Christmas Script (steam + cakes)",
+    "description": "Steam on hot cocoa and eating the placeable cakes",
+    "uuid": "5c8d2f10-3e47-4a9b-b6d1-72e0a4c9f301",
+    "version": [
+      1,
+      0,
+      53
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "5c8d2f10-3e47-4a9b-b6d1-72e0a4c9f302",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.0.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.0.0"
+    }
+  ]
+}

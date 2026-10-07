@@ -1,0 +1,34 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:pumpkin_pie_slice_recipe_brown_egg"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:pumpkin"
+      },
+      {
+        "item": "minecraft:sugar"
+      },
+      {
+        "item": "minecraft:brown_egg"
+      },
+      {
+        "item": "xmas:cinnamon"
+      }
+    ],
+    "result": {
+      "item": "xmas:pumpkin_pie_slice",
+      "count": 2
+    }
+  }
+}

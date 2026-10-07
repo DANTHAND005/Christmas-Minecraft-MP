@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:hot_cocoa_marshmallow_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:hot_cocoa"
+      },
+      {
+        "item": "xmas:marshmallow"
+      }
+    ],
+    "result": {
+      "item": "xmas:hot_cocoa_marshmallow",
+      "count": 1
+    }
+  }
+}

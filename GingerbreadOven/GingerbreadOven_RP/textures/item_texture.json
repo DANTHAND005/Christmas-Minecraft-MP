@@ -1,0 +1,198 @@
+{
+  "resource_pack_name": "xmas",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "xmas_cinnamon": {
+      "textures": "textures/items/cinnamon"
+    },
+    "xmas_marshmallow": {
+      "textures": "textures/items/marshmallow"
+    },
+    "xmas_chocolate_bar": {
+      "textures": "textures/items/chocolate_bar"
+    },
+    "xmas_peppermint_candy": {
+      "textures": "textures/items/peppermint_candy"
+    },
+    "xmas_cookie_gingerbread": {
+      "textures": "textures/items/cookie_gingerbread"
+    },
+    "xmas_cookie_sugar": {
+      "textures": "textures/items/cookie_sugar"
+    },
+    "xmas_cookie_chocolate_chip": {
+      "textures": "textures/items/cookie_chocolate_chip"
+    },
+    "xmas_cookie_snickerdoodle": {
+      "textures": "textures/items/cookie_snickerdoodle"
+    },
+    "xmas_cookie_peppermint_chocolate": {
+      "textures": "textures/items/cookie_peppermint_chocolate"
+    },
+    "xmas_cutter_star": {
+      "textures": "textures/items/cutter_star"
+    },
+    "xmas_cutter_tree": {
+      "textures": "textures/items/cutter_tree"
+    },
+    "xmas_cutter_heart": {
+      "textures": "textures/items/cutter_heart"
+    },
+    "xmas_cutter_gingerbread_man": {
+      "textures": "textures/items/cutter_gingerbread_man"
+    },
+    "xmas_cutter_snowflake": {
+      "textures": "textures/items/cutter_snowflake"
+    },
+    "xmas_cookie_gingerbread_star": {
+      "textures": "textures/items/cookie_gingerbread_star"
+    },
+    "xmas_cookie_gingerbread_tree": {
+      "textures": "textures/items/cookie_gingerbread_tree"
+    },
+    "xmas_cookie_gingerbread_heart": {
+      "textures": "textures/items/cookie_gingerbread_heart"
+    },
+    "xmas_cookie_gingerbread_gingerbread_man": {
+      "textures": "textures/items/cookie_gingerbread_gingerbread_man"
+    },
+    "xmas_cookie_gingerbread_snowflake": {
+      "textures": "textures/items/cookie_gingerbread_snowflake"
+    },
+    "xmas_cookie_sugar_star": {
+      "textures": "textures/items/cookie_sugar_star"
+    },
+    "xmas_cookie_sugar_tree": {
+      "textures": "textures/items/cookie_sugar_tree"
+    },
+    "xmas_cookie_sugar_heart": {
+      "textures": "textures/items/cookie_sugar_heart"
+    },
+    "xmas_cookie_sugar_gingerbread_man": {
+      "textures": "textures/items/cookie_sugar_gingerbread_man"
+    },
+    "xmas_cookie_sugar_snowflake": {
+      "textures": "textures/items/cookie_sugar_snowflake"
+    },
+    "xmas_cookie_chocolate_chip_star": {
+      "textures": "textures/items/cookie_chocolate_chip_star"
+    },
+    "xmas_cookie_chocolate_chip_tree": {
+      "textures": "textures/items/cookie_chocolate_chip_tree"
+    },
+    "xmas_cookie_chocolate_chip_heart": {
+      "textures": "textures/items/cookie_chocolate_chip_heart"
+    },
+    "xmas_cookie_chocolate_chip_gingerbread_man": {
+      "textures": "textures/items/cookie_chocolate_chip_gingerbread_man"
+    },
+    "xmas_cookie_chocolate_chip_snowflake": {
+      "textures": "textures/items/cookie_chocolate_chip_snowflake"
+    },
+    "xmas_cookie_snickerdoodle_star": {
+      "textures": "textures/items/cookie_snickerdoodle_star"
+    },
+    "xmas_cookie_snickerdoodle_tree": {
+      "textures": "textures/items/cookie_snickerdoodle_tree"
+    },
+    "xmas_cookie_snickerdoodle_heart": {
+      "textures": "textures/items/cookie_snickerdoodle_heart"
+    },
+    "xmas_cookie_snickerdoodle_gingerbread_man": {
+      "textures": "textures/items/cookie_snickerdoodle_gingerbread_man"
+    },
+    "xmas_cookie_snickerdoodle_snowflake": {
+      "textures": "textures/items/cookie_snickerdoodle_snowflake"
+    },
+    "xmas_cookie_peppermint_chocolate_star": {
+      "textures": "textures/items/cookie_peppermint_chocolate_star"
+    },
+    "xmas_cookie_peppermint_chocolate_tree": {
+      "textures": "textures/items/cookie_peppermint_chocolate_tree"
+    },
+    "xmas_cookie_peppermint_chocolate_heart": {
+      "textures": "textures/items/cookie_peppermint_chocolate_heart"
+    },
+    "xmas_cookie_peppermint_chocolate_gingerbread_man": {
+      "textures": "textures/items/cookie_peppermint_chocolate_gingerbread_man"
+    },
+    "xmas_cookie_peppermint_chocolate_snowflake": {
+      "textures": "textures/items/cookie_peppermint_chocolate_snowflake"
+    },
+    "xmas_hot_cocoa": {
+      "textures": "textures/items/hot_cocoa"
+    },
+    "xmas_hot_cocoa_marshmallow": {
+      "textures": "textures/items/hot_cocoa_marshmallow"
+    },
+    "xmas_eggnog": {
+      "textures": "textures/items/eggnog"
+    },
+    "xmas_candy_cane": {
+      "textures": "textures/items/candy_cane"
+    },
+    "xmas_chocolate_coins": {
+      "textures": "textures/items/chocolate_coins"
+    },
+    "xmas_lollipop": {
+      "textures": "textures/items/lollipop"
+    },
+    "xmas_fudge": {
+      "textures": "textures/items/fudge"
+    },
+    "xmas_toffee": {
+      "textures": "textures/items/toffee"
+    },
+    "xmas_gumdrop_red": {
+      "textures": "textures/items/gumdrop_red"
+    },
+    "xmas_gumdrop_green": {
+      "textures": "textures/items/gumdrop_green"
+    },
+    "xmas_gumdrop_blue": {
+      "textures": "textures/items/gumdrop_blue"
+    },
+    "xmas_gumdrop_yellow": {
+      "textures": "textures/items/gumdrop_yellow"
+    },
+    "xmas_gumdrop_purple": {
+      "textures": "textures/items/gumdrop_purple"
+    },
+    "xmas_christmas_pudding": {
+      "textures": "textures/items/christmas_pudding"
+    },
+    "xmas_pumpkin_pie_slice": {
+      "textures": "textures/items/pumpkin_pie_slice"
+    },
+    "xmas_apple_pie_slice": {
+      "textures": "textures/items/apple_pie_slice"
+    },
+    "xmas_cinnamon_bun": {
+      "textures": "textures/items/cinnamon_bun"
+    },
+    "xmas_ice_cream_vanilla": {
+      "textures": "textures/items/ice_cream_vanilla"
+    },
+    "xmas_ice_cream_chocolate": {
+      "textures": "textures/items/ice_cream_chocolate"
+    },
+    "xmas_ice_cream_peppermint": {
+      "textures": "textures/items/ice_cream_peppermint"
+    },
+    "xmas_ice_cream_strawberry": {
+      "textures": "textures/items/ice_cream_strawberry"
+    },
+    "xmas_ice_cream_gingerbread": {
+      "textures": "textures/items/ice_cream_gingerbread"
+    },
+    "xmas_ice_cream_candy_cane_crunch": {
+      "textures": "textures/items/ice_cream_candy_cane_crunch"
+    },
+    "xmas_ice_cream_matcha": {
+      "textures": "textures/items/ice_cream_matcha"
+    },
+    "xmas_yule_log": {
+      "textures": "textures/items/yule_log"
+    }
+  }
+}

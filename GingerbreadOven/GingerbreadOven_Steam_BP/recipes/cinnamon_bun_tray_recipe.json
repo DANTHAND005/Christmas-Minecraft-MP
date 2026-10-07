@@ -1,0 +1,34 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:cinnamon_bun_tray_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:cinnamon_bun"
+      },
+      {
+        "item": "xmas:cinnamon_bun"
+      },
+      {
+        "item": "xmas:cinnamon_bun"
+      },
+      {
+        "item": "xmas:cinnamon_bun"
+      }
+    ],
+    "result": {
+      "item": "xmas:cinnamon_bun_tray",
+      "count": 1
+    }
+  }
+}

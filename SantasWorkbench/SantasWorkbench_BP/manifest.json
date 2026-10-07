@@ -1,0 +1,58 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Santa's Workbench BP",
+    "description": "Santa's Workbench block and recipes",
+    "uuid": "38976799-f1b4-40b0-b715-7f658fbde50f",
+    "version": [
+      1,
+      0,
+      21
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "72493a33-1bd5-40f7-a3f4-4a606a2f3945",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "c6c978af-b139-4a95-ab2a-2362ca9fcad1",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "8561893a-82c6-4b4d-a37f-95cf71ae470b",
+      "version": [
+        1,
+        0,
+        21
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.0.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.0.0"
+    }
+  ]
+}

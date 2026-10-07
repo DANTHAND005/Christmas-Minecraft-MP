@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "xmas:eggnog_glass_recipe"
+    },
+    "tags": [
+      "xmas_oven"
+    ],
+    "unlock": [
+      {
+        "item": "xmas:gingerbread_oven"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "xmas:eggnog"
+      },
+      {
+        "item": "xmas:eggnog"
+      },
+      {
+        "item": "xmas:eggnog"
+      }
+    ],
+    "result": {
+      "item": "xmas:eggnog_glass",
+      "count": 1
+    }
+  }
+}

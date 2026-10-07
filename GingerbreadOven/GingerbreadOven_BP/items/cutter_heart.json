@@ -1,0 +1,15 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:cutter_heart",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_cutter_heart",
+      "minecraft:max_stack_size": 16
+    }
+  }
+}
