@@ -26,7 +26,7 @@ BASE = dict(
     pine=(30, 104, 56), holly=(18, 70, 36), mint=(150, 222, 190), teal=(36, 140, 146), light_blue=(150, 198, 238),
     blue=(48, 88, 188), navy=(26, 34, 80), purple=(128, 58, 168), lilac=(190, 150, 222), black=(26, 26, 32),
     coal=(40, 40, 46), dark_gray=(68, 68, 76), gray=(128, 128, 138), stone=(162, 160, 160), slate=(86, 96, 112),
-    silver=(196, 200, 210), brick=(158, 68, 48), plaster=(236, 230, 216), glass=(200, 230, 255),
+    silver=(196, 200, 210), brick=(158, 68, 48), plaster=(236, 230, 216), glass=(200, 230, 255), clear=(0, 0, 0),
 )
 # glow colours: lit colour, unlit colour, twinkle phase (a/b twinkle out of step, f flickers, s steady)
 GLOW = dict(
@@ -60,7 +60,7 @@ def write_textures():
         for f in range(frames):
             for i, n in enumerate(NAMES):
                 x, y = i % 16 * SW, i // 16 * SW + f * TEX
-                d.rectangle([x, y, x + SW - 1, y + SW - 1], fill=colour(n, f) + (255,))
+                d.rectangle([x, y, x + SW - 1, y + SW - 1], fill=colour(n, f) + (0 if n == 'clear' else 255,))   # clear = invisible
         return img
 
     def lit(n, f):
@@ -1236,7 +1236,7 @@ def block_json(spec, n, uses):
         'minecraft:geometry': {'identifier': gid, 'bone_visibility': vis} if vis else gid,
         'minecraft:material_instances': materials(uses, True),
         'minecraft:collision_box': False if col is None else box_json(full if col == 'full' else [-8, 0, -8, 16, col, 16] if isinstance(col, (int, float)) else col),
-        'minecraft:selection_box': box_json(full),
+        'minecraft:selection_box': False if n in spec.get('empty', ()) else box_json(full),
         'minecraft:destructible_by_mining': {'seconds_to_destroy': 0.3},
     }
     if spec.get('light'):
@@ -1278,6 +1278,10 @@ def write_packs():
         uses = {('glow' if c[6] in GLOW else 'glass' if c[6] == 'glass' else '') for c in s['model'].cubes}
         base_i = s['cells'][0]
         for n, cubes in enumerate(split(s)):
+            s['empty'] = s.get('empty', set())
+            if not cubes:   # Minecraft won't take an empty model: give it one invisible speck
+                cubes = [[-0.05, 0, -0.05, 0.05, 0.1, 0.05, 'clear', 'root']]
+                s['empty'].add(n)
             ident = s['id'] + ('_part%d' % n if n else '')
             dump(os.path.join(RP, 'models', 'blocks', ident + '.geo.json'), geo_json('geometry.santa_' + ident, cubes, bones))
             dump(os.path.join(BP, 'blocks', ident + '.json'), block_json(s, n, uses))
