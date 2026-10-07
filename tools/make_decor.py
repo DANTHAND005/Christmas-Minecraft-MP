@@ -1137,6 +1137,170 @@ def holly_centerpiece(m):
         m.ell(cx, 2.4 + h, 0, 0.45, 0.75, 0.45, 'g_flame')
 
 
+def stamp(m, fn, dx, dy, dz, s=1.0):
+    """Build another decoration into this model, scaled by s and moved; only its resting look is kept."""
+    t = Model()
+    fn(t)
+    for c in t.cubes:
+        if c[7] not in ('root', 'f0'):
+            continue
+        m.cubes.append([c[0] * s + dx, c[1] * s + dy, c[2] * s + dz, c[3] * s + dx, c[4] * s + dy, c[5] * s + dz, c[6], m.bone])
+
+
+def person(m, x, y, z, coat, hat='red', legs='navy', arms='down', item=None):
+    """Townsperson about 5 px tall, facing the front."""
+    for sx in (-0.38, 0.38):
+        m.box(x + sx - 0.27, y, z - 0.3, x + sx + 0.27, y + 1.6, z + 0.3, legs)
+    m.box(x - 0.75, y + 1.5, z - 0.45, x + 0.75, y + 3.4, z + 0.45, coat)
+    m.box(x - 0.78, y + 3.0, z - 0.5, x + 0.78, y + 3.4, z + 0.5, 'white' if coat != 'white' else 'red')   # scarf
+    m.box(x - 0.55, y + 3.4, z - 0.55, x + 0.55, y + 4.5, z + 0.55, 'skin')
+    m.box(x - 0.3, y + 3.85, z - 0.6, x - 0.12, y + 4.05, z - 0.55, 'black')
+    m.box(x + 0.12, y + 3.85, z - 0.6, x + 0.3, y + 4.05, z - 0.55, 'black')
+    m.box(x - 0.62, y + 4.4, z - 0.62, x + 0.62, y + 4.9, z + 0.62, hat)
+    m.box(x - 0.2, y + 4.9, z - 0.2, x + 0.2, y + 5.3, z + 0.2, 'white')
+    if arms == 'down':
+        for sx in (-1, 1):
+            m.box(x + sx * 0.75, y + 1.7, z - 0.25, x + sx * 1.1, y + 3.3, z + 0.25, coat)
+    elif arms == 'out':
+        for sx in (-1, 1):
+            m.box(x + sx * 0.75, y + 2.9, z - 0.25, x + sx * 2.0, y + 3.3, z + 0.25, coat)
+    elif arms == 'up':
+        for sx in (-1, 1):
+            m.box(x + sx * 0.75, y + 3.0, z - 0.25, x + sx * 1.1, y + 4.8, z + 0.25, coat)
+    elif arms == 'front':
+        for sx in (-1, 1):
+            m.box(x + sx * 0.75 - 0.35 * (sx > 0), y + 2.4, z - 1.3, x + sx * 0.75 + 0.35 * (sx < 0), y + 2.8, z - 0.3, coat)
+    if item == 'book':
+        m.box(x - 0.6, y + 2.5, z - 1.5, x + 0.6, y + 3.3, z - 1.3, 'dark_red')
+        m.box(x - 0.5, y + 2.6, z - 1.55, x + 0.5, y + 3.2, z - 1.5, 'paper')
+    if item == 'gifts':
+        m.present(x - 0.9, y + 2.0, z - 1.9, x + 0.9, y + 3.2, z - 0.6, 'green', 'red', w=0.3, bow=False)
+        m.present(x - 0.6, y + 3.2, z - 1.7, x + 0.6, y + 3.9, z - 0.8, 'red', 'gold', w=0.25, bow=False)
+
+
+def pine(m, x, y, z, h, r, snow=True, lights=None):
+    m.box(x - 0.4, y, z - 0.4, x + 0.4, y + h * 0.15, z + 0.4, 'brown')
+    n = max(3, int(h / 1.6))
+    rnd = random.Random(int(x * 31 + z * 17 + y))
+    for i in range(n):
+        f = 1 - i / n
+        rr = max(0.4, r * f)
+        y0 = y + h * 0.12 + i * h * 0.85 / n
+        m.disc(x, z, y0, y0 + h * 0.85 / n + 0.2, rr, rr, 'pine' if i % 2 else 'dark_green')
+        if snow:
+            m.disc(x, z, y0 + h * 0.85 / n, y0 + h * 0.85 / n + 0.25, rr * 0.75, rr * 0.75, 'snow')
+        if lights and rr > 0.8:
+            for k in range(3):
+                a = rnd.uniform(0, 6.283)
+                m.box(x + rr * math.cos(a) - 0.3, y0 + 0.3, z + rr * math.sin(a) - 0.3, x + rr * math.cos(a) + 0.3, y0 + 0.9,
+                      z + rr * math.sin(a) + 0.3, lights[(i + k) % len(lights)])
+
+
+def lamp(m, x, y, z):
+    m.box(x - 0.2, y, z - 0.2, x + 0.2, y + 5.5, z + 0.2, 'black')
+    m.box(x - 0.55, y + 5.5, z - 0.55, x + 0.55, y + 6.6, z + 0.55, 'g_flame')
+    m.box(x - 0.65, y + 6.6, z - 0.65, x + 0.65, y + 7.0, z + 0.65, 'black')
+    m.box(x - 0.6, y + 7.0, z - 0.6, x + 0.6, y + 7.2, z + 0.6, 'snow')
+
+
+TOWN_CELLS = [(i, j, k) for j in range(2) for k in range(5) for i in (0, -2, -1, 1, 2)]   # base = front middle
+
+
+@deco(id='mini_village', name='Mini Christmas Village', cells=TOWN_CELLS, frames=4, anim_only=True, light=7, tick=[30, 50],
+      collision={n: 2 for n in range(25)},
+      cfg=dict(anim=[1, 2, 3, 0, 1, 2, 3, 0], delay=5, sound='note.bell', every=4, idle=[1, 2, 3, 0], idle_delay=7),
+      recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'paper'])
+def mini_village(m):
+    G = 1.5                                                          # ground (snow) height
+    m.box(-40, 0, -8, 40, G, 72, 'snow')
+    m.box(-40, 0, -8, 40, 0.6, -7.6, 'light_wood')                  # tabletop edge
+    rnd = random.Random(42)
+    for _ in range(14):                                              # soft snow drifts
+        x, z = rnd.uniform(-38, 38), rnd.uniform(-6, 38)
+        if -27 < x < -1 and -5 < z < 13: continue                    # keep the pond clear
+        m.ell(x, G, z, rnd.uniform(1.5, 3), 0.7, rnd.uniform(1.5, 3), 'snow', ymin=G)
+    # back hill in two steps, with a ramp on the left for sledding
+    m.box(-40, G, 40, 40, 5.5, 72, 'snow')
+    m.box(-40, 5.5, 54, 40, 9.5, 72, 'snow')
+    for i in range(10):
+        m.box(-40, G, 22 + i * 1.8, -30, G + 0.4 * (i + 1), 24 + i * 1.8, 'snow')
+    for x0, x1 in ((-40, 40),):
+        m.box(x0, 5.2, 39.8, x1, 5.5, 40.2, 'white')
+    # mountains with snow caps and pines
+    for cx, h, w in ((-28, 28, 14), (-8, 20, 10), (10, 22, 11), (29, 30, 12)):
+        n = min(int(h / 1.5), 14)                                     # tops stay under the 2-block limit
+        for i in range(n):
+            f = (1 - i / n) ** 0.75
+            ww = w * f + 0.8
+            sh = math.sin(i * 1.7 + cx) * 0.8                          # wobble so the slopes look natural
+            col = 'snow' if i > n * 0.62 else ('stone' if i % 3 == 0 else 'slate')
+            m.box(cx - ww + sh, 9.5 + i * 1.5 - 0.01, 70 - ww * 0.7 - 1.5, cx + ww + sh, 9.5 + i * 1.5 + 1.5, 72, col)
+            if i > n * 0.45 and i <= n * 0.62:                        # snow streaks running down
+                m.box(cx - ww * 0.4 + sh, 9.5 + i * 1.5 + 1.5, 70 - ww * 0.7 - 1.6, cx + ww * 0.1 + sh, 9.5 + i * 1.5 + 1.6, 72, 'snow')
+    for x, z, h in ((-36, 60, 9), (-18, 58, 8), (-2, 60, 7), (18, 58, 9), (36, 60, 8), (-32, 46, 7), (34, 46, 6), (-6, 48, 6), (8, 50, 7)):
+        pine(m, x, 9.5 if z >= 54 else 5.5, z, h, 2.2)
+    # church on the hill, cottage and bakery on the lower step, toy shop + gingerbread on the street
+    stamp(m, village_church, 0, 9.5, 60)
+    stamp(m, village_cottage, -22, 5.5, 46)
+    stamp(m, village_bakery, 22, 5.5, 46)
+    stamp(m, village_toy_shop, -16, G, 28)
+    stamp(m, gingerbread_house, 13, G, 28, s=0.5)
+    pine(m, -30, G, 30, 8, 2.4)
+    pine(m, 30, G, 30, 7, 2.2)
+    # cobblestone path up to the church and a street across
+    m.box(-2.5, G, 16, 2.5, G + 0.12, 40, 'stone')
+    for i in range(6):
+        m.box(-2.5, G + i * 0.7, 40 + i * 0.7, 2.5, G + (i + 1) * 0.7 + 0.1, 41 + i * 0.7, 'gray')
+    m.box(-2.5, 5.5, 44, 2.5, 5.62, 54, 'stone')
+    for i in range(6):
+        m.box(-2.5, 5.5 + i * 0.7, 54 + i * 0.4, 2.5, 5.5 + (i + 1) * 0.7 + 0.1, 55 + i * 0.4, 'gray')
+    m.box(-38, G, 16, 38, G + 0.12, 20, 'stone')
+    for x in (-34, -18, 6, 20, 36):
+        lamp(m, x, G, 21)
+    lamp(m, 4, 5.5, 44)
+    lamp(m, -4, 5.5, 50)
+    # frozen pond
+    m.disc(-14, 4, G - 0.2, G + 0.15, 12, 7.5, 'light_blue')
+    m.disc(-14, 4, G + 0.15, G + 0.2, 10.5, 6.2, 'glass')
+    for x in (-26.5, -1.5):
+        m.box(x, G, 2.5, x + 1, G + 0.8, 5.5, 'snow')
+    # big Christmas tree with lights, star and presents
+    pine(m, 24, G, 6, 26, 6.5, snow=False, lights=['g_red', 'g_yellow2', 'g_blue', 'g_green2', 'g_purple', 'g_white'])
+    m.pixels(['.y.', 'yyy', '.y.'], 23.1, 29.6, 6, 0.6, {'y': 'g_star'}, depth=0.6)
+    for x, z, c, r in ((20.5, 0.5, 'red', 'gold'), (26.5, 0.8, 'blue', 'white'), (23.5, -0.5, 'green', 'red'), (28, 3, 'gold', 'red')):
+        m.present(x - 1, G, z - 1, x + 1, G + 1.6, z + 1, c, r, w=0.35, bow=False)
+    # a family building a snowman
+    m.ell(-34, G + 1.6, 4, 1.8, 1.7, 1.8, 'white')
+    m.ell(-34, G + 4.2, 4, 1.2, 1.1, 1.2, 'white')
+    m.box(-34.2, G + 4.0, 2.4, -33.8, G + 4.4, 2.8, 'carrot')
+    m.box(-35.1, G + 5.2, 3.1, -32.9, G + 5.5, 4.9, 'black')
+    m.box(-34.7, G + 5.5, 3.5, -33.3, G + 6.6, 4.5, 'black')
+    person(m, -37.5, G, 3, 'green', hat='white', arms='up')
+    # carolers by the lamp
+    for i, (c, h) in enumerate((('red', 'green'), ('blue', 'red'), ('purple', 'white'), ('dark_green', 'red'))):
+        person(m, 2 + i * 2.4, G, 6 + (i % 2) * 0.8, c, hat=h, arms='front', item='book')
+    lamp(m, 12.5, G, 7)
+    # ---- the moving parts: four frames ----
+    for f in range(4):
+        m.use('f%d' % f)
+        for k, (c, h) in enumerate((('red', 'white'), ('blue', 'red'), ('yellow', 'green'))):   # skaters circling the pond
+            a = math.radians(f * 90 + k * 120 + 20)
+            person(m, -14 + 8 * math.cos(a), G + 0.2, 4 + 4.3 * math.sin(a), c, hat=h, arms='out')
+        sz = 40 - f * 5                                              # sled ride down the ramp
+        sy = G + max(0.0, (sz - 22) / 1.8) * 0.4
+        m.box(-37.5, sy, sz - 1.6, -32.5, sy + 0.5, sz + 1.6, 'red')
+        m.box(-37.5, sy - 0.3, sz - 2.0, -37, sy, sz + 1.8, 'gold')
+        m.box(-33, sy - 0.3, sz - 2.0, -32.5, sy, sz + 1.8, 'gold')
+        person(m, -35, sy + 0.5, sz, 'orange', hat='blue', arms='out')
+        bx = -27 + f * 1.6                                           # kid rolling a growing snowball
+        r = 0.9 + f * 0.25
+        m.ell(bx, G + r, 10, r, r, r, 'white')
+        person(m, bx - r - 1.0, G, 10, 'pink', hat='purple', arms='front')
+        wx = -6 + f * 3.5                                            # someone carrying presents down the street
+        person(m, wx, G + 0.12, 18, 'dark_red', hat='green', arms='front', item='gifts')
+    m.use('root')
+
+
 # ---------------------------------------------------------------- writing the packs
 FACES = ['north', 'south', 'east', 'west', 'up', 'down']
 r3 = lambda v: round(v + 0.0, 3)
@@ -1223,13 +1387,14 @@ def block_json(spec, n, uses):
     states = {}
     if spec.get('toggle'): states['santa:on'] = [1, 0]
     if spec.get('night'): states['santa:on'] = [0, 1]
-    if spec.get('frames'): states['santa:frame'] = list(range(spec['frames']))
+    animated = not spec.get('anim_only') or n in spec['anim_cells']   # anim_only: frame state only where things move
+    if spec.get('frames') and animated: states['santa:frame'] = list(range(spec['frames']))
     if spec.get('advent'): states.update({'santa:day_a': [0, 1], 'santa:day_b': list(range(16))})   # day = a*16 + b (states max 16 values)
     desc = {'identifier': ident, 'menu_category': {'category': 'none' if part else 'items'},
             'traits': {'minecraft:placement_direction': {'enabled_states': ['minecraft:cardinal_direction'], 'y_rotation_offset': 180}}}
     if states: desc['states'] = states
     gid = 'geometry.' + ident.replace(':', '_')
-    vis = bone_vis(spec['model'].bones)
+    vis = bone_vis(spec['model'].bones) if animated else {}
     col = spec.get('collision', 'full')
     if isinstance(col, dict): col = col.get(n)
     full = [-8, 0, -8, 16, 16, 16]
@@ -1279,7 +1444,9 @@ def write_packs():
         bones = s['model'].bones
         uses = {('glow' if c[6] in GLOW else 'glass' if c[6] == 'glass' else '') for c in s['model'].cubes}
         base_i = s['cells'][0]
-        for n, cubes in enumerate(split(s)):
+        cells = split(s)
+        s['anim_cells'] = {n for n, cubes in enumerate(cells) if any(c[7] != 'root' for c in cubes)}
+        for n, cubes in enumerate(cells):
             s['empty'] = s.get('empty', set())
             if not cubes:   # Minecraft won't take an empty model: give it one invisible speck
                 cubes = [[-0.05, 0, -0.05, 0.05, 0.1, 0.05, 'clear', 'root']]
