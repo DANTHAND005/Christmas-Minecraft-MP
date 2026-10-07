@@ -271,13 +271,15 @@ def glass_dome(m, cy, R, ymin, slices=7, t=0.12):
 
 
 def bow(m, cx, y, cz, col, s=1.0, knot=None):
-    """Upright double-loop bow sitting at height y."""
-    t = 0.45 * s
+    """Bow-tie bow sitting at height y: solid loops that flare out from a centre knot."""
+    yc = y + 0.85 * s
     for sg in (-1, 1):
-        a, b = sorted((cx + sg * 0.4 * s, cx + sg * 2.0 * s))
-        for bb in ((a, y, b, y + t), (a, y + 1.5 * s - t, b, y + 1.5 * s), (a if sg < 0 else b - t, y, a + t if sg < 0 else b, y + 1.5 * s)):
-            m.box(bb[0], bb[1], cz - 0.35 * s, bb[2], bb[3], cz + 0.35 * s, col)
-    m.box(cx - 0.5 * s, y, cz - 0.45 * s, cx + 0.5 * s, y + 0.9 * s, cz + 0.45 * s, knot or col)
+        for a0, a1, h in ((0.45, 1.0, 0.7), (1.0, 1.6, 1.25), (1.6, 2.1, 1.7)):
+            xa, xb = sorted((cx + sg * a0 * s, cx + sg * a1 * s))
+            m.box(xa, yc - h * s / 2, cz - 0.35 * s, xb, yc + h * s / 2, cz + 0.35 * s, col)
+        xa, xb = sorted((cx + sg * 1.2 * s, cx + sg * 1.9 * s))           # dark fold inside each loop
+        m.box(xa, yc - 0.2 * s, cz - 0.4 * s, xb, yc + 0.2 * s, cz - 0.35 * s, knot or col)
+    m.box(cx - 0.5 * s, yc - 0.5 * s, cz - 0.45 * s, cx + 0.5 * s, yc + 0.5 * s, cz + 0.45 * s, knot or col)
 
 
 # ---------------------------------------------------------------- the decorations
@@ -1006,12 +1008,12 @@ def snowy_bench(m):
 
 
 @deco(id='light_arch', name='Light-Up Arch', cells=[(i, j, 0) for j in range(3) for i in range(3)], toggle=True, light=12,
-      collision={0: [-8, 0, -4, 5, 16, 8], 2: [3, 0, -4, 5, 16, 8], 3: [-8, 0, -4, 5, 16, 8], 5: [3, 0, -4, 5, 16, 8]},
+      collision={0: [-8, 0, -4, 16, 16, 8], 2: [-8, 0, -4, 16, 16, 8], 3: [-8, 0, -4, 16, 16, 8], 5: [-8, 0, -4, 16, 16, 8]},
       cfg=dict(toggle=True, flicker=True, sound='random.click'),
       recipe=['spruce_leaves', 'spruce_leaves', 'glowstone_dust', 'glowstone_dust', 'string'])
 def light_arch(m):
-    L, R, top = -4.0, 36.0, 28.0                                   # 3 blocks wide, walk-through gap of ~2 blocks
-    cx, rx, ry = (L + R) / 2, (R - L) / 2, 14.0
+    L, R, top = -4.0, 36.0, 26.0                                   # 3 blocks wide, walk-through gap of ~2 blocks
+    cx, rx, ry = (L + R) / 2, (R - L) / 2, 13.0
     curve = [(cx - rx * math.cos(math.radians(a)), top + ry * math.sin(math.radians(a)), 0) for a in range(0, 181, 6)]
     path = [(L, 1.0, 0), (L, top, 0)] + curve + [(R, 1.0, 0)]
     m.tube(path, 4.0, ['pine', 'dark_green', 'pine', 'green', 'holly'], stripe=0.8, step=1.2)   # thick garland
@@ -1038,12 +1040,11 @@ def light_arch(m):
         m.box(x - 3.4, 0, -3.4, x + 3.4, 2.6, 3.4, 'dark_red')
         m.box(x - 3.6, 2.2, -3.6, x + 3.6, 2.8, 3.6, 'gold')
         m.ell(x, 2.8, 0, 3.0, 1.0, 3.0, 'snow', ymin=2.8)
-        bow(m, x, top - 1.6, -2.8, 'red', 1.3, knot='dark_red')
-        m.box(x - 1.0, top - 6.0, -2.9, x - 0.3, top - 1.6, -2.5, 'red')
-        m.box(x + 0.3, top - 6.0, -2.9, x + 1.0, top - 1.6, -2.5, 'red')
-    bow(m, cx, top + ry + 1.2, -2.6, 'red', 1.5, knot='dark_red')
-    m.pixels(['...y...', '..yyy..', 'yyyyyyy', '.yyyyy.', '..y.y..', '.y...y.'], cx - 2.45, 47.9, -1.0, 0.7,
-             {'y': 'g_star'}, depth=1.2)
+        bow(m, x, top - 1.6, -2.9, 'red', 1.3, knot='dark_red')
+        m.box(x - 1.1, top - 6.0, -3.0, x - 0.4, top - 0.8, -2.6, 'red')      # ribbon tails
+        m.box(x + 0.4, top - 6.4, -3.0, x + 1.1, top - 0.8, -2.6, 'red')
+    m.pixels(['....y....', '...yyy...', 'yyyyyyyyy', '.yyyyyyy.', '..yyyyy..', '.yyy.yyy.', 'yy.....yy'], cx - 3.15, 46.4, -0.6, 0.7,
+             {'y': 'g_star'}, depth=1.2)                                  # star sitting on the crest
 
 
 @deco(id='icicle_lights', name='Icicle Lights', toggle=True, light=10, collision=None,

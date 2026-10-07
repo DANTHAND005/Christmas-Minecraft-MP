@@ -37,12 +37,12 @@
       },
       "minecraft:collision_box": {
         "origin": [
-          3,
+          -8,
           0,
           -4
         ],
         "size": [
-          5,
+          16,
           16,
           8
         ]
