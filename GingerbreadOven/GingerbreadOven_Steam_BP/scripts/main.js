@@ -149,7 +149,8 @@ function showPlate(block, clean, total) {
   const spread = [[0, 0, 0], [0, 1, 0], [0, 1, 2]][top.length - 1];
   const tier = total <= 3 ? 1 : total <= 6 ? 2 : 3;
   const states = {};   // each kind is split into a (k >> 4) and b (k & 15): enum states max out at 16 values
-  for (let i = 0; i < 3; i++) { const k = top[spread[i]]; states["xmas:a" + (i + 1)] = k >> 4; states["xmas:b" + (i + 1)] = k & 15; }
+  for (let i = 0; i < 2; i++) { const k = top[spread[i]]; states["xmas:a" + (i + 1)] = k >> 4; states["xmas:b" + (i + 1)] = k & 15; }
+  states["xmas:f3"] = Math.floor(top[spread[2]] / 6);   // third spot shows the flavour as a round cookie (fewer block permutations)
   block.setPermutation(BlockPermutation.resolve("xmas:cookie_plate_" + tier, states));
 }
 
