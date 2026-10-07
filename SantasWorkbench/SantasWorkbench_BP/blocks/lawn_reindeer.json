@@ -73,7 +73,8 @@
       "minecraft:light_emission": 10,
       "minecraft:custom_components": [
         "santa:decor",
-        "santa:multipart"
+        "santa:multipart",
+        "santa:idle"
       ],
       "minecraft:tick": {
         "interval_range": [

@@ -114,6 +114,9 @@
     },
     "xmas_yule_log_platter": {
       "textures": "textures/blocks/yule_log_platter"
+    },
+    "xmas_cp3d_5": {
+      "textures": "textures/blocks/cp3d_gingerbread"
     }
   }
 }

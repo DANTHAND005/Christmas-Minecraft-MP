@@ -1194,8 +1194,9 @@ def bone_vis(bones):
     vis = {}
     for b in bones:
         if re.fullmatch(r'f\d+', b): vis[b] = "q.block_state('santa:frame') == %s" % b[1:]
-        if re.fullmatch(r'c\d+', b): vis[b] = "q.block_state('santa:day') < %s" % b[1:]
-        if re.fullmatch(r'o\d+', b): vis[b] = "q.block_state('santa:day') >= %s" % b[1:]
+        day = "(q.block_state('santa:day_a') * 16 + q.block_state('santa:day_b'))"
+        if re.fullmatch(r'c\d+', b): vis[b] = '%s < %s' % (day, b[1:])
+        if re.fullmatch(r'o\d+', b): vis[b] = '%s >= %s' % (day, b[1:])
     return vis
 
 
@@ -1223,7 +1224,7 @@ def block_json(spec, n, uses):
     if spec.get('toggle'): states['santa:on'] = [1, 0]
     if spec.get('night'): states['santa:on'] = [0, 1]
     if spec.get('frames'): states['santa:frame'] = list(range(spec['frames']))
-    if spec.get('advent'): states['santa:day'] = list(range(25))
+    if spec.get('advent'): states.update({'santa:day_a': [0, 1], 'santa:day_b': list(range(16))})   # day = a*16 + b (states max 16 values)
     desc = {'identifier': ident, 'menu_category': {'category': 'none' if part else 'items'},
             'traits': {'minecraft:placement_direction': {'enabled_states': ['minecraft:cardinal_direction'], 'y_rotation_offset': 180}}}
     if states: desc['states'] = states
@@ -1242,6 +1243,7 @@ def block_json(spec, n, uses):
     if spec.get('light'):
         comp['minecraft:light_emission'] = spec['light']
     cc = (['santa:decor'] if spec.get('cfg') or spec.get('night') else []) + (['santa:multipart'] if len(spec['cells']) > 1 else [])
+    if spec.get('tick') and not part: cc.append('santa:idle')   # onTick only where minecraft:tick exists
     if cc: comp['minecraft:custom_components'] = cc
     if spec.get('tick') and not part:
         comp['minecraft:tick'] = {'interval_range': spec['tick'], 'looping': True}

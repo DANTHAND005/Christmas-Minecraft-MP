@@ -261,9 +261,9 @@ function idleDecor(block, dimension) {
 }
 // advent calendar: each click opens the next door and pops out one treat
 function openAdvent(block, dimension, player) {
-  const day = block.permutation.getState("santa:day");
+  const day = block.permutation.getState("santa:day_a") * 16 + block.permutation.getState("santa:day_b");   // split: states max 16 values
   if (day >= 24) { if (player) player.onScreenDisplay.setActionBar("All 24 doors are open. Merry Christmas!"); return; }
-  block.setPermutation(block.permutation.withState("santa:day", day + 1));
+  block.setPermutation(block.permutation.withState("santa:day_a", (day + 1) >> 4).withState("santa:day_b", (day + 1) & 15));
   decorSound(dimension, block, "random.orb", 1.3 + day / 40);
   const treat = pickFood();
   if (treat) { treat.amount = 1; dimension.spawnItem(treat, { x: block.x + 0.5, y: block.y + 0.6, z: block.z + 0.5 }); }
@@ -323,10 +323,8 @@ system.beforeEvents.startup.subscribe((startup) => {
   startup.itemComponentRegistry.registerCustomComponent("santa:jingle", { onUse(e) { system.run(() => playJingle(e.source)); } });
   startup.itemComponentRegistry.registerCustomComponent("santa:gift_box", { onUse(e) { system.run(() => boxMenu(e.source)); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:multipart", { onPlayerBreak(e) { breakStack(e); } });
-  startup.blockComponentRegistry.registerCustomComponent("santa:decor", {
-    onPlayerInteract(e) { useDecor(e.block, e.dimension, e.player); },
-    onTick(e) { idleDecor(e.block, e.dimension); },
-  });
+  startup.blockComponentRegistry.registerCustomComponent("santa:decor", { onPlayerInteract(e) { useDecor(e.block, e.dimension, e.player); } });
+  startup.blockComponentRegistry.registerCustomComponent("santa:idle", { onTick(e) { idleDecor(e.block, e.dimension); } });   // only on blocks with minecraft:tick
   startup.blockComponentRegistry.registerCustomComponent("santa:toy", { onPlayerInteract(event) { playToy(event.block, event.dimension); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:present", {
     onPlayerInteract(event) {
