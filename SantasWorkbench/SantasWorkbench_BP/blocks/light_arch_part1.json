@@ -35,18 +35,7 @@
           "ambient_occlusion": false
         }
       },
-      "minecraft:collision_box": {
-        "origin": [
-          3,
-          0,
-          -3
-        ],
-        "size": [
-          4,
-          16,
-          6
-        ]
-      },
+      "minecraft:collision_box": false,
       "minecraft:selection_box": {
         "origin": [
           -8,

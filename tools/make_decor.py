@@ -73,7 +73,7 @@ def write_textures():
     out = os.path.join(RP, 'textures', 'blocks')
     sheet(lambda n, f: BASE.get(n) or GLOW[n][1]).save(os.path.join(out, 'decor.png'))
     sheet(lit, 4).save(os.path.join(out, 'decor_lit.png'))
-    Image.new('RGBA', (16, 16), (205, 232, 255, 40)).save(os.path.join(out, 'glass.png'))
+    Image.new('RGBA', (16, 16), (205, 232, 255, 60)).save(os.path.join(out, 'glass.png'))
 
 
 # ---------------------------------------------------------------- modelling helpers
@@ -180,6 +180,106 @@ def cane(m, x, z, y0, y1, r, t, cols=('red', 'white'), hook=1):
     m.tube(pts, t, list(cols), stripe=t * 0.9)
 
 
+FONT = dict(zip('0123456789ADEFNOSTVY', [
+    ['111', '101', '101', '101', '111'], ['010', '110', '010', '010', '111'], ['111', '001', '111', '100', '111'],
+    ['111', '001', '011', '001', '111'], ['101', '101', '111', '001', '001'], ['111', '100', '111', '001', '111'],
+    ['111', '100', '111', '101', '111'], ['111', '001', '010', '010', '010'], ['111', '101', '111', '101', '111'],
+    ['111', '101', '111', '001', '111'], ['010', '101', '111', '101', '101'], ['110', '101', '101', '101', '110'],
+    ['111', '100', '110', '100', '111'], ['111', '100', '110', '100', '100'], ['101', '111', '111', '111', '101'],
+    ['111', '101', '101', '101', '111'], ['111', '100', '111', '001', '111'], ['111', '010', '010', '010', '010'],
+    ['101', '101', '101', '101', '010'], ['101', '101', '010', '010', '010']]))
+
+
+def text(m, s, cx, ytop, z, ps, col, depth=0.12):
+    """Pixel-font text centred on cx, on a plane facing -z."""
+    rows = ['.'.join(FONT[ch][r] for ch in s).replace('0', '.') for r in range(5)]
+    m.pixels(rows, cx - len(rows[0]) * ps / 2, ytop, z, ps, {'1': col}, depth)
+
+
+def wall_box(m, face, w, a0, y0, d0, a1, y1, d1, c):
+    """Box on a wall: face n/s/e/w, wall plane at w, a = along the wall, d = distance out from it."""
+    if face == 'n': m.box(a0, y0, w - d1, a1, y1, w - d0, c)
+    if face == 's': m.box(a0, y0, w + d0, a1, y1, w + d1, c)
+    if face == 'w': m.box(w - d1, y0, a0, w - d0, y1, a1, c)
+    if face == 'e': m.box(w + d0, y0, a0, w + d1, y1, a1, c)
+
+
+def window(m, face, w, a0, y0, a1, y1, frame='white', pane='g_window', cols=2, rows=2, sill='snow', shutters=None):
+    wall_box(m, face, w, a0, y0, 0, a1, y1, 0.08, pane)
+    t = 0.3
+    for b in ((a0 - t, y0 - t, a0, y1 + t), (a1, y0 - t, a1 + t, y1 + t), (a0, y1, a1, y1 + t), (a0, y0 - t, a1, y0)):
+        wall_box(m, face, w, b[0], b[1], 0, b[2], b[3], 0.3, frame)
+    for i in range(1, cols):
+        a = a0 + (a1 - a0) * i / cols
+        wall_box(m, face, w, a - 0.12, y0, 0, a + 0.12, y1, 0.2, frame)
+    for i in range(1, rows):
+        y = y0 + (y1 - y0) * i / rows
+        wall_box(m, face, w, a0, y - 0.12, 0, a1, y + 0.12, 0.2, frame)
+    if sill:
+        wall_box(m, face, w, a0 - 0.5, y0 - 0.7, 0, a1 + 0.5, y0 - 0.3, 0.8, frame)
+        wall_box(m, face, w, a0 - 0.4, y0 - 0.3, 0.1, a1 + 0.4, y0 - 0.05, 0.75, sill)
+    if shutters:
+        sw = (a1 - a0) / 2
+        wall_box(m, face, w, a0 - t - sw, y0 - t, 0, a0 - t, y1 + t, 0.25, shutters)
+        wall_box(m, face, w, a1 + t, y0 - t, 0, a1 + t + sw, y1 + t, 0.25, shutters)
+        for a in (a0 - t - sw / 2, a1 + t + sw / 2):
+            for k in range(3):
+                y = y0 + (y1 - y0) * (k + 0.6) / 3.2
+                wall_box(m, face, w, a - sw * 0.3, y, 0.25, a + sw * 0.3, y + 0.15, 0.32, 'dark_green' if shutters != 'dark_green' else 'holly')
+
+
+def snowroof(m, x0, x1, zc, y0, half, dy, dz, col, axis='x', icicles=True):
+    """Stepped gable roof (ridge along `axis`) under a thick snow coat; the roof colour shows at the edges."""
+    def bx(a0, y_0, b0, a1, y_1, b1, c):
+        if axis == 'x': m.box(a0, y_0, b0, a1, y_1, b1, c)
+        else: m.box(b0, y_0, a0, b1, y_1, a1, c)
+    k = 0
+    while half - k * dz > 0.25:
+        h, y = half - k * dz, y0 + k * dy
+        bx(x0, y, zc - h, x1, y + dy, zc + h, col)
+        bx(x0 + 0.3, y + dy * 0.4, zc - h - 0.1, x1 - 0.3, y + dy + 0.35, zc + h + 0.1, 'snow')
+        k += 1
+    if icicles:
+        for i in range(int((x1 - x0) / 1.3)):
+            a = x0 + 0.6 + i * 1.3
+            L = (0.6, 1.2, 0.4, 0.9)[i % 4]
+            for s in (-1, 1):
+                bx(a, y0 - L, zc + s * (half - 0.25) - 0.15, a + 0.4, y0, zc + s * (half - 0.25) + 0.15, 'light_blue')
+    return y0 + k * dy + 0.35
+
+
+def glass_dome(m, cy, R, ymin, slices=7, t=0.12):
+    """Hollow glass ball made of thin octagonal rings, so you only ever look through two panes."""
+    ys = [cy - R + 2 * R * i / slices for i in range(slices + 1)]
+    for ya, yb in zip(ys, ys[1:]):
+        if yb <= ymin:
+            continue
+        ya = max(ya, ymin)
+        r = R * math.sqrt(max(0.0, 1 - (((ya + yb) / 2 - cy) / R) ** 2))
+        if r < 1.2:
+            m.box(-r, ya, -r, r, yb, r, 'glass')
+            continue
+        a, c = 0.45 * r, 0.8 * r
+        for sx in (-1, 1):
+            m.box(sx * r - t / 2, ya, -a, sx * r + t / 2, yb, a, 'glass')               # sides
+            m.box(-a, ya, sx * r - t / 2, a, yb, sx * r + t / 2, 'glass')               # front/back
+            for sz in (-1, 1):                                                          # stepped corners
+                m.box(sx * a, ya, sz * c - t / 2, sx * c, yb, sz * c + t / 2, 'glass')
+                m.box(sx * c - t / 2, ya, sz * a, sx * c + t / 2, yb, sz * c, 'glass')
+                m.box(sx * a - t / 2, ya, sz * c, sx * a + t / 2, yb, sz * r, 'glass')
+                m.box(sx * c, ya, sz * a - t / 2, sx * r, yb, sz * a + t / 2, 'glass')
+
+
+def bow(m, cx, y, cz, col, s=1.0, knot=None):
+    """Upright double-loop bow sitting at height y."""
+    t = 0.45 * s
+    for sg in (-1, 1):
+        a, b = sorted((cx + sg * 0.4 * s, cx + sg * 2.0 * s))
+        for bb in ((a, y, b, y + t), (a, y + 1.5 * s - t, b, y + 1.5 * s), (a if sg < 0 else b - t, y, a + t if sg < 0 else b, y + 1.5 * s)):
+            m.box(bb[0], bb[1], cz - 0.35 * s, bb[2], bb[3], cz + 0.35 * s, col)
+    m.box(cx - 0.5 * s, y, cz - 0.45 * s, cx + 0.5 * s, y + 0.9 * s, cz + 0.45 * s, knot or col)
+
+
 # ---------------------------------------------------------------- the decorations
 SPECS = []
 
@@ -249,13 +349,29 @@ def gingerbread_house(m):
         m.disc(x, -7, 0.8, 0.9, 0.6, 0.4, 'red')
 
 
-def village(m, wall, roof_col, door, trim):
-    m.box(-7.5, 0, -7.5, 7.5, 0.5, 7.5, 'snow')
-    m.box(-6, 0.5, -4.5, 6, 9, 5, wall)
-    m.box(-6.3, 8.6, -4.8, 6.3, 9.2, 5.3, trim)
-    m.box(-1.1, 0.5, -4.8, 1.1, 4.6, -4.5, door)
-    m.box(0.5, 2.2, -4.95, 0.9, 2.6, -4.8, 'gold')
-    return m.roof(-7, 7, 0.25, 9, 6.6, 0.8, 0.85, roof_col)
+def village(m, wall, roof_col, door, trim, base='stone'):
+    """Shared shell: snowy plot, walls with a foundation, corner trim, snowy roof. Front wall is at z = -4."""
+    m.box(-7.6, 0, -7.6, 7.6, 0.5, 7.6, 'snow')
+    m.box(-6, 0.5, -4, 6, 8.6, 5.5, wall)
+    m.box(-6.15, 0.5, -4.15, 6.15, 1.4, 5.65, base)
+    for x in (-6.2, 5.8):
+        for z in (-4.2, 5.3):
+            m.box(x, 0.5, z, x + 0.4, 8.6, z + 0.4, trim)
+    m.box(-6.25, 8.3, -4.25, 6.25, 8.7, 5.75, trim)
+    for i, z in enumerate((-6.6, -5.6, -4.6)):                 # stepping-stone path to the door
+        m.box(-0.8 + (0.2 if i % 2 else -0.2), 0.5, z, 0.8 + (0.2 if i % 2 else -0.2), 0.62, z + 0.7, 'gray')
+    return snowroof(m, -7.1, 7.1, 0.75, 8.5, 6.6, 0.6, 0.55, roof_col)
+
+
+def door_at(m, x0, x1, y1, col, knob='gold', glow=False):
+    m.box(x0 - 0.35, 0.5, -4.3, x1 + 0.35, y1 + 0.35, -4, 'dark_brown')
+    m.box(x0, 0.5, -4.25, x1, y1, -4.05, col)
+    for x in (x0 + (x1 - x0) / 3, x0 + 2 * (x1 - x0) / 3):
+        m.box(x - 0.06, 0.6, -4.32, x + 0.06, y1 - 0.2, -4.25, 'dark_brown' if col != 'dark_brown' else 'brown')
+    if glow:
+        m.box(x0 + 0.4, y1 - 1.6, -4.33, x1 - 0.4, y1 - 0.5, -4.25, 'g_window')
+    m.box(x1 - 0.55, 2.4, -4.5, x1 - 0.25, 2.8, -4.25, knob)
+    m.box(x0 - 0.5, 0.5, -5.1, x1 + 0.5, 0.85, -4, 'stone')           # doorstep
 
 
 @deco(id='village_bakery', name='Village Bakery', night=True, light=9, tick=[100, 200],
@@ -263,86 +379,142 @@ def village(m, wall, roof_col, door, trim):
 def village_bakery(m):
     village(m, 'brick', 'dark_red', 'brown', 'cream')
     for y in (2.6, 4.8, 7):                                # mortar lines
-        m.box(-6.05, y, -4.55, 6.05, y + 0.2, 5.05, 'tan')
-    m.box(-5.4, 1.4, -4.7, -1.7, 5, -4.5, 'g_window')     # shop window with loaves
-    m.box(1.7, 1.4, -4.7, 5.4, 5, -4.5, 'g_window')
-    for x in (-4.9, -3.2, 2.2, 3.9):
-        m.box(x, 1.4, -4.9, x + 1.2, 2.1, -4.7, 'tan')
-    for i in range(12):                                    # striped awning
-        x = -6 + i
-        m.box(x, 5.4, -6.4, x + 1, 5.9, -4.5, 'red' if i % 2 else 'white')
-        m.box(x, 5.9, -5.4, x + 1, 6.3, -4.5, 'red' if i % 2 else 'white')
-    m.box(-3, 6.6, -4.9, 3, 8.2, -4.5, 'light_wood')       # sign with a loaf
-    m.box(-1.3, 7, -5.1, 1.3, 7.8, -4.9, 'tan')
-    m.box(3.5, 11, 1.5, 5.5, 15.5, 3.5, 'brick')           # chimney
-    m.box(3.3, 15.5, 1.3, 5.7, 16, 3.7, 'snow')
+        m.box(-6.05, y, -4.05, 6.05, y + 0.2, 5.55, 'tan')
+    door_at(m, -1, 1, 4.6, 'brown', glow=True)
+    for a0 in (-5.2, 1.9):                                 # shop windows full of loaves
+        window(m, 'n', -4, a0, 1.8, a0 + 3.3, 4.8, frame='cream', cols=3, rows=1, sill=None)
+        for k in range(3):
+            m.box(a0 + 0.25 + k * 1.1, 1.85, -4.45, a0 + 0.95 + k * 1.1, 2.4, -4.1, 'tan')
+    for i in range(13):                                    # striped awning with a scalloped edge
+        x = -6.5 + i
+        c = 'red' if i % 2 else 'white'
+        m.box(x, 5.3, -6.2, x + 1, 5.7, -4, c)
+        m.box(x, 5.7, -5.2, x + 1, 6.1, -4, c)
+        m.box(x + 0.2, 4.9, -6.3, x + 0.8, 5.3, -6.0, c)
+    m.box(-3, 6.5, -4.4, 3, 8.1, -4, 'light_wood')        # sign with a loaf
+    m.box(-1.3, 6.9, -4.6, 1.3, 7.7, -4.4, 'tan')
+    m.box(-0.9, 7.7, -4.6, 0.9, 7.9, -4.4, 'tan')
+    for z in (-1, 2.5):                                    # side windows
+        window(m, 'e', 6, z, 3, z + 2, 6, frame='cream')
+        window(m, 'w', -6, z, 3, z + 2, 6, frame='cream')
+    m.box(3.5, 10.5, 2.5, 5.5, 15.4, 4.5, 'brick')         # chimney
+    m.box(3.3, 15.4, 2.3, 5.7, 15.9, 4.7, 'snow')
 
 
 @deco(id='village_toy_shop', name='Village Toy Shop', night=True, light=9, tick=[100, 200],
       recipe=['oak_planks', 'blue_dye', 'glass', 'torch'])
 def village_toy_shop(m):
-    village(m, 'blue', 'red', 'red', 'white')
-    m.box(-5.6, 1.2, -5.6, -1.6, 6, -4.5, 'white')        # bay window frame
-    m.box(-5.2, 1.6, -5.7, -2, 5.6, -5.6, 'g_window')
-    m.box(1.6, 1.2, -5.6, 5.6, 6, -4.5, 'white')
-    m.box(2, 1.6, -5.7, 5.2, 5.6, -5.6, 'g_window')
-    for x, c in ((-4.8, 'red'), (-3.4, 'green'), (2.4, 'yellow'), (3.9, 'purple')):   # toys in the window
-        m.box(x, 1.6, -5.9, x + 0.9, 2.5, -5.7, c)
-    m.box(-4.2, 2.5, -5.85, -3.9, 3.3, -5.7, 'brown')
-    m.box(-2.5, 6.6, -4.9, 2.5, 8.3, -4.5, 'gold')         # sign with a star
-    m.pixels(['.y.', 'yyy', '.y.'], -0.6, 8.1, -4.9, 0.4, {'y': 'yellow'})
-    m.box(-6.4, 0.5, -4.9, -6, 9, -4.5, 'white')
-    m.box(6, 0.5, -4.9, 6.4, 9, -4.5, 'white')
+    village(m, 'teal', 'red', 'red', 'white', base='white')
+    door_at(m, -0.9, 0.9, 4.8, 'red', glow=True)
+    m.box(-6.05, 1.4, -4.1, 6.05, 1.6, 5.6, 'white')
+    for a0 in (-5.4, 1.6):                                 # display windows with toys inside
+        window(m, 'n', -4, a0, 2.0, a0 + 3.8, 5.0, frame='white', cols=2, rows=1, sill=None)
+        m.box(a0 - 0.4, 1.4, -4.8, a0 + 4.2, 2.0, -4, 'white')
+    m.box(-4.9, 2.0, -4.5, -4.0, 2.9, -4.15, 'brown')      # teddy
+    m.box(-4.75, 2.9, -4.5, -4.15, 3.5, -4.15, 'brown')
+    m.box(-3.5, 2.0, -4.5, -2.0, 2.7, -4.15, 'red')         # train
+    m.box(-3.4, 2.7, -4.5, -2.8, 3.3, -4.15, 'green')
+    m.box(2.1, 2.0, -4.5, 3.0, 2.9, -4.15, 'yellow')        # blocks + soldier
+    m.box(2.3, 2.9, -4.5, 2.8, 3.4, -4.15, 'blue')
+    m.box(3.7, 2.0, -4.5, 4.3, 3.8, -4.15, 'red')
+    m.box(3.7, 3.8, -4.5, 4.3, 4.5, -4.15, 'black')
+    for i in range(13):                                    # awning
+        x = -6.5 + i
+        c = 'red' if i % 2 else 'white'
+        m.box(x, 5.5, -5.8, x + 1, 5.9, -4, c)
+        m.box(x + 0.2, 5.15, -5.9, x + 0.8, 5.5, -5.6, c)
+    m.box(-3.6, 6.2, -4.3, 3.6, 8.2, -4, 'gold')           # TOYS sign
+    m.box(-3.3, 6.45, -4.4, 3.3, 7.95, -4.3, 'red')
+    text(m, 'TOYS', 0, 7.65, -4.4, 0.24, 'white', depth=0.1)
+    for z in (-1, 2.5):
+        window(m, 'e', 6, z, 3, z + 2, 6, frame='white')
+        window(m, 'w', -6, z, 3, z + 2, 6, frame='white')
+    cane(m, -6.6, -5.2, 0.5, 6, 0.8, 0.6, hook=1)
+    cane(m, 6.6, -5.2, 0.5, 6, 0.8, 0.6, hook=-1)
 
 
 @deco(id='village_cottage', name='Village Cottage', night=True, light=9, tick=[100, 200],
       recipe=['oak_planks', 'oak_planks', 'white_dye', 'torch'])
 def village_cottage(m):
-    village(m, 'plaster', 'dark_red', 'dark_brown', 'dark_brown')
-    for x in (-6.05, -2.4, 2.4, 5.65):                     # timber frame
-        m.box(x, 0.5, -4.6, x + 0.4, 9, -4.5, 'dark_brown')
-    m.box(-6, 4.6, -4.6, 6, 5, -4.5, 'dark_brown')
-    for x0 in (-5, 2.9):
-        m.box(x0, 5.6, -4.7, x0 + 2.1, 8, -4.5, 'g_window')
-        m.box(x0 + 0.9, 5.6, -4.8, x0 + 1.2, 8, -4.7, 'dark_brown')
-        m.box(x0, 1.6, -4.7, x0 + 2.1, 3.8, -4.5, 'g_window')
-        m.box(x0, 1.2, -5.2, x0 + 2.1, 1.6, -4.5, 'snow')
-    m.cyl('z', 0, 3.5, -4.9, -4.6, 0.9, 0.9, 'pine')          # door wreath
-    m.box(-0.3, 2.4, -5, 0.3, 2.9, -4.9, 'red')
-    m.box(-4.5, 11, 2, -2.5, 15.6, 4, 'stone')              # chimney + smoke puff
-    m.box(-4.7, 15.6, 1.8, -2.3, 16, 4.2, 'snow')
+    village(m, 'plaster', 'dark_brown', 'dark_brown', 'dark_brown')
+    m.box(-6.05, 4.5, -4.12, 6.05, 4.85, 5.62, 'dark_brown')   # timber frame
+    for x in (-2.2, 1.85):
+        m.box(x, 1.4, -4.12, x + 0.35, 8.4, -4, 'dark_brown')
+    for i in range(5):                                     # diagonal braces, stepped
+        m.box(-5.8 + i * 0.7, 4.85 + i * 0.7, -4.12, -5.3 + i * 0.7, 5.55 + i * 0.7, -4, 'dark_brown')
+        m.box(5.3 - i * 0.7, 4.85 + i * 0.7, -4.12, 5.8 - i * 0.7, 5.55 + i * 0.7, -4, 'dark_brown')
+    door_at(m, -0.9, 0.9, 4.2, 'wood')
+    m.cyl('z', 0, 3.2, -4.6, -4.35, 0.75, 0.75, 'pine')        # door wreath
+    m.box(-0.25, 2.3, -4.7, 0.25, 2.7, -4.6, 'red')
+    for a0 in (-5, 3.2):
+        window(m, 'n', -4, a0, 1.9, a0 + 1.8, 3.9, frame='white', shutters='dark_green')
+        window(m, 'n', -4, a0, 5.9, a0 + 1.8, 7.7, frame='white', sill=None)
+    for z in (-1.5, 2.5):
+        window(m, 'e', 6, z, 2.4, z + 1.8, 4.4, frame='white', shutters='dark_green')
+        window(m, 'w', -6, z, 2.4, z + 1.8, 4.4, frame='white', shutters='dark_green')
+    m.box(-2.3, 4.7, -4.9, -1.5, 5.7, -4.3, 'black')           # lantern by the door
+    m.box(-2.15, 4.85, -5.0, -1.65, 5.55, -4.9, 'g_flame')
+    m.box(-4.8, 10, 2.6, -2.6, 15.3, 4.8, 'stone')             # chimney
+    m.box(-4.8, 12, 2.55, -2.6, 12.25, 4.85, 'gray')
+    m.box(-5, 15.3, 2.4, -2.4, 15.8, 5, 'snow')
+    for x in (-7.2, -4.8, 4.8, 7.2):                           # bits of picket fence
+        m.box(x - 0.25, 0.5, -7.3, x + 0.25, 2.6, -6.8, 'white')
+        m.box(x - 0.3, 2.6, -7.35, x + 0.3, 2.9, -6.75, 'snow')
+    for x0, x1 in ((-7.2, -4.8), (4.8, 7.2)):
+        for y in (1.2, 2.1):
+            m.box(x0, y, -7.2, x1, y + 0.3, -6.9, 'white')
 
 
 @deco(id='village_church', name='Village Church', night=True, light=9, tick=[100, 200],
       recipe=['cobblestone', 'cobblestone', 'gold_nugget', 'torch'])
 def village_church(m):
-    m.box(-7.5, 0, -7.5, 7.5, 0.5, 7.5, 'snow')
-    m.box(-4.5, 0.5, -2, 4.5, 8, 7, 'stone')               # nave
-    k, y = 0, 8.0
-    while 5.4 - k * 0.9 > 0.3:                              # steep roof, ridge front-to-back
-        h = 5.4 - k * 0.9
-        m.box(-h, y, -2.2, h, y + 1.1, 7.3, 'slate')
-        m.box(-h, y + 1.1, -2.2, -h + 0.9, y + 1.4, 7.3, 'snow')
-        m.box(h - 0.9, y + 1.1, -2.2, h, y + 1.4, 7.3, 'snow')
-        k, y = k + 1, y + 1.1
-    for z in (0, 3, 5.6):                                   # stained side windows
-        for x, c in ((-4.6, 'g_stain_r'), (4.5, 'g_stain_b')):
-            m.box(x, 3, z, x + 0.1, 6.4, z + 1.2, c)
-            m.box(x, 6.4, z + 0.3, x + 0.1, 6.8, z + 0.9, 'g_stain_y')
-    m.box(-2.6, 0.5, -6, 2.6, 11, -1.5, 'stone')           # bell tower
-    m.box(-2.8, 10.6, -6.2, 2.8, 11.2, -1.3, 'gray')
-    m.box(-0.9, 0.5, -6.2, 0.9, 3.8, -6, 'brown')           # arched door
-    m.box(-0.6, 3.8, -6.2, 0.6, 4.3, -6, 'brown')
-    m.box(-0.7, 5.4, -6.2, 0.7, 7.6, -6, 'g_stain_y')       # round window
-    m.box(-0.4, 5.2, -6.2, 0.4, 7.8, -6, 'g_stain_r')
-    m.box(-1.6, 11.2, -5.4, 1.6, 12.8, -2.1, 'stone')       # open belfry with bell
-    m.box(-1.1, 11.2, -5.6, 1.1, 12.6, -1.9, 'dark_gray')
-    m.disc(0, -3.75, 11.5, 12.5, 0.6, 0.6, 'gold')
-    for i in range(5):                                      # steeple
-        h = 2.6 - i * 0.55
-        m.box(-h, 12.8 + i * 0.6, -3.75 - h, h, 13.4 + i * 0.6, -3.75 + h, 'slate')
-    m.box(-0.15, 15.2, -3.85, 0.15, 16, -3.65, 'gold')       # cross
-    m.box(-0.5, 15.5, -3.85, 0.5, 15.75, -3.65, 'gold')
+    m.box(-7.6, 0, -7.6, 7.6, 0.5, 7.6, 'snow')
+    m.box(-4.4, 0.5, -1.5, 4.4, 8, 7.2, 'stone')               # nave
+    for y in (2.2, 4.2, 6.2):                                  # stone courses
+        m.box(-4.45, y, -1.55, 4.45, y + 0.18, 7.25, 'gray')
+    m.box(-4.55, 0.5, -1.6, 4.55, 1.2, 7.35, 'gray')
+    snowroof(m, -1.8, 7.5, 0, 7.8, 5.2, 0.85, 0.6, 'slate', axis='z')
+    for z in (0, 2.6, 5.2):                                    # tall arched stained-glass windows
+        for face, w in (('e', 4.4), ('w', -4.4)):
+            wall_box(m, face, w, z, 2.4, 0, z + 1.4, 5.6, 0.08, 'g_stain_b')
+            wall_box(m, face, w, z + 0.2, 5.6, 0, z + 1.2, 6.1, 0.08, 'g_stain_r')
+            wall_box(m, face, w, z + 0.45, 6.1, 0, z + 0.95, 6.4, 0.08, 'g_stain_y')
+            wall_box(m, face, w, z + 0.55, 2.4, 0, z + 0.85, 5.6, 0.12, 'g_stain_y')
+            for b in ((z - 0.3, 2.1, z, 6.1), (z + 1.4, 2.1, z + 1.7, 6.1), (z - 0.1, 2.1, z + 1.5, 2.4)):
+                wall_box(m, face, w, b[0], b[1], 0, b[2], b[3], 0.3, 'gray')
+    m.box(-2.6, 0.5, -6.2, 2.6, 10.4, -1.4, 'stone')           # bell tower
+    for y in (2.2, 4.2, 6.2, 8.2):
+        m.box(-2.65, y, -6.25, 2.65, y + 0.18, -1.35, 'gray')
+    for x in (-2.9, 2.3):                                      # corner buttresses
+        m.box(x, 0.5, -6.5, x + 0.6, 6, -5.9, 'gray')
+    m.box(-1.1, 0.5, -6.45, 1.1, 3.6, -6.2, 'brown')           # arched double door
+    m.box(-0.7, 3.6, -6.45, 0.7, 4.1, -6.2, 'brown')
+    m.box(-0.06, 0.6, -6.5, 0.06, 4.0, -6.45, 'dark_brown')
+    m.box(-1.4, 0.5, -6.4, -1.1, 4.0, -6.2, 'gray')
+    m.box(1.1, 0.5, -6.4, 1.4, 4.0, -6.2, 'gray')
+    m.box(-1.0, 4.0, -6.4, 1.0, 4.4, -6.2, 'gray')
+    m.box(-1.6, 0.5, -7.4, 1.6, 0.8, -6.2, 'gray')             # steps
+    m.pixels(['.rbr.', 'byyyb', 'ryryr', 'byyyb', '.rbr.'], -1.0, 7.6, -6.2, 0.4,     # rose window
+             {'r': 'g_stain_r', 'b': 'g_stain_b', 'y': 'g_stain_y'}, depth=0.1)
+    m.box(-1.25, 5.3, -6.3, 1.25, 5.5, -6.2, 'gray')
+    m.box(-1.25, 7.6, -6.3, 1.25, 7.8, -6.2, 'gray')
+    m.box(-2.8, 10.4, -6.4, 2.8, 10.8, -1.2, 'gray')           # belfry with a gold bell
+    for x in (-2.6, 1.9):
+        for z in (-6.2, -2.1):
+            m.box(x, 10.8, z, x + 0.7, 12.2, z + 0.7, 'stone')
+    m.disc(0, -3.8, 11, 12, 0.7, 0.7, 'gold')
+    m.box(-0.1, 12, -3.9, 0.1, 12.3, -3.7, 'dark_gold')
+    m.box(-2.8, 12.2, -6.4, 2.8, 12.6, -1.2, 'gray')
+    for i in range(5):                                         # spire
+        h = 2.4 - i * 0.5
+        m.box(-h, 12.6 + i * 0.55, -3.8 - h, h, 13.15 + i * 0.55, -3.8 + h, 'slate')
+    m.box(-0.12, 15.0, -3.9, 0.12, 16, -3.7, 'gold')           # cross
+    m.box(-0.45, 15.5, -3.9, 0.45, 15.72, -3.7, 'gold')
+    for x in (-5.8, 5.8):                                      # lamp posts
+        m.box(x - 0.15, 0.5, -6.6, x + 0.15, 4, -6.3, 'black')
+        m.box(x - 0.45, 4, -6.9, x + 0.45, 5, -6.0, 'black')
+        m.box(x - 0.3, 4.1, -6.95, x + 0.3, 4.9, -5.95, 'g_flame')
+        m.box(x - 0.5, 5, -6.95, x + 0.5, 5.3, -5.95, 'snow')
 
 
 @deco(id='sleigh', name="Santa's Sleigh", cells=[(0, 0, 0), (0, 0, 1)],
@@ -450,37 +622,43 @@ def nutcracker_statue(m):
 @deco(id='advent_calendar', name='Advent Calendar', advent=True, collision=None, cfg=dict(advent=True),
       recipe=['paper', 'paper', 'cookie', 'green_dye'])
 def advent_calendar(m):
-    m.box(-7.6, 0.6, 7, 7.6, 15.4, 8, 'dark_brown')        # frame + green board
-    m.box(-7, 1.2, 6.6, 7, 12.6, 7, 'dark_green')
-    m.box(-7, 12.6, 6.4, 7, 14.8, 7, 'red')                  # banner with a gold star
-    m.box(-7, 14.5, 6.3, 7, 14.8, 6.4, 'gold')
-    m.box(-7, 12.6, 6.3, 7, 12.9, 6.4, 'gold')
-    m.pixels(['..y..', '.yyy.', 'yyyyy', '.y.y.'], -1.0, 14.5, 6.3, 0.4, {'y': 'yellow'}, depth=0.15)
-    for x in (-6.2, 5.2):                                    # holly sprigs in the banner corners
-        m.box(x, 13.1, 6.2, x + 1, 14.2, 6.4, 'holly')
-        m.box(x + 0.3, 13.4, 6.05, x + 0.7, 13.8, 6.2, 'red')
+    m.box(-7.8, 0.4, 7.2, 7.8, 15.6, 8, 'dark_brown')          # frame
+    m.box(-7.3, 0.9, 6.9, 7.3, 15.1, 7.2, 'wood')
+    m.box(-7.0, 1.0, 6.7, 7.0, 12.5, 6.9, 'dark_green')        # board
+    for x, y in ((-6.6, 12.0), (6.2, 1.2), (-6.7, 1.3), (6.3, 11.9), (0.1, 12.1)):   # a few painted snowflakes
+        m.box(x, y, 6.65, x + 0.35, y + 0.35, 6.7, 'white')
+    m.box(-7.0, 12.5, 6.5, 7.0, 15.0, 6.9, 'red')               # banner
+    m.box(-7.0, 12.5, 6.4, 7.0, 12.75, 6.5, 'gold')
+    m.box(-7.0, 14.75, 6.4, 7.0, 15.0, 6.5, 'gold')
+    text(m, 'ADVENT', 0, 14.45, 6.5, 0.38, 'gold')
+    for s_ in (-1, 1):                                           # holly in the corners
+        x = s_ * 6.2
+        m.box(x - 0.6, 13.2, 6.3, x + 0.6, 13.8, 6.5, 'holly')
+        m.box(x - 0.3, 13.0, 6.3, x + 0.3, 14.1, 6.5, 'holly')
+        m.box(x - 0.2, 13.4, 6.15, x + 0.2, 13.7, 6.3, 'red')
     order = list(range(1, 25))
     random.Random(24).shuffle(order)
-    cols, rows, x0, y0 = 6, 4, -6.6, 1.5
-    w, h = 13.2 / cols, 10.9 / rows
-    colours = ['red', 'white', 'gold', 'green', 'light_blue', 'pink']
-    treats = ['g_red', 'yellow', 'pink', 'brown', 'white', 'g_green']
+    cols, x0, y0, w, h = 6, -6.9, 1.15, 13.8 / 6, 11.2 / 4
+    scheme = [('red', 'gold'), ('paper', 'red'), ('gold', 'dark_red'), ('red', 'white'), ('paper', 'green')]
+    treats = ['red', 'yellow', 'pink', 'brown', 'white', 'green', 'gold', 'purple']
     for idx, n in enumerate(order):
-        cx, ry = idx % cols, idx // cols
-        a, b = x0 + cx * w + 0.2, y0 + ry * h + 0.25
-        c, d = a + w - 0.4, b + h - 0.5
-        col = colours[(n * 7) % 6]
+        a, b = x0 + idx % cols * w + 0.15, y0 + idx // cols * h + 0.2
+        c, d = a + w - 0.3, b + h - 0.4
+        col, ink = scheme[n % 5]
         m.use('root')
-        m.box(a, b, 6.55, c, d, 6.6, 'dark_brown')          # recess behind the door
+        m.box(a, b, 6.6, c, d, 6.7, 'dark_brown')               # little cupboard behind the door
         m.use('c%d' % n)
-        m.box(a, b, 6.15, c, d, 6.55, col)
-        m.box(c - 0.5, (b + d) / 2 - 0.2, 6.0, c - 0.2, (b + d) / 2 + 0.2, 6.15, 'gold' if col != 'gold' else 'red')
-        dots = n if n <= 4 else (n % 4) + 1                  # a little pip count so doors look numbered
-        for k in range(min(dots, 4)):
-            m.box(a + 0.3 + k * 0.4, d - 0.55, 6.05, a + 0.55 + k * 0.4, d - 0.3, 6.15, 'dark_red' if col != 'red' else 'white')
+        m.box(a, b, 6.3, c, d, 6.6, col)
+        text(m, str(n), (a + c) / 2, (b + d) / 2 + 0.55, 6.3, 0.2, ink, depth=0.08)
+        m.box(c - 0.35, b + 0.35, 6.2, c - 0.15, b + 0.6, 6.3, 'gold')
         m.use('o%d' % n)
-        m.box(a - 0.05, b, 6.55 - (c - a), a + 0.25, d, 6.55, col)    # door swung open on its left hinge
-        m.ell((a + c) / 2, (b + d) / 2, 6.3, 0.55, 0.55, 0.3, treats[n % 6])
+        m.box(a - 0.12, b, 6.6 - (c - a) * 0.8, a + 0.04, d, 6.6, col)     # door swung open on its hinge
+        t = treats[n % 8]                                          # wrapped sweet waiting inside
+        cx, cy = (a + c) / 2, (b + d) / 2
+        m.box(cx - 0.45, cy - 0.35, 6.25, cx + 0.45, cy + 0.35, 6.6, t)
+        m.box(cx - 0.8, cy - 0.2, 6.35, cx - 0.45, cy + 0.2, 6.6, t)
+        m.box(cx + 0.45, cy - 0.2, 6.35, cx + 0.8, cy + 0.2, 6.6, t)
+    m.use('root')
 
 
 def bell(m, dx):
@@ -529,31 +707,47 @@ def door_wreath(m):
       cfg=dict(anim=[1, 2, 3, 1, 2, 3, 1, 2, 3, 0], delay=3, sound='note.chime', every=3, particle='minecraft:snowflake_particle'),
       recipe=['glass', 'glass', 'snowball', 'gold_nugget', 'spruce_planks'])
 def snow_globe_display(m):
-    m.disc(0, 0, 0, 1, 6.6, 6.6, 'dark_brown')
-    m.disc(0, 0, 1, 3.2, 6, 6, 'wood')
-    m.disc(0, 0, 3.2, 3.8, 6.2, 6.2, 'gold')
-    m.disc(0, 0, 3.8, 4.3, 5.4, 5.4, 'dark_gold')
-    m.box(-2, 1.4, -6.25, 2, 2.8, -5.9, 'gold')              # name plaque
-    m.box(-1.5, 1.8, -6.35, 1.5, 2.4, -6.25, 'dark_gold')
-    m.disc(0, 0, 4.3, 4.9, 4.9, 4.9, 'snow')                 # tiny winter scene
-    m.box(-3.4, 4.9, -0.2, -0.6, 7.2, 2.4, 'red')
-    m.roof(-3.6, -0.4, 1.1, 7.2, 1.7, 0.45, 0.45, 'dark_red')
-    m.box(-2.3, 4.9, -0.3, -1.7, 6, -0.2, 'brown')
-    m.box(-1.2, 5.6, -0.3, -0.8, 6.3, -0.2, 'g_window')
-    for i, r in enumerate((1.6, 1.25, 0.9, 0.55)):            # tree
-        m.disc(2, 1.2, 5.3 + i * 1.0, 6.4 + i * 1.0, r, r, 'pine')
-    m.box(1.85, 4.9, 1.05, 2.15, 5.3, 1.35, 'brown')
-    m.box(1.7, 9.3, 0.9, 2.3, 9.9, 1.5, 'yellow')
-    m.ell(1, 5.5, -2.4, 0.8, 0.7, 0.8, 'white')              # snowman
-    m.ell(1, 6.6, -2.4, 0.55, 0.5, 0.55, 'white')
-    m.box(0.9, 6.5, -3.2, 1.1, 6.7, -2.9, 'carrot')
-    m.present(-2.4, 4.9, -3.4, -1.4, 5.7, -2.4, 'green', 'gold', w=0.3, bow=False)
-    m.ell(0, 10.1, 0, 5.6, 5.8, 5.6, 'glass', ymin=4.3, step=1.6, n=2)   # glass dome
+    for a in (45, 135, 225, 315):                              # little gold feet
+        x, z = 5.2 * math.cos(math.radians(a)), 5.2 * math.sin(math.radians(a))
+        m.ell(x, 0.5, z, 0.9, 0.5, 0.9, 'gold', ymin=0)
+    m.disc(0, 0, 0.5, 1.3, 6.6, 6.6, 'dark_brown')             # turned wooden base
+    m.disc(0, 0, 1.3, 2.7, 6.1, 6.1, 'wood')
+    m.disc(0, 0, 1.8, 2.1, 6.2, 6.2, 'gold')
+    m.disc(0, 0, 2.7, 3.4, 6.4, 6.4, 'gold')
+    m.box(-2.2, 1.35, -6.3, 2.2, 2.65, -6.05, 'gold')          # plaque
+    m.box(-1.8, 1.6, -6.4, 1.8, 2.4, -6.3, 'dark_gold')
+    m.disc(0, 0, 3.4, 4.0, 5.7, 5.7, 'snow')                    # the scene: snowy ground
+    m.ell(-2.5, 4.0, 2.5, 2.4, 0.6, 2.2, 'snow', ymin=4.0)
+    m.box(-3.8, 4.0, 0.4, -0.6, 6.4, 3.2, 'red')                # cottage with a lit window
+    snowroof(m, -4.1, -0.3, 1.8, 6.3, 1.9, 0.38, 0.42, 'dark_red', icicles=False)
+    m.box(-2.6, 4.0, 0.3, -1.8, 5.5, 0.4, 'brown')
+    m.box(-1.4, 4.8, 0.3, -0.8, 5.5, 0.4, 'g_window')
+    m.box(-3.5, 4.8, 0.3, -2.9, 5.5, 0.4, 'g_window')
+    m.box(-1.4, 7.6, 2.2, -0.9, 8.6, 2.7, 'brick')
+    for (tx, tz, s) in ((2.6, 1.6, 1.0), (3.8, -0.8, 0.7)):     # fir trees
+        m.box(tx - 0.2, 4.0, tz - 0.2, tx + 0.2, 4.6, tz + 0.2, 'brown')
+        for i in range(4):
+            r = (1.7 - i * 0.38) * s
+            m.disc(tx, tz, 4.5 + i * 1.05 * s, 5.4 + i * 1.05 * s, r, r, 'pine')
+            m.disc(tx, tz, 5.25 + i * 1.05 * s, 5.4 + i * 1.05 * s, r * 0.8, r * 0.8, 'snow')
+        m.box(tx - 0.3, 4.6 + 4.2 * s, tz - 0.3, tx + 0.3, 5.2 + 4.2 * s, tz + 0.3, 'yellow')
+    m.ell(0.6, 4.7, -2.4, 0.85, 0.75, 0.85, 'white')            # snowman
+    m.ell(0.6, 5.9, -2.4, 0.6, 0.55, 0.6, 'white')
+    m.box(0.5, 5.85, -3.3, 0.7, 6.0, -2.95, 'carrot')
+    m.box(0.2, 6.4, -2.8, 1.0, 6.5, -2.0, 'black')
+    m.box(0.35, 6.5, -2.65, 0.85, 7.0, -2.15, 'black')
+    m.box(0.0, 5.35, -3.05, 1.2, 5.6, -1.8, 'red')
+    for x in (-4.0, -3.2, -2.4):                                 # fence
+        m.box(x, 4.0, -3.2, x + 0.25, 5.0, -2.95, 'light_wood')
+    m.box(-4.1, 4.6, -3.15, -2.0, 4.8, -3.0, 'light_wood')
+    m.box(2.6, 4.0, -3.2, 2.8, 6.4, -3.0, 'black')              # lamp post
+    m.box(2.45, 6.4, -3.35, 2.95, 6.9, -2.85, 'g_flame')
+    glass_dome(m, 10.0, 6.0, 3.4)
     rnd = random.Random(3)
     for f in range(1, 4):
         m.use('f%d' % f)
-        for _ in range(16):
-            r, a, y = rnd.uniform(0, 4.2), rnd.uniform(0, 6.283), rnd.uniform(5.2, 14.5)
+        for _ in range(18):
+            r, a, y = rnd.uniform(0, 4.4), rnd.uniform(0, 6.283), rnd.uniform(5.0, 15.0)
             m.box(r * math.cos(a) - 0.2, y, r * math.sin(a) - 0.2, r * math.cos(a) + 0.2, y + 0.4, r * math.sin(a) + 0.2, 'white')
     m.use('root')
 
@@ -572,34 +766,59 @@ CARDS = {
                {'g': 'ginger', 'w': 'white'}),
     'cane': (['..rwr..', '.w...r.', '.r...w.', '.....r.', '.....w.', '.....r.', '.....w.'], 'green',
              {'r': 'red', 'w': 'white'}),
+    'santa': (['...rr..', '..rrrw.', '.wwwww.', '.sksks.', '.swwws.', '..www..'], 'light_blue',
+              {'r': 'red', 'w': 'white', 's': 'skin', 'k': 'black'}),
 }
 
 
-def card(m, kind, x0, y0, z):
+def card(m, kind, x0, y0, z0, w=3.6, h=4.8, lean=0.32):
+    """Greeting card leaning back against the step behind it (drawn in thin stepped rows)."""
     rows, bg, cmap = CARDS[kind]
-    w, h = 3.6, 4.6
-    m.box(x0, y0, z, x0 + w, y0 + h, z + 0.35, bg)
-    m.box(x0 + 0.15, y0 - 0.0, z + 0.35, x0 + w - 0.15, y0 + h - 0.4, z + 1.2, 'paper')   # back half of the fold
-    ps = min((w - 0.6) / len(rows[0]), (h - 0.8) / len(rows))
-    m.pixels(rows, x0 + (w - ps * len(rows[0])) / 2, y0 + h - (h - ps * len(rows)) / 2, z, ps, cmap, depth=0.12)
+    n = 16
+    for i in range(n):                                          # the card face, leaning back
+        y = y0 + h * i / n
+        z = z0 + lean * (y - y0)
+        m.box(x0, y, z, x0 + w, y + h / n + 0.02, z + 0.25, bg)
+        m.box(x0 + 0.08, y, z + 0.25, x0 + w - 0.08, y + h / n + 0.02, z + 0.3, 'paper')
+    m.box(x0 - 0.05, y0 + h - 0.12, z0 + lean * h - 0.05, x0 + w + 0.05, y0 + h + 0.05, z0 + lean * h + 0.3, 'gold')
+    ps = min((w - 0.8) / len(rows[0]), (h - 1.0) / len(rows))
+    ax = x0 + (w - ps * len(rows[0])) / 2
+    top = y0 + h - (h - ps * len(rows)) / 2
+    for r, row in enumerate(rows):                              # artwork follows the lean
+        y = top - (r + 0.5) * ps
+        m.pixels([row], ax, top - r * ps, z0 + lean * (y - y0), ps, cmap, depth=0.1)
 
 
 @deco(id='card_stand', name='Christmas Card Stand', recipe=['paper', 'paper', 'paper', 'stick'])
 def card_stand(m):
-    m.box(-7.5, 0, -5, 7.5, 1, 5, 'light_wood')              # stepped stand
-    m.box(-7.5, 1, -0.5, 7.5, 3, 5, 'light_wood')
-    m.box(-7.5, 3, 2.5, 7.5, 5, 5, 'light_wood')
-    for y in (1, 3, 5):
-        m.box(-7.6, y - 0.25, -5.1 if y == 1 else (-0.6 if y == 3 else 2.4), 7.6, y, 5.1, 'wood')
-    card(m, 'tree', -6.6, 1, -4.2)
-    card(m, 'snowman', -1.8, 1, -4.4)
-    card(m, 'bauble', 3.0, 1, -4.1)
-    card(m, 'wreath', -4.6, 3, -0.2)
-    card(m, 'ginger', 0.8, 3, 0.0)
-    card(m, 'star', -2.2, 5, 2.8)
-    card(m, 'cane', 3.0, 5, 2.9)
-    m.box(-7.2, 5, 3, -5.8, 6.2, 4.4, 'holly')               # sprig of holly
-    m.box(-6.8, 6.2, 3.5, -6.3, 6.7, 4.0, 'red')
+    for y0, z0 in ((0, -5.4), (1.8, -1.6), (3.6, 2.0)):        # three-step stand with dark lips
+        m.box(-7.6, y0, z0, 7.6, y0 + 1.8, 5.4, 'light_wood')
+        m.box(-7.7, y0 + 1.5, z0 - 0.1, 7.7, y0 + 1.8, z0 + 0.25, 'wood')
+        m.box(-7.7, y0, z0 - 0.1, 7.7, y0 + 0.25, z0 + 0.25, 'wood')
+    m.box(-7.7, 0, 5.2, 7.7, 5.6, 5.5, 'wood')
+    card(m, 'tree', -7.0, 1.8, -5.0)
+    card(m, 'snowman', -1.8, 1.8, -5.0)
+    card(m, 'bauble', 3.4, 1.8, -5.0)
+    card(m, 'wreath', -4.4, 3.6, -1.2)
+    card(m, 'ginger', 0.8, 3.6, -1.2)
+    card(m, 'star', -1.8, 5.4, 2.4, w=3.4, h=4.4)
+    card(m, 'santa', 2.8, 5.4, 2.4, w=3.4, h=4.4)
+    card(m, 'cane', -6.4, 5.4, 2.4, w=3.4, h=4.4)
+    for x in (-7.4, 7.0):                                        # posts with a string of mini cards
+        m.box(x, 5.4, 4.8, x + 0.4, 14.4, 5.2, 'wood')
+        m.box(x - 0.15, 14.4, 4.65, x + 0.55, 14.8, 5.35, 'gold')
+    pts = [(x, 13.8 - 1.4 * (1 - (x / 7.2) ** 2), 5.0) for x in [i * 0.9 - 7.2 for i in range(17)]]
+    m.tube(pts, 0.22, ['red'])
+    minis = [('red', 'g'), ('paper', 'r'), ('green', 'w'), ('navy', 'y'), ('paper', 'g')]
+    for i, (bg, ink) in enumerate(minis):
+        x = -5.4 + i * 2.7
+        y = 13.8 - 1.4 * (1 - (x / 7.2) ** 2)
+        m.box(x - 0.2, y - 0.35, 4.75, x + 0.2, y + 0.25, 5.25, 'light_wood')        # clothes peg
+        m.box(x - 0.9, y - 2.6, 4.85, x + 0.9, y - 0.2, 5.0, bg)
+        m.pixels(['.x.', 'xxx', '.x.'], x - 0.45, y - 0.9, 4.85, 0.3,
+                 {'x': {'g': 'green', 'r': 'red', 'w': 'white', 'y': 'yellow'}[ink]}, depth=0.08)
+    m.box(-7.2, 1.8, -1.4, -5.8, 2.9, 0.0, 'holly')             # sprig of holly
+    m.box(-6.8, 2.9, -1.0, -6.3, 3.4, -0.5, 'red')
 
 
 @deco(id='path_cane', name='Candy Cane Path Light', toggle=True, light=8, collision=None,
@@ -693,82 +912,138 @@ def inflatable_santa(m):
     m.use('root')
 
 
+def gift(m, x0, y0, z0, x1, y1, z1, c, rib, pattern=None, pat='white', bow_col=None, bow_s=1.0):
+    """Wrapped present: paper pattern on the front and right faces, ribbon cross, big bow."""
+    m.box(x0, y0, z0, x1, y1, z1, c)
+    m.box(x0 - 0.05, y1 - 0.25, z0 - 0.05, x1 + 0.05, y1, z1 + 0.05, c)      # lid edge
+    m.box(x0 - 0.12, y1 - 0.9, z0 - 0.12, x1 + 0.12, y1 - 0.25, z1 + 0.12, c)
+    if pattern == 'stripes':
+        for x in [x0 + 0.4 + i * 1.2 for i in range(int((x1 - x0) / 1.2))]:
+            m.box(x, y0, z0 - 0.04, x + 0.5, y1 - 0.9, z0, pat)
+        for z in [z0 + 0.4 + i * 1.2 for i in range(int((z1 - z0) / 1.2))]:
+            m.box(x1, y0, z, x1 + 0.04, y1 - 0.9, z + 0.5, pat)
+    if pattern == 'dots':
+        rnd = random.Random(int(x0 * 7 + y0 * 13))
+        for _ in range(int((x1 - x0) * (y1 - y0) / 3)):
+            x, y = rnd.uniform(x0 + 0.2, x1 - 0.6), rnd.uniform(y0 + 0.2, y1 - 1.4)
+            m.box(x, y, z0 - 0.04, x + 0.4, y + 0.4, z0, pat)
+            z, y = rnd.uniform(z0 + 0.2, z1 - 0.6), rnd.uniform(y0 + 0.2, y1 - 1.4)
+            m.box(x1, y, z, x1 + 0.04, y + 0.4, z + 0.4, pat)
+    cx, cz, e = (x0 + x1) / 2, (z0 + z1) / 2, 0.16
+    m.box(cx - 0.45, y0, z0 - e, cx + 0.45, y1 + 0.05, z1 + e, rib)
+    m.box(x0 - e, y0, cz - 0.45, x1 + e, y1 + 0.05, cz + 0.45, rib)
+    if bow_col is not False:
+        bow(m, cx, y1 + 0.05, cz, bow_col or rib, bow_s)
+
+
 @deco(id='present_stack', name='Present Stack', cells=[(0, 0, 0), (0, 1, 0)],
       recipe=['paper', 'paper', 'red_dye', 'green_dye', 'string'])
 def present_stack(m):
-    m.present(-7, 0, -6, 3.5, 7, 5, 'red', 'gold')
-    m.present(4, 0, -7, 7.5, 4.5, -2.5, 'green', 'red')
-    m.present(4, 0, -1.5, 7.5, 9, 6.5, 'purple', 'gold')
-    m.present(-6, 7, -5, 3, 13, 4, 'blue', 'silver')
-    m.present(-5, 13, -4, 2, 18.5, 3, 'gold', 'red')
-    m.box(-3.6, 18.5, -3, 1.4, 22.5, 2, 'white')             # candy-stripe box
-    for i in range(5):
-        m.box(-3.65 + i, 18.5, -3.05, -3.15 + i, 22.5, 2.05, 'red')
-    m.present(-3.6, 18.5, -3, 1.4, 22.5, 2, 'white', 'green', w=0.8)
-    m.present(-2.6, 22.5, -2, 0.6, 25.4, 1, 'pink', 'white', w=0.6)
-    for x, y in ((-2.2, 23.2), (-0.6, 24.4), (0.1, 23.0)):  # polka dots
-        m.box(x, y, -2.06, x + 0.5, y + 0.5, -2.0, 'white')
-    m.pixels(['..y..', '.yyy.', 'yyyyy', '.yyy.', 'y...y'], -2.0, 31.6, 0, 0.8, {'y': 'gold'}, depth=0.6)
-    m.box(-1.3, 25.4, -0.3, -0.3, 27.6, 0.3, 'gold')
-    m.box(5.8, 4.5, -7.05, 7.0, 6.0, -6.95, 'paper')          # gift tag
-    m.box(-6.95, 3, -6.1, -5.2, 5, -6.0, 'paper')
+    gift(m, -6.8, 0, -6, 2.4, 7.5, 4.8, 'red', 'gold', 'dots', 'white', bow_col=False)
+    gift(m, 3.0, 0, -7.0, 7.4, 4.6, -2.4, 'green', 'red', 'stripes', 'dark_green', bow_s=0.9)
+    gift(m, 3.0, 0, -1.6, 7.4, 9.2, 5.2, 'purple', 'silver', 'stripes', 'lilac', bow_s=0.9)
+    gift(m, -5.6, 7.5, -5.0, 1.4, 13.0, 3.6, 'blue', 'white', 'dots', 'light_blue', bow_col=False)
+    gift(m, -4.6, 13.0, -4.0, 0.6, 17.6, 2.6, 'gold', 'red', bow_col=False)
+    gift(m, -3.8, 17.6, -3.2, 0.0, 21.4, 1.6, 'white', 'green', 'stripes', 'red', bow_col=False)
+    gift(m, -3.0, 21.4, -2.4, -0.6, 23.8, 0.4, 'pink', 'white', 'dots', 'white', bow_s=0.9)
+    m.box(-2.0, 25.2, -1.2, -1.6, 26.6, -0.8, 'gold')                       # star on a little stem
+    m.pixels(['...y...', '..yyy..', 'yyyyyyy', '.yyyyy.', '..y.y..', '.y...y.'], -4.4, 31.4, -0.7, 0.7,
+             {'y': 'g_star'}, depth=0.6)
+    m.box(-0.1, 7.6, -6.5, 1.6, 9.6, -6.35, 'paper')                        # gift tag
+    m.box(0.2, 9.6, -6.45, 0.4, 10.4, -6.4, 'red')
+    m.box(-6.4, 0, -7.3, -3.6, 0.5, -6.1, 'snow')                           # a little drift of snow
 
 
 @deco(id='snowy_bench', name='Snowy Bench', cells=[(0, 0, 0), (1, 0, 0)], collision=8,
       recipe=['oak_planks', 'oak_planks', 'iron_ingot', 'snowball'])
 def snowy_bench(m):
-    for x in (-5.5, 20.5):                                   # cast iron ends
-        m.box(x, 0, -4.5, x + 1, 6, -3.5, 'dark_gray')
-        m.box(x, 0, 3, x + 1, 14.5, 4, 'dark_gray')
-        m.box(x, 5.4, -4.5, x + 1, 6.2, 4, 'dark_gray')
-        m.tube([(x + 0.5, 9.4, -4.2), (x + 0.5, 9.4, -1.5), (x + 0.5, 10.4, 1.2), (x + 0.5, 10.4, 3.4)], 0.9, ['dark_gray'])
-        m.box(x + 0.1, 6.2, -4.3, x + 0.9, 9.4, -3.7, 'dark_gray')
-        m.ell(x + 0.5, 0, 0, 2.2, 1.0, 5.2, 'snow', ymin=0)
-    for i in range(4):                                       # seat slats
-        m.box(-6, 6.2, -4.4 + i * 2.1, 22, 7.2, -2.8 + i * 2.1, 'wood')
-    for i in range(3):                                       # back slats
-        m.box(-6, 8.4 + i * 2.2, 3.2, 22, 9.9 + i * 2.2, 4.0, 'wood')
-    m.box(-6, 13.7, 2.9, 22, 14.3, 4.3, 'snow')              # snow on the back + seat
-    m.ell(17, 7.2, 0, 3.6, 1.2, 3.2, 'snow', ymin=7.2)
-    m.ell(-2.5, 7.2, -1, 2.4, 0.9, 2.4, 'snow', ymin=7.2)
-    for i in range(7):                                       # plaid blanket over the middle
-        c = ['red', 'red', 'green', 'red', 'red', 'dark_green', 'red'][i]
-        x = 4.5 + i
-        m.box(x, 7.2, -2.5, x + 1, 7.6, 3.2, c)
-        m.box(x, 7.6, 3.2, x + 1, 12.8, 3.0 + 1.0, c)
-        m.box(x, 2.6, -4.7, x + 1, 7.6, -4.3, c)
-    for z in (-1, 1.5):
-        m.box(4.45, 7.25, z, 11.55, 7.65, z + 0.4, 'yellow')
-    m.disc(13, -1, 7.2, 9.2, 0.9, 0.9, 'red')                # mug of cocoa
-    m.disc(13, -1, 9.0, 9.3, 0.75, 0.75, 'brown')
-    m.box(13.9, 7.7, -1.2, 14.4, 8.8, -0.8, 'red')
+    for x in (-5.6, 20.6):                                      # curly cast-iron ends
+        m.tube([(x, 0.3, -4.6), (x, 6.2, -4.6)], 1.0, ['black'])
+        m.tube([(x, 0.3, 4.4), (x, 6.2, 3.4), (x, 15.4, 4.8)], 1.0, ['black'])
+        m.tube([(x, 6.2, -4.6), (x, 6.2, 3.4)], 0.8, ['black'])
+        m.tube([(x, 6.4, -4.6), (x, 9.6, -4.4), (x, 10.4, -2.0), (x, 10.6, 1.0), (x, 11.6, 3.8)], 0.8, ['black'])   # armrest
+        m.tube([(p[0], p[1], p[2]) for p in [(x, 9.6 + 1.0 * math.sin(math.radians(a)), -4.4 - 1.0 * math.cos(math.radians(a))) for a in range(0, 300, 30)]], 0.6, ['black'])
+        m.tube([(x, 0.3, -4.6), (x, 1.6, -5.6)], 0.8, ['black'])
+        m.tube([(x, 0.3, 4.4), (x, 1.4, 5.4)], 0.8, ['black'])
+        m.box(x - 1.2, 10.6, -3.2, x + 1.2, 11.2, 1.6, 'snow')
+        m.ell(x, 0, 0, 2.6, 1.3, 5.6, 'snow', ymin=0)
+    for i in range(5):                                          # seat slats
+        z = -4.6 + i * 1.6
+        m.box(-6.2, 6.6, z, 22.2, 7.4, z + 1.25, 'wood' if i % 2 else 'light_wood')
+    for i in range(4):                                          # tilted back slats
+        y, z = 8.2 + i * 1.8, 3.6 + i * 0.4
+        m.box(-6.2, y, z, 22.2, y + 1.4, z + 0.8, 'wood' if i % 2 else 'light_wood')
+    m.box(-6.2, 15.0, 4.4, 22.2, 15.5, 6.0, 'snow')
+    m.ell(18.0, 7.4, -0.6, 3.8, 1.4, 3.6, 'snow', ymin=7.4)      # snow piles on the seat
+    m.ell(-2.8, 7.4, 0.4, 2.6, 0.9, 2.8, 'snow', ymin=7.4)
+    plaid = ['red', 'red', 'dark_green', 'red', 'red', 'green', 'red', 'red', 'dark_green', 'red']
+    for i, c in enumerate(plaid):                               # plaid blanket draped over the middle
+        x = 3.0 + i
+        m.box(x, 7.4, -3.4, x + 1, 7.8, 3.4, c)                 # on the seat
+        m.box(x, 2.8, -4.95, x + 1, 7.8, -4.55, c)              # hanging over the front edge
+        m.box(x, 7.8, 3.2, x + 1, 15.6, 3.6, c)                 # up the backrest
+        m.box(x, 15.6, 3.2, x + 1, 16.0, 6.2, c)                # folded over the top
+    for y in (4.6, 9.8, 12.8):
+        m.box(3.0, y, -5.0 if y < 6 else 3.15, 13.0, y + 0.3, -4.9 if y < 6 else 3.2, 'yellow')
+    for z in (-1.2, 1.6):
+        m.box(3.0, 7.8, z, 13.0, 7.85, z + 0.3, 'yellow')
+    for x in [3.2 + i * 0.9 for i in range(11)]:                # fringe
+        m.box(x, 2.2, -4.85, x + 0.4, 2.8, -4.65, 'red')
+    m.disc(15.0, -1.5, 7.4, 9.6, 0.95, 0.95, 'red')             # mug of cocoa with marshmallows
+    m.disc(15.0, -1.5, 9.4, 9.7, 0.8, 0.8, 'brown')
+    m.box(14.6, 9.6, -1.8, 15.0, 9.95, -1.4, 'white')
+    m.box(15.1, 9.6, -1.4, 15.5, 9.95, -1.0, 'white')
+    m.box(15.9, 7.9, -1.7, 16.4, 9.1, -1.3, 'red')
+    m.box(16.4, 8.2, -1.7, 16.6, 8.8, -1.3, 'red')
+    m.box(22.6, 0, -6.6, 24.4, 0.4, -4.8, 'black')              # lantern on the ground
+    m.box(22.8, 0.4, -6.4, 24.2, 3.0, -5.0, 'g_flame')
+    for x in (22.7, 24.0):
+        for z in (-6.5, -5.2):
+            m.box(x, 0.4, z, x + 0.3, 3.0, z + 0.3, 'black')
+    m.box(22.6, 3.0, -6.6, 24.4, 3.5, -4.8, 'black')
+    m.box(23.3, 3.5, -5.9, 23.7, 4.2, -5.5, 'black')
+    m.box(22.5, 3.5, -6.7, 24.5, 3.8, -4.7, 'snow')
 
 
-@deco(id='light_arch', name='Light-Up Arch', cells=[(i, j, 0) for j in range(3) for i in range(2)], toggle=True, light=12,
-      collision={0: [-7, 0, -3, 4, 16, 6], 1: [3, 0, -3, 4, 16, 6], 2: [-7, 0, -3, 4, 16, 6], 3: [3, 0, -3, 4, 16, 6]},
+@deco(id='light_arch', name='Light-Up Arch', cells=[(i, j, 0) for j in range(3) for i in range(3)], toggle=True, light=12,
+      collision={0: [-8, 0, -4, 5, 16, 8], 2: [3, 0, -4, 5, 16, 8], 3: [-8, 0, -4, 5, 16, 8], 5: [3, 0, -4, 5, 16, 8]},
       cfg=dict(toggle=True, flicker=True, sound='random.click'),
       recipe=['spruce_leaves', 'spruce_leaves', 'glowstone_dust', 'glowstone_dust', 'string'])
 def light_arch(m):
-    path = [(-5, 0.8, 0), (-5, 32, 0)] + arc(8, 32, 13, 180, 0, 24) + [(21, 0.8, 0)]
-    m.tube(path, 2.4, ['pine', 'dark_green', 'pine', 'green'], stripe=1.0)
-    bulbs = ['g_red', 'g_green2', 'g_blue', 'g_yellow2', 'g_red2', 'g_green', 'g_blue2', 'g_yellow']
+    L, R, top = -4.0, 36.0, 28.0                                   # 3 blocks wide, walk-through gap of ~2 blocks
+    cx, rx, ry = (L + R) / 2, (R - L) / 2, 14.0
+    curve = [(cx - rx * math.cos(math.radians(a)), top + ry * math.sin(math.radians(a)), 0) for a in range(0, 181, 6)]
+    path = [(L, 1.0, 0), (L, top, 0)] + curve + [(R, 1.0, 0)]
+    m.tube(path, 4.0, ['pine', 'dark_green', 'pine', 'green', 'holly'], stripe=0.8, step=1.2)   # thick garland
+    rnd = random.Random(5)
+    for a, b in zip(path, path[1:]):                               # needle tufts sticking out of the garland
+        for _ in range(int(math.dist(a, b) / 1.6)):
+            t = rnd.random()
+            p = [a[q] + (b[q] - a[q]) * t for q in range(3)]
+            dx, dz = rnd.choice([(2.2, 0), (-2.2, 0), (0, 2.2), (0, -2.2)])
+            m.box(p[0] + dx - 0.6, p[1] - 0.6, p[2] + dz - 0.6, p[0] + dx + 0.6, p[1] + 0.6, p[2] + dz + 0.6, rnd.choice(['pine', 'dark_green']))
+    bulbs = ['g_red', 'g_green2', 'g_blue', 'g_yellow2', 'g_red2', 'g_green', 'g_blue2', 'g_yellow', 'g_purple', 'g_white']
     k, s = 0, 0.0
-    for a, b in zip(path, path[1:]):                         # bulbs every ~2.6 px, front, back and outside
-        L = math.dist(a, b)
-        while s <= L:
-            p = [a[q] + (b[q] - a[q]) * s / L for q in range(3)]
-            c = bulbs[k % 8]
-            for z in (-1.8, 1.4):
-                m.box(p[0] - 0.45, p[1] - 0.45, z, p[0] + 0.45, p[1] + 0.45, z + 0.4, c)
-            k, s = k + 1, s + 2.6
-        s -= L
-    for x in (-5, 21):                                       # snowy planters
-        m.box(x - 2.4, 0, -2.4, x + 2.4, 1.8, 2.4, 'dark_gray')
-        m.box(x - 2.5, 1.8, -2.5, x + 2.5, 2.3, 2.5, 'snow')
-        m.box(x - 1.2, 32.6, -1.6, x + 1.2, 34.4, -1.2, 'red')    # bows at the shoulders
-        m.box(x - 0.4, 30.4, -1.6, x + 0.4, 32.6, -1.3, 'red')
-    m.pixels(['...y...', '..yyy..', 'yyyyyyy', '.yyyyy.', '..y.y..', '.y...y.'], 5.2, 47.8, -1.4, 0.75,
-             {'y': 'g_star'}, depth=0.8)
+    for a, b in zip(path, path[1:]):                               # big bulbs every 2.4 px on the front and the back
+        d = math.dist(a, b)
+        while s <= d:
+            p = [a[q] + (b[q] - a[q]) * s / d for q in range(3)]
+            for z, sh in ((-2.6, 0), (2.0, 1)):
+                c = bulbs[(k + sh * 3) % 10]
+                m.box(p[0] - 0.6, p[1] - 0.6, z, p[0] + 0.6, p[1] + 0.6, z + 0.6, c)
+                m.box(p[0] - 0.25, p[1] + 0.6, z + 0.1, p[0] + 0.25, p[1] + 0.9, z + 0.5, 'dark_gray')
+            k, s = k + 1, s + 2.4
+        s -= d
+    for i, x in enumerate((L, R)):                                 # snowy planters + red bows
+        m.box(x - 3.4, 0, -3.4, x + 3.4, 2.6, 3.4, 'dark_red')
+        m.box(x - 3.6, 2.2, -3.6, x + 3.6, 2.8, 3.6, 'gold')
+        m.ell(x, 2.8, 0, 3.0, 1.0, 3.0, 'snow', ymin=2.8)
+        bow(m, x, top - 1.6, -2.8, 'red', 1.3, knot='dark_red')
+        m.box(x - 1.0, top - 6.0, -2.9, x - 0.3, top - 1.6, -2.5, 'red')
+        m.box(x + 0.3, top - 6.0, -2.9, x + 1.0, top - 1.6, -2.5, 'red')
+    bow(m, cx, top + ry + 1.2, -2.6, 'red', 1.5, knot='dark_red')
+    m.pixels(['...y...', '..yyy..', 'yyyyyyy', '.yyyyy.', '..y.y..', '.y...y.'], cx - 2.45, 47.9, -1.0, 0.7,
+             {'y': 'g_star'}, depth=1.2)
 
 
 @deco(id='icicle_lights', name='Icicle Lights', toggle=True, light=10, collision=None,
@@ -1037,8 +1312,8 @@ def write_packs():
 
 
 # ---------------------------------------------------------------- preview renderer (painter's algorithm)
-def render(spec, size=420, day=6):
-    yaw, pitch = math.radians(32), math.radians(24)
+def render(spec, size=420, day=6, yaw=32, pitch=24):
+    yaw, pitch = math.radians(yaw), math.radians(pitch)
     cam = (math.sin(yaw) * math.cos(pitch), math.sin(pitch), -math.cos(yaw) * math.cos(pitch))
     shade = {'up': 1.0, 'north': 0.86, 'east': 0.72, 'west': 0.72, 'south': 0.6, 'down': 0.5}
     normals = {'up': (0, 1, 0), 'down': (0, -1, 0), 'north': (0, 0, -1), 'south': (0, 0, 1), 'east': (1, 0, 0), 'west': (-1, 0, 0)}
@@ -1067,9 +1342,10 @@ def render(spec, size=420, day=6):
             if sum(a * b for a, b in zip(normals[f], cam)) <= 0: continue
             col = GLOW[c][0] if c in GLOW else BASE[c]
             k = 1.0 if c in GLOW else shade[f]
-            rgba = tuple(int(v * k) for v in col) + ((40,) if c == 'glass' else (255,))
+            rgba = tuple(int(v * k) for v in col) + ((60,) if c == 'glass' else (255,))
             o, u, v = pts[0], [pts[1][q] - pts[0][q] for q in range(3)], [pts[3][q] - pts[0][q] for q in range(3)]
             nu, nv = max(1, math.ceil(math.hypot(*u) / 1.5)), max(1, math.ceil(math.hypot(*v) / 1.5))
+            if c == 'glass': nu = nv = 1
             for a in range(nu):
                 for b in range(nv):
                     q = [[o[t] + u[t] * (a + da) / nu + v[t] * (b + db) / nv for t in range(3)] for da, db in ((0, 0), (1, 0), (1, 1), (0, 1))]
@@ -1078,12 +1354,12 @@ def render(spec, size=420, day=6):
     xs = [p[0] for _, ps, _ in polys for p in ps]; ys = [p[1] for _, ps, _ in polys for p in ps]
     sc = (size - 30) / max(max(xs) - min(xs), max(ys) - min(ys))
     ox, oy = (size - (max(xs) - min(xs)) * sc) / 2 - min(xs) * sc, (size - (max(ys) - min(ys)) * sc) / 2 + max(ys) * sc
-    img = Image.new('RGBA', (size, size), (58, 66, 84, 255))
+    img = Image.new('RGB', (size, size), (58, 66, 84))   # RGB so translucent glass blends
     d = ImageDraw.Draw(img, 'RGBA')
     for _, ps, rgba in sorted(polys, key=lambda t: -t[0]):
         d.polygon([(ox + x * sc, oy - y * sc) for x, y in ps], fill=rgba)
     d.text((8, 6), spec['name'], fill=(255, 255, 255, 255))
-    return img
+    return img.convert('RGBA')
 
 
 def preview_sheet(path):

@@ -21,6 +21,12 @@
         "*": {
           "texture": "santa_decor",
           "render_method": "alpha_test"
+        },
+        "glow": {
+          "texture": "santa_decor_lit",
+          "render_method": "alpha_test",
+          "face_dimming": false,
+          "ambient_occlusion": false
         }
       },
       "minecraft:collision_box": {

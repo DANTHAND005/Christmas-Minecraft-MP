@@ -2,7 +2,7 @@
   "format_version": "1.21.40",
   "minecraft:block": {
     "description": {
-      "identifier": "santa:snowy_bench_part1",
+      "identifier": "santa:light_arch_part8",
       "menu_category": {
         "category": "none"
       },
@@ -13,10 +13,16 @@
           ],
           "y_rotation_offset": 180
         }
+      },
+      "states": {
+        "santa:on": [
+          1,
+          0
+        ]
       }
     },
     "components": {
-      "minecraft:geometry": "geometry.santa_snowy_bench_part1",
+      "minecraft:geometry": "geometry.santa_light_arch_part8",
       "minecraft:material_instances": {
         "*": {
           "texture": "santa_decor",
@@ -29,18 +35,7 @@
           "ambient_occlusion": false
         }
       },
-      "minecraft:collision_box": {
-        "origin": [
-          -8,
-          0,
-          -8
-        ],
-        "size": [
-          16,
-          8,
-          16
-        ]
-      },
+      "minecraft:collision_box": false,
       "minecraft:selection_box": {
         "origin": [
           -8,
@@ -56,7 +51,9 @@
       "minecraft:destructible_by_mining": {
         "seconds_to_destroy": 0.3
       },
+      "minecraft:light_emission": 12,
       "minecraft:custom_components": [
+        "santa:decor",
         "santa:multipart"
       ],
       "minecraft:loot": "loot_tables/empty.json"
@@ -108,6 +105,24 @@
               0
             ]
           }
+        }
+      },
+      {
+        "condition": "q.block_state('santa:on') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "santa_decor",
+              "render_method": "alpha_test"
+            },
+            "glow": {
+              "texture": "santa_decor",
+              "render_method": "alpha_test",
+              "face_dimming": true,
+              "ambient_occlusion": false
+            }
+          },
+          "minecraft:light_emission": 0
         }
       }
     ]
