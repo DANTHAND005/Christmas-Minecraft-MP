@@ -162,12 +162,6 @@ def main():
             if x in (0, 12): c = (16, 20, 36)
             empty.putpixel((x, y), c + (255,))
     save(empty, 'experiencebarempty')
-    # a little strip of snow that sits on top of the level number (tiled across the digits, see ui/hud_screen.json)
-    cap = Image.new('RGBA', (6, 3), (0, 0, 0, 0))
-    for x, y, c in ((0, 1, 'w'), (1, 0, 'w'), (2, 0, 'w'), (3, 1, 'w'), (4, 0, 'w'), (5, 1, 'w'),
-                    (0, 2, 'b'), (1, 1, 'w'), (2, 1, 'w'), (3, 2, 'b'), (4, 1, 'w'), (5, 2, 'b'), (1, 2, 'b'), (4, 2, 'b')):
-        cap.putpixel((x, y), ((255, 255, 255) if c == 'w' else (196, 226, 255)) + (255,))
-    save(cap, 'xp_snow_cap')
     print('wrote Christmas HUD textures to', os.path.relpath(OUT, ROOT))
 
 
