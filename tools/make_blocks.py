@@ -52,7 +52,13 @@ def peppermint():
 
 
 def gingerbread():
-    return img(lambda x, y: DGINGER if noise(x, y, 3) > 0.85 else mul(GINGER, 0.92 + 0.12 * noise(x, y, 1)))
+    """Smooth baked gingerbread: warm brown, darker rim, faint horizontal grain."""
+    def f(x, y):
+        if x in (0, 15) or y in (0, 15): return (132, 74, 30)
+        if x in (1, 14) or y in (1, 14): return (160, 92, 40)
+        grain = 0.04 if (y + (x // 5)) % 4 == 0 else -0.03 if (y * 3 + x // 4) % 7 == 0 else 0
+        return mul((186, 112, 52), 1 + grain + 0.02 * noise(x, y, 1))
+    return img(f)
 
 
 def iced_gingerbread():
@@ -137,28 +143,27 @@ EDGES = {'n': ('z', -1), 's': ('z', 1), 'e': ('x', -1), 'w': ('x', 1)}
 
 def light_path_model():
     m = D.Model()
-    m.box(-8, 0, -8, 8, 13.4, 8, 'gray')                            # gravel bed (also the sides)
-    m.box(-8, 12.6, -8, 8, 13.4, 8, 'slate')
+    m.box(-8, 0, -8, 8, 13.4, 8, 'stone')                           # smooth stone base
+    m.box(-8, 13.4, -8, 8, 13.6, 8, 'silver')
     rnd = random.Random(4)
-    n, cell = 12, 16 / 12
-    for i in range(n):                                               # loose gravel: little stones of mixed size and height
-        for j in range(n):
-            x0, z0 = -8 + i * cell, -8 + j * cell
-            if min(i, j, n - 1 - i, n - 1 - j) > 1 and rnd.random() < 0.1:   # a few snow patches in the middle
-                m.box(x0, 13.4, z0, x0 + cell, 14.1 + rnd.uniform(0, 0.3), z0 + cell, 'snow')
-                continue
-            shrink = rnd.uniform(0.05, 0.25)
-            m.box(x0 + shrink, 13.4, z0 + shrink, x0 + cell - shrink, 13.6 + rnd.uniform(0.1, 0.5), z0 + cell - shrink,
-                  rnd.choice(['stone', 'stone', 'gray', 'silver', 'slate', 'dark_gray']))
+    for _ in range(16):                                              # scattered pebbles, little to semi-big
+        r = rnd.choice([0.5, 0.6, 0.8, 1.0, 1.3, 1.6])
+        x, z = rnd.uniform(-6.5, 6.5), rnd.uniform(-6.5, 6.5)
+        m.box(x - r, 13.6, z - r * rnd.uniform(0.7, 1.0), x + r, 13.8 + r * 0.45, z + r * rnd.uniform(0.7, 1.0),
+              rnd.choice(['gray', 'gray', 'dark_gray', 'slate', 'stone']))
+    for _ in range(5):                                               # snow lying on the path
+        x, z = rnd.uniform(-6, 6), rnd.uniform(-6, 6)
+        w, d = rnd.uniform(1.2, 2.6), rnd.uniform(1.0, 2.2)
+        m.box(x - w, 13.6, z - d, x + w, 13.95, z + d, 'snow')
     snow_rnd = random.Random(9)
     for k, (edge, (axis, side)) in enumerate(EDGES.items()):
         m.use('l' + edge)
         c = 7.0 * side                                               # just inside the edge
         def at(t, y0, y1, h):
             return (t - h, y0, c - h, t + h, y1, c + h) if axis == 'z' else (c - h, y0, t - h, c + h, y1, t + h)
-        for t in range(n):                                           # snow bank along the outer edge, uneven
-            lo, w = -8 + t * cell, snow_rnd.uniform(1.6, 3.0)
-            hi = 14.3 + snow_rnd.uniform(0, 0.5)
+        for t in range(4):                                           # soft snow bank along the outer edge
+            lo, cell, w = -8 + t * 4, 4, snow_rnd.uniform(1.4, 2.4)
+            hi = 14.0 + snow_rnd.uniform(0, 0.4)
             inner, outer = sorted((8 * side, 8 * side - side * w))
             m.box(*((lo, 13.4, inner, lo + cell, hi, outer) if axis == 'z' else (inner, 13.4, lo, outer, hi, lo + cell)), 'snow')
         wire = (-8, 14.1, c - 0.15, 8, 14.4, c + 0.15) if axis == 'z' else (c - 0.15, 14.1, -8, c + 0.15, 14.4, 8)
