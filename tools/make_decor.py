@@ -1209,7 +1209,7 @@ def lamp(m, x, y, z):
 TOWN_CELLS = [(i, j, k) for j in range(2) for k in range(5) for i in (0, -2, -1, 1, 2)]   # base = front middle
 
 
-@deco(id='mini_village', name='Mini Christmas Village', cells=TOWN_CELLS, frames=4, anim_only=True, light=7, tick=[30, 50],
+@deco(id='mini_village', name='Christmas Town', tag='Workshop Town', cells=TOWN_CELLS, frames=4, anim_only=True, light=7, tick=[30, 50],
       collision={n: 2 for n in range(25)},
       cfg=dict(anim=[1, 2, 3, 0, 1, 2, 3, 0], delay=5, sound='note.bell', every=4, idle=[1, 2, 3, 0], idle_delay=7),
       recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'paper'])
@@ -1436,7 +1436,7 @@ def train_puffs():
     return out
 
 
-@deco(id='railway_village', name='Christmas Railway Village', cells=TOWN_CELLS, frames=TRAIN_FRAMES, anim_only=True, light=7,
+@deco(id='railway_village', name='Christmas Railway Town', tag='Workshop Town', cells=TOWN_CELLS, frames=TRAIN_FRAMES, anim_only=True, light=7,
       tick=[50, 70],
       cfg=dict(anim=list(range(1, TRAIN_FRAMES)) + [0], delay=3, sound='note.flute', every=8,
                idle=list(range(1, TRAIN_FRAMES)) + [0], idle_delay=3, idle_sound='note.flute', idle_every=8, puffs=train_puffs()),
@@ -1514,7 +1514,7 @@ def railway_village(m):
 
 
 # ---- 2. Victorian Hill Village: terraces of tall houses, horse and carriage, carolers, couple on the stairs ----
-@deco(id='victorian_village', name='Victorian Hill Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+@deco(id='victorian_village', name='Victorian Hill Town', tag='Workshop Town', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
       cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=4, sound='note.bell', every=4, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=4),
       recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'brick'])
 def victorian_village(m):
@@ -1563,7 +1563,7 @@ def victorian_village(m):
 
 
 # ---- 3. North Pole Village: elf houses, the North Pole, sleigh flying overhead, presents on the workshop belt ----
-@deco(id='north_pole_village', name='North Pole Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+@deco(id='north_pole_village', name='North Pole Town', tag='Workshop Town', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
       cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=4, sound='note.bell', every=2, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=4),
       recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'red_dye'])
 def north_pole_village(m):
@@ -1614,7 +1614,7 @@ def north_pole_village(m):
 LAKE = dict(cx=0.0, cz=22.0, rx=22.0, rz=14.0)
 
 
-@deco(id='frozen_lake_village', name='Frozen Lake Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+@deco(id='frozen_lake_village', name='Frozen Lake Town', tag='Workshop Town', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
       cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=3, sound='note.chime', every=4, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=3),
       recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'ice'])
 def frozen_lake_village(m):
@@ -1662,7 +1662,7 @@ def frozen_lake_village(m):
 
 
 # ---- 5. Christmas Market Village: stalls, a spinning carousel, a turning Ferris wheel, Santa's grotto ----
-@deco(id='market_village', name='Christmas Market Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+@deco(id='market_village', name='Christmas Market Town', tag='Workshop Town', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
       cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=3, sound='note.bell', every=4, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=3),
       recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'gold_nugget'])
 def market_village(m):
@@ -1876,7 +1876,7 @@ def write_packs():
             ident = s['id'] + ('_part%d' % n if n else '')
             dump(os.path.join(RP, 'models', 'blocks', ident + '.geo.json'), geo_json('geometry.santa_' + ident, cubes, bones))
             dump(os.path.join(BP, 'blocks', ident + '.json'), block_json(s, n, uses))
-            lang.append('tile.santa:%s.name=%s (Workshop Decor)' % (ident, s['name']))
+            lang.append('tile.santa:%s.name=%s (%s)' % (ident, s['name'], s.get('tag', 'Workshop Decor')))
         dump(os.path.join(BP, 'recipes', s['id'] + '.json'), recipe_json(s))
         c = dict(s.get('cfg') or {})
         if s.get('night'): c['night'] = True
