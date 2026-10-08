@@ -41,8 +41,5 @@
   },
   "santa:cookie_tile": {
     "sound": "wood"
-  },
-  "santa:light_path": {
-    "sound": "stone"
   }
 }

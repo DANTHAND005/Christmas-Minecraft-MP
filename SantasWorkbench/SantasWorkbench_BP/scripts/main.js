@@ -362,23 +362,6 @@ system.runInterval(() => {   // empty seats, or seats whose bench is gone, remov
   }
 }, 20);
 
-// ---- Christmas light path: bulbs run along every edge that doesn't touch another light path block ----
-const PATH_SIDES = { "santa:n": [0, -1], "santa:s": [0, 1], "santa:e": [1, 0], "santa:w": [-1, 0] };
-function refreshPath(dimension, loc) {
-  const b = dimension.getBlock(loc);
-  if (!b || b.typeId !== "santa:light_path") return;
-  let perm = b.permutation;
-  for (const [state, [dx, dz]] of Object.entries(PATH_SIDES)) {
-    const n = dimension.getBlock({ x: loc.x + dx, y: loc.y, z: loc.z + dz });
-    perm = perm.withState(state, n && n.typeId === "santa:light_path" ? 0 : 1);
-  }
-  b.setPermutation(perm);
-}
-function refreshAround(dimension, loc) {
-  refreshPath(dimension, loc);
-  for (const [dx, dz] of Object.values(PATH_SIDES)) refreshPath(dimension, { x: loc.x + dx, y: loc.y, z: loc.z + dz });
-}
-
 // ---- gumdrop blocks: land on one and you bounce back up (sneak to stay put) ----
 const lastFallSpeed = new Map();
 system.runInterval(() => {
@@ -399,16 +382,6 @@ system.beforeEvents.startup.subscribe((startup) => {
   startup.itemComponentRegistry.registerCustomComponent("santa:jingle", { onUse(e) { system.run(() => playJingle(e.source)); } });
   startup.itemComponentRegistry.registerCustomComponent("santa:gift_box", { onUse(e) { system.run(() => boxMenu(e.source)); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:multipart", { onPlayerBreak(e) { breakStack(e); } });
-  startup.blockComponentRegistry.registerCustomComponent("santa:light_path", {
-    onPlace(e) {
-      system.run(() => {
-        const b = e.dimension.getBlock(e.block.location);   // each path block gets one of the random pebble/snow layouts
-        if (b && b.typeId === "santa:light_path") b.setPermutation(b.permutation.withState("santa:v", Math.floor(Math.random() * 4)));
-        refreshAround(e.dimension, e.block.location);
-      });
-    },
-    onPlayerBreak(e) { system.run(() => refreshAround(e.dimension, e.block.location)); },
-  });
   startup.blockComponentRegistry.registerCustomComponent("santa:seat", { onPlayerInteract(e) { system.run(() => sit(e.player, e.block)); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:decor", { onPlayerInteract(e) { useDecor(e.block, e.dimension, e.player); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:idle", { onTick(e) { idleDecor(e.block, e.dimension); } });   // only on blocks with minecraft:tick
