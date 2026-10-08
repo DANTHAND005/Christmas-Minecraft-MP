@@ -57,7 +57,8 @@
         "seconds_to_destroy": 0.3
       },
       "minecraft:custom_components": [
-        "santa:multipart"
+        "santa:multipart",
+        "santa:seat"
       ],
       "minecraft:loot": "loot_tables/empty.json"
     },

@@ -139,6 +139,7 @@ item.santa:snowball_launcher=Snowball Launcher (Workshop Tool)
 item.santa:snowball_launcher.name=Snowball Launcher (Workshop Tool)
 item.santa:jingle_bells=Jingle Bells (Workshop Tool)
 item.santa:jingle_bells.name=Jingle Bells (Workshop Tool)
+entity.santa:seat.name=Bench Seat
 tile.santa:gingerbread_house.name=Gingerbread House (Workshop Decor)
 tile.santa:gingerbread_house_part1.name=Gingerbread House (Workshop Decor)
 tile.santa:gingerbread_house_part2.name=Gingerbread House (Workshop Decor)

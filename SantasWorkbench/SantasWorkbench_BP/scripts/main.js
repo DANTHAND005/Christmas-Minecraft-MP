@@ -318,11 +318,38 @@ function useLauncher(player) {
   }
 }
 
+// ---- benches: right-click a bench block to sit on it (one seat per block, so a 2-block bench seats two) ----
+const SEAT_Y = 0.35;   // ponytail: seat height tuned by eye; raise/lower if sitters float or sink into the bench
+const FACING = { north: 180, south: 0, west: 90, east: -90 };
+function sit(player, block) {
+  if (!player || player.getComponent("minecraft:riding")) return;
+  const at = { x: block.x + 0.5, y: block.y + SEAT_Y, z: block.z + 0.5 };
+  if (block.dimension.getEntities({ type: "santa:seat", location: at, maxDistance: 0.5 }).length) {
+    player.onScreenDisplay.setActionBar("Someone is already sitting there");
+    return;
+  }
+  const seat = block.dimension.spawnEntity("santa:seat", at);
+  seat.setRotation({ x: 0, y: FACING[block.permutation.getState("minecraft:cardinal_direction")] ?? 0 });
+  seat.getComponent("minecraft:rideable").addRider(player);
+}
+system.runInterval(() => {   // empty seats, or seats whose bench is gone, remove themselves
+  for (const id of ["overworld", "nether", "the_end"]) {
+    for (const seat of world.getDimension(id).getEntities({ type: "santa:seat" })) {
+      try {
+        const under = seat.dimension.getBlock({ x: Math.floor(seat.location.x), y: Math.floor(seat.location.y), z: Math.floor(seat.location.z) });
+        const benchGone = !under || !under.typeId.startsWith("santa:snowy_bench");
+        if (benchGone || !seat.getComponent("minecraft:rideable").getRiders().length) seat.remove();
+      } catch (e) {}
+    }
+  }
+}, 20);
+
 system.beforeEvents.startup.subscribe((startup) => {
   startup.itemComponentRegistry.registerCustomComponent("santa:launcher", { onUse(e) { system.run(() => useLauncher(e.source)); } });
   startup.itemComponentRegistry.registerCustomComponent("santa:jingle", { onUse(e) { system.run(() => playJingle(e.source)); } });
   startup.itemComponentRegistry.registerCustomComponent("santa:gift_box", { onUse(e) { system.run(() => boxMenu(e.source)); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:multipart", { onPlayerBreak(e) { breakStack(e); } });
+  startup.blockComponentRegistry.registerCustomComponent("santa:seat", { onPlayerInteract(e) { system.run(() => sit(e.player, e.block)); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:decor", { onPlayerInteract(e) { useDecor(e.block, e.dimension, e.player); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:idle", { onTick(e) { idleDecor(e.block, e.dimension); } });   // only on blocks with minecraft:tick
   startup.blockComponentRegistry.registerCustomComponent("santa:toy", { onPlayerInteract(event) { playToy(event.block, event.dimension); } });

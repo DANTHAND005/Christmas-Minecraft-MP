@@ -956,7 +956,7 @@ def present_stack(m):
     m.box(-6.4, 0, -7.3, -3.6, 0.5, -6.1, 'snow')                           # a little drift of snow
 
 
-@deco(id='snowy_bench', name='Snowy Bench', cells=[(0, 0, 0), (1, 0, 0)], collision=8,
+@deco(id='snowy_bench', name='Snowy Bench', cells=[(0, 0, 0), (1, 0, 0)], collision=8, seat=True,
       recipe=['oak_planks', 'oak_planks', 'iron_ingot', 'snowball'])
 def snowy_bench(m):
     for x in (-5.6, 20.6):                                      # curly cast-iron ends
@@ -1410,6 +1410,7 @@ def block_json(spec, n, uses):
         comp['minecraft:light_emission'] = spec['light']
     cc = (['santa:decor'] if spec.get('cfg') or spec.get('night') else []) + (['santa:multipart'] if len(spec['cells']) > 1 else [])
     if spec.get('tick') and not part: cc.append('santa:idle')   # onTick only where minecraft:tick exists
+    if spec.get('seat'): cc.append('santa:seat')                 # right-click to sit (one seat per block)
     if cc: comp['minecraft:custom_components'] = cc
     if spec.get('tick') and not part:
         comp['minecraft:tick'] = {'interval_range': spec['tick'], 'looping': True}
