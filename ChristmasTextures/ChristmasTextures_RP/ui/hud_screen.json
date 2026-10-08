@@ -1,211 +1,12 @@
 {
   "namespace": "hud",
-  "xp_rainbow_scroll": {
-    "anim_type": "flip_book",
-    "initial_uv": [
-      0,
-      0
-    ],
-    "frame_count": 20,
-    "frame_step": 91,
-    "fps": 10,
-    "easing": "linear",
-    "looping": true
-  },
-  "full_progress_bar": {
-    "type": "image",
-    "texture": "textures/ui/experiencebarfull",
-    "uv_size": [
-      91,
-      5
-    ],
-    "uv": "@hud.xp_rainbow_scroll",
-    "disable_anim_fast_forward": true,
-    "clip_direction": "left",
-    "clip_pixelperfect": false,
-    "bindings": [
-      {
-        "binding_name": "#exp_progress",
-        "binding_name_override": "#clip_ratio",
-        "binding_type": "global"
-      }
-    ]
-  },
   "progress_text_label": {
     "type": "label",
-    "shadow": false,
+    "shadow": true,
     "text": "#level_number",
     "color": "$experience_text_color",
-    "font_type": "MinecraftTen",
-    "font_scale_factor": 1.25,
-    "alpha": 0.0,
-    "propagate_alpha": false,
     "anchor_from": "top_middle",
     "anchor_to": "bottom_middle",
-    "controls": [
-      {
-        "xp_num_0": {
-          "type": "label",
-          "text": "#level_number",
-          "font_type": "MinecraftTen",
-          "font_scale_factor": 1.25,
-          "shadow": true,
-          "color": [
-            1.0,
-            0.3,
-            0.3
-          ],
-          "alpha": 0.0,
-          "layer": 0,
-          "anims": [
-            "@hud.xp_wait0_0"
-          ],
-          "bindings": [
-            {
-              "binding_name": "#level_number",
-              "binding_type": "global"
-            }
-          ],
-          "anchor_from": "center",
-          "anchor_to": "center"
-        }
-      },
-      {
-        "xp_num_1": {
-          "type": "label",
-          "text": "#level_number",
-          "font_type": "MinecraftTen",
-          "font_scale_factor": 1.25,
-          "shadow": true,
-          "color": [
-            1.0,
-            0.65,
-            0.2
-          ],
-          "alpha": 0.0,
-          "layer": 1,
-          "anims": [
-            "@hud.xp_wait0_1"
-          ],
-          "bindings": [
-            {
-              "binding_name": "#level_number",
-              "binding_type": "global"
-            }
-          ],
-          "anchor_from": "center",
-          "anchor_to": "center"
-        }
-      },
-      {
-        "xp_num_2": {
-          "type": "label",
-          "text": "#level_number",
-          "font_type": "MinecraftTen",
-          "font_scale_factor": 1.25,
-          "shadow": true,
-          "color": [
-            1.0,
-            0.95,
-            0.3
-          ],
-          "alpha": 0.0,
-          "layer": 2,
-          "anims": [
-            "@hud.xp_wait0_2"
-          ],
-          "bindings": [
-            {
-              "binding_name": "#level_number",
-              "binding_type": "global"
-            }
-          ],
-          "anchor_from": "center",
-          "anchor_to": "center"
-        }
-      },
-      {
-        "xp_num_3": {
-          "type": "label",
-          "text": "#level_number",
-          "font_type": "MinecraftTen",
-          "font_scale_factor": 1.25,
-          "shadow": true,
-          "color": [
-            0.35,
-            1.0,
-            0.4
-          ],
-          "alpha": 0.0,
-          "layer": 3,
-          "anims": [
-            "@hud.xp_wait0_3"
-          ],
-          "bindings": [
-            {
-              "binding_name": "#level_number",
-              "binding_type": "global"
-            }
-          ],
-          "anchor_from": "center",
-          "anchor_to": "center"
-        }
-      },
-      {
-        "xp_num_4": {
-          "type": "label",
-          "text": "#level_number",
-          "font_type": "MinecraftTen",
-          "font_scale_factor": 1.25,
-          "shadow": true,
-          "color": [
-            0.3,
-            0.75,
-            1.0
-          ],
-          "alpha": 0.0,
-          "layer": 4,
-          "anims": [
-            "@hud.xp_wait0_4"
-          ],
-          "bindings": [
-            {
-              "binding_name": "#level_number",
-              "binding_type": "global"
-            }
-          ],
-          "anchor_from": "center",
-          "anchor_to": "center"
-        }
-      },
-      {
-        "xp_num_5": {
-          "type": "label",
-          "text": "#level_number",
-          "font_type": "MinecraftTen",
-          "font_scale_factor": 1.25,
-          "shadow": true,
-          "color": [
-            0.8,
-            0.45,
-            1.0
-          ],
-          "alpha": 0.0,
-          "layer": 5,
-          "anims": [
-            "@hud.xp_wait0_5"
-          ],
-          "bindings": [
-            {
-              "binding_name": "#level_number",
-              "binding_type": "global"
-            }
-          ],
-          "anchor_from": "center",
-          "anchor_to": "center"
-        }
-      }
-    ],
     "bindings": [
       {
         "binding_name": "#level_number",
@@ -216,162 +17,26 @@
         "binding_type": "global",
         "binding_name_override": "#visible"
       }
+    ],
+    "controls": [
+      {
+        "snow_cap": {
+          "type": "image",
+          "texture": "textures/ui/xp_snow_cap",
+          "tiled": "x",
+          "size": [
+            "100% + 2px",
+            3
+          ],
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [
+            0,
+            -2
+          ],
+          "layer": 1
+        }
+      }
     ]
-  },
-  "xp_wait0_0": {
-    "anim_type": "wait",
-    "duration": 0.001,
-    "next": "@hud.xp_in_0"
-  },
-  "xp_in_0": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 0,
-    "to": 1,
-    "next": "@hud.xp_out_0"
-  },
-  "xp_out_0": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 1,
-    "to": 0,
-    "next": "@hud.xp_rest_0"
-  },
-  "xp_rest_0": {
-    "anim_type": "wait",
-    "duration": 1.6,
-    "next": "@hud.xp_in_0"
-  },
-  "xp_wait0_1": {
-    "anim_type": "wait",
-    "duration": 0.401,
-    "next": "@hud.xp_in_1"
-  },
-  "xp_in_1": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 0,
-    "to": 1,
-    "next": "@hud.xp_out_1"
-  },
-  "xp_out_1": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 1,
-    "to": 0,
-    "next": "@hud.xp_rest_1"
-  },
-  "xp_rest_1": {
-    "anim_type": "wait",
-    "duration": 1.6,
-    "next": "@hud.xp_in_1"
-  },
-  "xp_wait0_2": {
-    "anim_type": "wait",
-    "duration": 0.801,
-    "next": "@hud.xp_in_2"
-  },
-  "xp_in_2": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 0,
-    "to": 1,
-    "next": "@hud.xp_out_2"
-  },
-  "xp_out_2": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 1,
-    "to": 0,
-    "next": "@hud.xp_rest_2"
-  },
-  "xp_rest_2": {
-    "anim_type": "wait",
-    "duration": 1.6,
-    "next": "@hud.xp_in_2"
-  },
-  "xp_wait0_3": {
-    "anim_type": "wait",
-    "duration": 1.201,
-    "next": "@hud.xp_in_3"
-  },
-  "xp_in_3": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 0,
-    "to": 1,
-    "next": "@hud.xp_out_3"
-  },
-  "xp_out_3": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 1,
-    "to": 0,
-    "next": "@hud.xp_rest_3"
-  },
-  "xp_rest_3": {
-    "anim_type": "wait",
-    "duration": 1.6,
-    "next": "@hud.xp_in_3"
-  },
-  "xp_wait0_4": {
-    "anim_type": "wait",
-    "duration": 1.601,
-    "next": "@hud.xp_in_4"
-  },
-  "xp_in_4": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 0,
-    "to": 1,
-    "next": "@hud.xp_out_4"
-  },
-  "xp_out_4": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 1,
-    "to": 0,
-    "next": "@hud.xp_rest_4"
-  },
-  "xp_rest_4": {
-    "anim_type": "wait",
-    "duration": 1.6,
-    "next": "@hud.xp_in_4"
-  },
-  "xp_wait0_5": {
-    "anim_type": "wait",
-    "duration": 2.001,
-    "next": "@hud.xp_in_5"
-  },
-  "xp_in_5": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 0,
-    "to": 1,
-    "next": "@hud.xp_out_5"
-  },
-  "xp_out_5": {
-    "anim_type": "alpha",
-    "easing": "linear",
-    "duration": 0.4,
-    "from": 1,
-    "to": 0,
-    "next": "@hud.xp_rest_5"
-  },
-  "xp_rest_5": {
-    "anim_type": "wait",
-    "duration": 1.6,
-    "next": "@hud.xp_in_5"
   }
 }

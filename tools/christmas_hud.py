@@ -15,7 +15,6 @@ VANILLA = 'https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resourc
 
 RED, WHITE, DARK_RED = (214, 28, 40), (248, 248, 244), (150, 14, 24)
 GREEN, DARK_GREEN = (40, 178, 74), (18, 110, 44)
-XP_W, XP_FRAMES = 91, 20                          # one rainbow frame (stretched over the bar), frames laid side by side
 OUTLINE, HOLLOW = (26, 14, 16), (128, 118, 122)   # empty icons: pale grey 'used up' shape, dark outline
 
 HEART = ['.........',
@@ -64,6 +63,10 @@ def outline(pix, size=9):
     for p in grown:
         img.putpixel(p, (HOLLOW if p in pix else OUTLINE) + (255,))
     return img
+
+
+def shade(c, k):
+    return tuple(max(0, min(255, round(v * k))) for v in c)
 
 
 def shine(img, p):
@@ -143,18 +146,28 @@ def main():
     save(sweater(range(9)), 'armor_full')
     save(sweater(range(0, 4)), 'armor_half')
     save(sweater(()), 'armor_empty')
-    # experience bar: a smooth rainbow, stacked as XP_FRAMES frames that each shift the hues a little further;
-    # ui/hud_screen.json scrolls through them (flip_book) and fades the level number through the same colours
-    import colorsys
-    bar = Image.new('RGBA', (XP_W * XP_FRAMES, 5))                   # flip_book steps sideways, like vanilla auto_save
-    for f in range(XP_FRAMES):
-        for x in range(XP_W):
-            r, g, b = colorsys.hsv_to_rgb((x / XP_W - f / XP_FRAMES) % 1.0, 0.85, 1.0)
-            for y, k in enumerate((1.25, 1.1, 1.0, 0.88, 0.7)):        # glossy: light top edge, darker bottom
-                bar.putpixel((f * XP_W + x, y), tuple(min(255, round(c * 255 * k)) for c in (r, g, b)) + (255,))
-    save(bar, 'experiencebarfull')
-    with open(os.path.join(OUT, 'experiencebarfull.json'), 'w') as fh:   # no nine-slicing: one frame spans the bar
-        fh.write('{ "nineslice_size": 0, "base_size": [ %d, 5 ] }\n' % XP_W)
+    # experience bar: icy blue with snow along the top (vanilla sizes; vanilla nine-slicing stretches the middle)
+    ICE = [(250, 252, 255), (214, 236, 255), (140, 200, 248), (104, 172, 236), (70, 132, 206)]   # top row = snow
+    full = Image.new('RGBA', (13, 5))
+    for x in range(13):
+        for y in range(5):
+            c = ICE[y]
+            if x in (0, 12): c = shade(c, 0.8)
+            full.putpixel((x, y), c + (255,))
+    save(full, 'experiencebarfull')
+    empty = Image.new('RGBA', (13, 5))
+    for x in range(13):
+        for y in range(5):
+            c = [(150, 166, 190), (40, 52, 82), (30, 40, 66), (26, 34, 58), (20, 26, 46)][y]   # dusted with snow on top
+            if x in (0, 12): c = (16, 20, 36)
+            empty.putpixel((x, y), c + (255,))
+    save(empty, 'experiencebarempty')
+    # a little strip of snow that sits on top of the level number (tiled across the digits, see ui/hud_screen.json)
+    cap = Image.new('RGBA', (6, 3), (0, 0, 0, 0))
+    for x, y, c in ((0, 1, 'w'), (1, 0, 'w'), (2, 0, 'w'), (3, 1, 'w'), (4, 0, 'w'), (5, 1, 'w'),
+                    (0, 2, 'b'), (1, 1, 'w'), (2, 1, 'w'), (3, 2, 'b'), (4, 1, 'w'), (5, 2, 'b'), (1, 2, 'b'), (4, 2, 'b')):
+        cap.putpixel((x, y), ((255, 255, 255) if c == 'w' else (196, 226, 255)) + (255,))
+    save(cap, 'xp_snow_cap')
     print('wrote Christmas HUD textures to', os.path.relpath(OUT, ROOT))
 
 
