@@ -1,0 +1,157 @@
+[
+  {
+    "flipbook_texture": "textures/blocks/leaves_oak",
+    "atlas_tile": "oak_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_jungle",
+    "atlas_tile": "jungle_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_acacia",
+    "atlas_tile": "acacia_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_big_oak",
+    "atlas_tile": "big_oak_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_birch",
+    "atlas_tile": "birch_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/mangrove_leaves",
+    "atlas_tile": "mangrove_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/azalea_leaves",
+    "atlas_tile": "azalea_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/azalea_leaves_flowers",
+    "atlas_tile": "azalea_leaves_flowered",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/cherry_leaves",
+    "atlas_tile": "cherry_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/pale_oak_leaves",
+    "atlas_tile": "pale_oak_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/orange_poplar_leaves",
+    "atlas_tile": "orange_poplar_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/red_poplar_leaves",
+    "atlas_tile": "red_poplar_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/yellow_poplar_leaves",
+    "atlas_tile": "yellow_poplar_leaves",
+    "atlas_index": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v0",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 0,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v1",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 1,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v2",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 2,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v3",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 3,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v4",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 4,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v5",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 5,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v6",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 6,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v7",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 7,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  }
+]

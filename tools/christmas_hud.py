@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Christmas HUD for Christmas Critters: peppermint hearts, candy-cane hunger, candy-cane hotbar.
+"""Christmas HUD for the Christmas Textures pack: peppermint hearts, candy-cane hunger, candy-cane hotbar.
 
-Writes textures/ui/*.png into the Christmas Critters resource pack. The hotbar slot textures are built on
+Writes textures/ui/*.png into the Christmas Textures resource pack. The hotbar slot textures are built on
 top of the vanilla ones, fetched from Mojang's bedrock-samples, so the slot backgrounds stay the same.
 
     python3 tools/christmas_hud.py
@@ -10,7 +10,7 @@ import io, os, urllib.request
 from PIL import Image
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-OUT = os.path.join(ROOT, 'ChristmasCritters/ChristmasCritters_RP/textures/ui')
+OUT = os.path.join(ROOT, 'ChristmasTextures/ChristmasTextures_RP/textures/ui')
 VANILLA = 'https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/ui/%s.png'
 
 RED, WHITE, DARK_RED = (214, 28, 40), (248, 248, 244), (150, 14, 24)

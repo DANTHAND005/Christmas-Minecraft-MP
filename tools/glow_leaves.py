@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Christmas Critters spruce leaves: dark needles strung with glowing Christmas lights.
+"""Christmas Textures spruce leaves: dark needles strung with glowing Christmas lights.
 
 The old ornaments are painted out, the needles darkened a little, and a string-light pattern of dashes, dots
 and plus-shaped bulbs (pink, yellow, blue, orange) is drawn on; each light twinkles on its own through the
@@ -12,13 +12,14 @@ import colorsys, io, json, math, os, random, subprocess, sys
 from PIL import Image
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-BLOCKS = 'ChristmasCritters/ChristmasCritters_RP/textures/blocks'
+SRC = 'ChristmasCritters/ChristmasCritters_RP/textures/blocks'     # where the originals lived in the pack as received
+BLOCKS = 'ChristmasTextures/ChristmasTextures_RP/textures/blocks'
 ORIGINAL = 'b89627e'                         # untouched textures as received, so re-running never stacks the glow
 NAMES = sys.argv[1:] or ['leaves_spruce', 'leaves_spruce_carried', 'leaves_spruce_opaque']
 
 
 def original(name):
-    data = subprocess.run(['git', 'show', '%s:%s/%s.png' % (ORIGINAL, BLOCKS, name)], cwd=ROOT, capture_output=True, check=True).stdout
+    data = subprocess.run(['git', 'show', '%s:%s/%s.png' % (ORIGINAL, SRC, name)], cwd=ROOT, capture_output=True, check=True).stdout
     return Image.open(io.BytesIO(data)).convert('RGBA')
 
 
@@ -136,9 +137,9 @@ def main():
                 save(col, mer, '%s_v%d' % (name, v))
         print('%-22s %2d frame(s) x %d variants' % (name, n, VARIANTS))
     # random variant per block: index 0 = fancy (see-through) leaves, index 1 = fast-graphics leaves
-    rp = os.path.join(ROOT, 'ChristmasCritters/ChristmasCritters_RP/textures')
+    rp = os.path.join(ROOT, 'ChristmasTextures/ChristmasTextures_RP/textures')
     variations = lambda stem: {'variations': [{'path': 'textures/blocks/%s_v%d' % (stem, v), 'weight': 1} for v in range(VARIANTS)]}
-    terrain = {'resource_pack_name': 'christmas_critters', 'texture_name': 'atlas.terrain', 'padding': 8, 'num_mip_levels': 4,
+    terrain = {'resource_pack_name': 'christmas_textures', 'texture_name': 'atlas.terrain', 'padding': 8, 'num_mip_levels': 4,
                'texture_data': {'spruce_leaves': {'textures': [variations('leaves_spruce'), variations('leaves_spruce_opaque')]}}}
     json.dump(terrain, open(os.path.join(rp, 'terrain_texture.json'), 'w'), indent=2)
     fp = os.path.join(rp, 'flipbook_textures.json')

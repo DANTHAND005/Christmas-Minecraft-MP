@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Christmas Textures",
+    "description": "Glowing Christmas-light leaves, festive vines and a peppermint & candy-cane HUD",
+    "uuid": "67687ab8-3e3e-40ec-87a3-b802006fd0ae",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      90
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "dd213aa9-434f-4412-978b-ea4177f9aa30",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ]
+}
