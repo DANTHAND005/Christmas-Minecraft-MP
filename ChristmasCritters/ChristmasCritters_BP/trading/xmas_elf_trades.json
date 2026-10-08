@@ -1,0 +1,602 @@
+{
+ "tiers": [
+  {
+   "total_exp_required": 0,
+   "groups": [
+    {
+     "num_to_select": 3,
+     "trades": [
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:teddy_bear",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_train",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_soldier",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:spinning_top",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:rubber_duck",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:yo_yo",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:rocking_horse",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:jack_in_the_box",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:nutcracker",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_drum",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_robot",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:snow_globe",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_airplane",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_penguin",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_car",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_sled",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:stuffed_reindeer",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_snowman",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:wooden_blocks",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 3
+        }
+       ],
+       "gives": [
+        {
+         "item": "santa:toy_castle",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 4,
+       "trader_exp": 1,
+       "reward_exp": true
+      }
+     ]
+    },
+    {
+     "num_to_select": 3,
+     "trades": [
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:candy_cane",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:hot_cocoa_marshmallow",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:eggnog",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:fudge",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:lollipop",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:peppermint_candy",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:toffee",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:chocolate_coins",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:cookie_gingerbread_gingerbread_man",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:cookie_sugar_star",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:cinnamon_bun",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:christmas_pudding",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      },
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 1
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:ice_cream_peppermint",
+         "quantity": 3
+        }
+       ],
+       "max_uses": 12,
+       "trader_exp": 1,
+       "reward_exp": true
+      }
+     ]
+    },
+    {
+     "num_to_select": 1,
+     "trades": [
+      {
+       "wants": [
+        {
+         "item": "minecraft:emerald",
+         "quantity": 12
+        }
+       ],
+       "gives": [
+        {
+         "item": "xmas:toy_soldier_kit",
+         "quantity": 1
+        }
+       ],
+       "max_uses": 2,
+       "trader_exp": 1,
+       "reward_exp": true
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "xmas:reindeer",
+   "materials": {
+    "default": "entity_emissive_alpha"
+   },
+   "textures": {
+    "default": "textures/entity/xmas/reindeer",
+    "rudolph": "textures/entity/xmas/reindeer_rudolph"
+   },
+   "geometry": {
+    "default": "geometry.xmas.reindeer"
+   },
+   "animations": {
+    "look": "animation.xmas.look",
+    "walk": "animation.xmas.quad_walk",
+    "sit": "animation.xmas.quad_sit",
+    "graze": "animation.xmas.graze"
+   },
+   "scripts": {
+    "animate": [
+     "look",
+     {
+      "walk": "!query.property('xmas:sitting')"
+     },
+     {
+      "sit": "query.property('xmas:sitting')"
+     },
+     {
+      "graze": "!query.property('xmas:sitting') && !query.has_rider && query.modified_move_speed < 0.05"
+     }
+    ],
+    "scale": "query.is_baby ? 0.55 : 1.0"
+   },
+   "render_controllers": [
+    "controller.render.xmas.reindeer"
+   ],
+   "spawn_egg": {
+    "texture": "xmas_reindeer_egg",
+    "texture_index": 0
+   }
+  }
+ }
+}

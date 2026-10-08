@@ -1,0 +1,41 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "xmas:gingerbread_man",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/xmas/gingerbread_man"
+   },
+   "geometry": {
+    "default": "geometry.xmas.gingerbread_man"
+   },
+   "animations": {
+    "look": "animation.xmas.look",
+    "walk": "animation.xmas.biped_walk",
+    "sit": "animation.xmas.small_biped_sit"
+   },
+   "scripts": {
+    "animate": [
+     "look",
+     {
+      "walk": "!query.property('xmas:sitting')"
+     },
+     {
+      "sit": "query.property('xmas:sitting')"
+     }
+    ],
+    "scale": "1.0"
+   },
+   "render_controllers": [
+    "controller.render.xmas.default"
+   ],
+   "spawn_egg": {
+    "texture": "xmas_gingerbread_man_egg",
+    "texture_index": 0
+   }
+  }
+ }
+}

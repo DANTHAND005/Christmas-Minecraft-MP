@@ -1,0 +1,39 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "xmas:santa",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/xmas/santa"
+   },
+   "geometry": {
+    "default": "geometry.xmas.santa"
+   },
+   "animations": {
+    "look": "animation.xmas.look",
+    "walk": "animation.xmas.biped_walk",
+    "wave": "animation.xmas.wave"
+   },
+   "scripts": {
+    "animate": [
+     "look",
+     "walk",
+     {
+      "wave": "query.modified_move_speed < 0.05"
+     }
+    ],
+    "scale": "1.0"
+   },
+   "render_controllers": [
+    "controller.render.xmas.default"
+   ],
+   "spawn_egg": {
+    "texture": "xmas_santa_egg",
+    "texture_index": 0
+   }
+  }
+ }
+}

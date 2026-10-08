@@ -1,0 +1,35 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "xmas:elf",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/xmas/elf"
+   },
+   "geometry": {
+    "default": "geometry.xmas.elf"
+   },
+   "animations": {
+    "look": "animation.xmas.look",
+    "walk": "animation.xmas.biped_walk"
+   },
+   "scripts": {
+    "animate": [
+     "look",
+     "walk"
+    ],
+    "scale": "0.75"
+   },
+   "render_controllers": [
+    "controller.render.xmas.default"
+   ],
+   "spawn_egg": {
+    "texture": "xmas_elf_egg",
+    "texture_index": 0
+   }
+  }
+ }
+}

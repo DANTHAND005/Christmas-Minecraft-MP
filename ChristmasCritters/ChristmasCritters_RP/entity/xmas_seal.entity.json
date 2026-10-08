@@ -1,0 +1,36 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "xmas:seal",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/xmas/seal",
+    "pup": "textures/entity/xmas/seal_pup"
+   },
+   "geometry": {
+    "default": "geometry.xmas.seal"
+   },
+   "animations": {
+    "look": "animation.xmas.look",
+    "move": "animation.xmas.flipper"
+   },
+   "scripts": {
+    "animate": [
+     "look",
+     "move"
+    ],
+    "scale": "query.is_baby ? 0.6 : 1.0"
+   },
+   "render_controllers": [
+    "controller.render.xmas.seal"
+   ],
+   "spawn_egg": {
+    "texture": "xmas_seal_egg",
+    "texture_index": 0
+   }
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Christmas Critters BP",
+    "description": "Reindeer, penguins, gingerbread men, elves, seals, walruses, toy soldiers and Santa",
+    "uuid": "90ccb8fd-54a4-43c6-b522-60ce62e9cf14",
+    "version": [
+      1,
+      2,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      90
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "37305e3b-3e27-4c9a-a6f1-49b7f204e76e",
+      "version": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "f7689dda-a8f8-4fc7-b7f9-5287c3ab3638",
+      "version": [
+        1,
+        2,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "22d4b4dd-a45e-4b17-99d8-f2cb664b684b",
+      "version": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.0.0"
+    }
+  ]
+}

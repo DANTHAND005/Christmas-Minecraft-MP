@@ -1,0 +1,355 @@
+{
+ "format_version": "1.21.40",
+ "minecraft:entity": {
+  "description": {
+   "identifier": "xmas:reindeer",
+   "is_spawnable": true,
+   "is_summonable": true,
+   "is_experimental": false,
+   "properties": {
+    "xmas:sitting": {
+     "type": "bool",
+     "default": false,
+     "client_sync": true
+    }
+   }
+  },
+  "component_groups": {
+   "xmas:moving": {
+    "minecraft:movement": {
+     "value": 0.24
+    }
+   },
+   "xmas:sitting": {
+    "minecraft:movement": {
+     "value": 0.0
+    }
+   },
+   "xmas:follow": {
+    "minecraft:behavior.follow_owner": {
+     "priority": 4,
+     "speed_multiplier": 1.1,
+     "start_distance": 8,
+     "stop_distance": 2
+    }
+   },
+   "xmas:baby": {
+    "minecraft:is_baby": {},
+    "minecraft:ageable": {
+     "duration": 1200,
+     "feed_items": [
+      "minecraft:wheat",
+      "minecraft:sweet_berries"
+     ],
+     "grow_up": {
+      "event": "minecraft:ageable_grow_up",
+      "target": "self"
+     }
+    },
+    "minecraft:behavior.follow_parent": {
+     "priority": 6,
+     "speed_multiplier": 1.1
+    }
+   },
+   "xmas:adult": {},
+   "xmas:rudolph": {
+    "minecraft:variant": {
+     "value": 1
+    }
+   },
+   "xmas:tamed": {
+    "minecraft:is_tamed": {},
+    "minecraft:rideable": {
+     "seat_count": 1,
+     "family_types": [
+      "player"
+     ],
+     "interact_text": "action.interact.ride.horse",
+     "pull_in_entities": false,
+     "seats": {
+      "position": [
+       0.0,
+       1.2,
+       -0.1
+      ]
+     }
+    },
+    "minecraft:equippable": {
+     "slots": [
+      {
+       "slot": 0,
+       "item": "saddle",
+       "accepted_items": [
+        "saddle"
+       ],
+       "on_equip": {
+        "event": "xmas:saddled"
+       },
+       "on_unequip": {
+        "event": "xmas:unsaddled"
+       }
+      }
+     ]
+    }
+   },
+   "xmas:saddled": {
+    "minecraft:is_saddled": {},
+    "minecraft:input_ground_controlled": {},
+    "minecraft:can_power_jump": {},
+    "minecraft:horse.jump_strength": {
+     "value": {
+      "range_min": 0.6,
+      "range_max": 0.9
+     }
+    },
+    "minecraft:behavior.player_ride_tamed": {}
+   }
+  },
+  "components": {
+   "minecraft:type_family": {
+    "family": [
+     "reindeer",
+     "animal",
+     "mob"
+    ]
+   },
+   "minecraft:health": {
+    "value": 22,
+    "max": 22
+   },
+   "minecraft:collision_box": {
+    "width": 1.2,
+    "height": 1.6
+   },
+   "minecraft:physics": {},
+   "minecraft:pushable": {
+    "is_pushable": true,
+    "is_pushable_by_piston": true
+   },
+   "minecraft:nameable": {},
+   "minecraft:leashable": {
+    "soft_distance": 4,
+    "hard_distance": 6,
+    "max_distance": 10
+   },
+   "minecraft:jump.static": {},
+   "minecraft:can_climb": {},
+   "minecraft:breathable": {
+    "total_supply": 15,
+    "suffocate_time": 0
+   },
+   "minecraft:behavior.float": {
+    "priority": 0
+   },
+   "minecraft:behavior.panic": {
+    "priority": 1,
+    "speed_multiplier": 1.3
+   },
+   "minecraft:behavior.random_stroll": {
+    "priority": 7,
+    "speed_multiplier": 0.8
+   },
+   "minecraft:behavior.look_at_player": {
+    "priority": 8,
+    "look_distance": 6,
+    "probability": 0.02
+   },
+   "minecraft:behavior.random_look_around": {
+    "priority": 9
+   },
+   "minecraft:movement.basic": {},
+   "minecraft:navigation.walk": {
+    "can_path_over_water": true,
+    "avoid_water": true,
+    "avoid_damage_blocks": true
+   },
+   "minecraft:movement": {
+    "value": 0.24
+   },
+   "minecraft:tameable": {
+    "probability": 0.3,
+    "tame_items": [
+     "minecraft:carrot",
+     "minecraft:apple",
+     "minecraft:golden_carrot"
+    ],
+    "tame_event": {
+     "event": "minecraft:on_tame",
+     "target": "self"
+    }
+   },
+   "minecraft:breedable": {
+    "require_tame": false,
+    "breed_items": [
+     "minecraft:wheat",
+     "minecraft:golden_carrot",
+     "minecraft:sweet_berries"
+    ],
+    "breeds_with": {
+     "mate_type": "xmas:reindeer",
+     "baby_type": "xmas:reindeer",
+     "breed_event": {
+      "event": "minecraft:entity_born",
+      "target": "baby"
+     }
+    }
+   },
+   "minecraft:behavior.breed": {
+    "priority": 3,
+    "speed_multiplier": 1.0
+   },
+   "minecraft:behavior.tempt": {
+    "priority": 4,
+    "speed_multiplier": 1.1,
+    "items": [
+     "minecraft:carrot",
+     "minecraft:apple",
+     "minecraft:wheat",
+     "minecraft:golden_carrot"
+    ]
+   },
+   "minecraft:variant": {
+    "value": 0
+   },
+   "minecraft:loot": {
+    "table": "loot_tables/entities/xmas_reindeer.json"
+   }
+  },
+  "events": {
+   "minecraft:entity_spawned": {
+    "sequence": [
+     {
+      "randomize": [
+       {
+        "weight": 19
+       },
+       {
+        "weight": 1,
+        "add": {
+         "component_groups": [
+          "xmas:rudolph"
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "randomize": [
+       {
+        "weight": 90,
+        "add": {
+         "component_groups": [
+          "xmas:adult",
+          "xmas:moving"
+         ]
+        }
+       },
+       {
+        "weight": 10,
+        "add": {
+         "component_groups": [
+          "xmas:baby",
+          "xmas:moving"
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "minecraft:entity_born": {
+    "sequence": [
+     {
+      "add": {
+       "component_groups": [
+        "xmas:baby",
+        "xmas:moving"
+       ]
+      }
+     },
+     {
+      "randomize": [
+       {
+        "weight": 19
+       },
+       {
+        "weight": 1,
+        "add": {
+         "component_groups": [
+          "xmas:rudolph"
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "minecraft:ageable_grow_up": {
+    "remove": {
+     "component_groups": [
+      "xmas:baby"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "xmas:adult"
+     ]
+    }
+   },
+   "xmas:sit": {
+    "remove": {
+     "component_groups": [
+      "xmas:moving",
+      "xmas:follow"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "xmas:sitting"
+     ]
+    },
+    "set_property": {
+     "xmas:sitting": true
+    }
+   },
+   "xmas:stand": {
+    "remove": {
+     "component_groups": [
+      "xmas:sitting"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "xmas:moving",
+      "xmas:follow"
+     ]
+    },
+    "set_property": {
+     "xmas:sitting": false
+    }
+   },
+   "minecraft:on_tame": {
+    "add": {
+     "component_groups": [
+      "xmas:tamed",
+      "xmas:follow"
+     ]
+    }
+   },
+   "xmas:saddled": {
+    "add": {
+     "component_groups": [
+      "xmas:saddled"
+     ]
+    }
+   },
+   "xmas:unsaddled": {
+    "remove": {
+     "component_groups": [
+      "xmas:saddled"
+     ]
+    }
+   }
+  }
+ }
+}

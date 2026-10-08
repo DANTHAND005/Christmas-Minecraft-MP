@@ -1,0 +1,90 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "xmas:gingerbread_man",
+   "population_control": "animal"
+  },
+  "conditions": [
+   {
+    "minecraft:spawns_on_surface": {},
+    "minecraft:brightness_filter": {
+     "min": 0,
+     "max": 15,
+     "adjust_for_weather": false
+    },
+    "minecraft:weight": {
+     "default": 8
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 2
+    },
+    "minecraft:density_limit": {
+     "surface": 4
+    },
+    "minecraft:biome_filter": {
+     "any_of": [
+      {
+       "all_of": [
+        {
+         "test": "has_biome_tag",
+         "value": "frozen"
+        },
+        {
+         "test": "has_biome_tag",
+         "operator": "!=",
+         "value": "ocean"
+        },
+        {
+         "test": "has_biome_tag",
+         "operator": "!=",
+         "value": "river"
+        }
+       ]
+      },
+      {
+       "all_of": [
+        {
+         "test": "has_biome_tag",
+         "value": "cold"
+        },
+        {
+         "test": "has_biome_tag",
+         "operator": "!=",
+         "value": "ocean"
+        },
+        {
+         "test": "has_biome_tag",
+         "operator": "!=",
+         "value": "river"
+        }
+       ]
+      },
+      {
+       "test": "has_biome_tag",
+       "value": "taiga"
+      },
+      {
+       "all_of": [
+        {
+         "test": "is_snow_covered"
+        },
+        {
+         "test": "has_biome_tag",
+         "operator": "!=",
+         "value": "ocean"
+        },
+        {
+         "test": "has_biome_tag",
+         "operator": "!=",
+         "value": "river"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

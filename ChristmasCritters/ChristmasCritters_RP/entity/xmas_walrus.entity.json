@@ -1,0 +1,35 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "xmas:walrus",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/entity/xmas/walrus"
+   },
+   "geometry": {
+    "default": "geometry.xmas.walrus"
+   },
+   "animations": {
+    "look": "animation.xmas.look",
+    "move": "animation.xmas.flipper"
+   },
+   "scripts": {
+    "animate": [
+     "look",
+     "move"
+    ],
+    "scale": "query.is_baby ? 0.5 : 1.0"
+   },
+   "render_controllers": [
+    "controller.render.xmas.default"
+   ],
+   "spawn_egg": {
+    "texture": "xmas_walrus_egg",
+    "texture_index": 0
+   }
+  }
+ }
+}

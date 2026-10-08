@@ -1,0 +1,114 @@
+{
+ "format_version": "1.8.0",
+ "minecraft:spawn_rules": {
+  "description": {
+   "identifier": "xmas:penguin",
+   "population_control": "animal"
+  },
+  "conditions": [
+   {
+    "minecraft:spawns_on_surface": {},
+    "minecraft:brightness_filter": {
+     "min": 7,
+     "max": 15,
+     "adjust_for_weather": false
+    },
+    "minecraft:weight": {
+     "default": 15
+    },
+    "minecraft:herd": {
+     "min_size": 2,
+     "max_size": 5,
+     "event": "minecraft:entity_born",
+     "event_skip_count": 4
+    },
+    "minecraft:density_limit": {
+     "surface": 8
+    },
+    "minecraft:biome_filter": {
+     "any_of": [
+      {
+       "any_of": [
+        {
+         "all_of": [
+          {
+           "test": "has_biome_tag",
+           "value": "frozen"
+          },
+          {
+           "any_of": [
+            {
+             "test": "has_biome_tag",
+             "value": "ocean"
+            },
+            {
+             "test": "has_biome_tag",
+             "value": "river"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "all_of": [
+          {
+           "test": "has_biome_tag",
+           "value": "cold"
+          },
+          {
+           "test": "has_biome_tag",
+           "value": "beach"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "test": "has_biome_tag",
+       "value": "ice_plains"
+      }
+     ]
+    }
+   },
+   {
+    "minecraft:spawns_underwater": {},
+    "minecraft:weight": {
+     "default": 6
+    },
+    "minecraft:herd": {
+     "min_size": 1,
+     "max_size": 3,
+     "event": "minecraft:entity_born",
+     "event_skip_count": 2
+    },
+    "minecraft:density_limit": {
+     "underwater": 4
+    },
+    "minecraft:biome_filter": {
+     "all_of": [
+      {
+       "test": "has_biome_tag",
+       "value": "frozen"
+      },
+      {
+       "any_of": [
+        {
+         "test": "has_biome_tag",
+         "value": "ocean"
+        },
+        {
+         "test": "has_biome_tag",
+         "value": "river"
+        }
+       ]
+      }
+     ]
+    },
+    "minecraft:height_filter": {
+     "min": 50,
+     "max": 64
+    }
+   }
+  ]
+ }
+}

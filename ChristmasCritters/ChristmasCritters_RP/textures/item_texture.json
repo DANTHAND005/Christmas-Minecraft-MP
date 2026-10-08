@@ -1,0 +1,33 @@
+{
+ "resource_pack_name": "xmas_critters",
+ "texture_name": "atlas.items",
+ "texture_data": {
+  "xmas_toy_soldier_kit": {
+   "textures": "textures/items/toy_soldier_kit"
+  },
+  "xmas_penguin_egg": {
+   "textures": "textures/items/penguin_spawn_egg"
+  },
+  "xmas_reindeer_egg": {
+   "textures": "textures/items/reindeer_spawn_egg"
+  },
+  "xmas_gingerbread_man_egg": {
+   "textures": "textures/items/gingerbread_man_spawn_egg"
+  },
+  "xmas_elf_egg": {
+   "textures": "textures/items/elf_spawn_egg"
+  },
+  "xmas_santa_egg": {
+   "textures": "textures/items/santa_spawn_egg"
+  },
+  "xmas_toy_soldier_egg": {
+   "textures": "textures/items/toy_soldier_spawn_egg"
+  },
+  "xmas_seal_egg": {
+   "textures": "textures/items/seal_spawn_egg"
+  },
+  "xmas_walrus_egg": {
+   "textures": "textures/items/walrus_spawn_egg"
+  }
+ }
+}

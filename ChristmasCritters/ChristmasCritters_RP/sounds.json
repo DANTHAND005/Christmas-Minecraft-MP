@@ -1,0 +1,110 @@
+{
+ "entity_sounds": {
+  "entities": {
+   "xmas:penguin": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "mob.parrot.idle",
+     "hurt": "mob.parrot.hurt",
+     "death": "mob.parrot.death",
+     "step": {
+      "sound": "step.snow",
+      "volume": 0.2
+     }
+    }
+   },
+   "xmas:reindeer": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "mob.horse.idle",
+     "hurt": "mob.horse.hit",
+     "death": "mob.horse.death",
+     "step": {
+      "sound": "mob.horse.soft",
+      "volume": 0.2
+     }
+    }
+   },
+   "xmas:gingerbread_man": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "random.pop",
+     "hurt": "random.break",
+     "death": "dig.snow"
+    }
+   },
+   "xmas:elf": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "mob.villager.idle",
+     "hurt": "mob.villager.hit",
+     "death": "mob.villager.death"
+    }
+   },
+   "xmas:santa": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "note.bell",
+     "hurt": "mob.villager.hit",
+     "death": "mob.villager.death"
+    }
+   },
+   "xmas:toy_soldier": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "note.snare",
+     "hurt": "random.anvil_land",
+     "death": "random.break"
+    }
+   },
+   "xmas:seal": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "mob.polarbear_baby.idle",
+     "hurt": "mob.polarbear.hurt",
+     "death": "mob.polarbear.death"
+    }
+   },
+   "xmas:walrus": {
+    "volume": 1.0,
+    "pitch": [
+     0.9,
+     1.1
+    ],
+    "events": {
+     "ambient": "mob.polarbear.idle",
+     "hurt": "mob.polarbear.hurt",
+     "death": "mob.polarbear.death"
+    }
+   }
+  }
+ }
+}

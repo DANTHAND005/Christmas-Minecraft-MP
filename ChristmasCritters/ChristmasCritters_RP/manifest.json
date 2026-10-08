@@ -1,0 +1,39 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Christmas Critters RP",
+    "description": "Festive mobs and retextures",
+    "uuid": "22d4b4dd-a45e-4b17-99d8-f2cb664b684b",
+    "version": [
+      1,
+      2,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      90
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "02fe4024-0311-45be-87e1-622b2a13cc49",
+      "version": [
+        1,
+        2,
+        0
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "90ccb8fd-54a4-43c6-b522-60ce62e9cf14",
+      "version": [
+        1,
+        2,
+        0
+      ]
+    }
+  ]
+}
