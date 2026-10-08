@@ -1438,8 +1438,8 @@ def train_puffs():
 
 @deco(id='railway_village', name='Christmas Railway Town', tag='Workshop Town', cells=TOWN_CELLS, frames=TRAIN_FRAMES, anim_only=True, light=7,
       tick=[50, 70],
-      cfg=dict(anim=list(range(1, TRAIN_FRAMES)) + [0], delay=3, sound='note.flute', every=8,
-               idle=list(range(1, TRAIN_FRAMES)) + [0], idle_delay=3, idle_sound='note.flute', idle_every=8, puffs=train_puffs()),
+      cfg=dict(anim=list(range(1, TRAIN_FRAMES)) + [0], delay=3,                       # silent: no whistle, just smoke
+               idle=list(range(1, TRAIN_FRAMES)) + [0], idle_delay=3, puffs=train_puffs()),
       recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'rail'])
 def railway_village(m):
     town_ground(m, 5, lambda x, z: ((x - RAIL['cx']) / (RAIL['rx'] + 4)) ** 2 + ((z - RAIL['cz']) / (RAIL['rz'] + 4)) ** 2 < 1.3)

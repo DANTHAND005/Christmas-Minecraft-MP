@@ -231,7 +231,7 @@ function useDecor(block, dimension, player) {
   }
   if (cfg.anim) {
     stepStates(base, dimension, "santa:frame", cfg.anim, cfg.delay, (i) => {
-      if (i % (cfg.every || 99) === 0) decorSound(dimension, base, cfg.sound, 1.2 + Math.random() * 0.3);
+      if (cfg.sound && i % (cfg.every || 99) === 0) decorSound(dimension, base, cfg.sound, 1.2 + Math.random() * 0.3);
       if (cfg.puffs) animExtras({ puffs: cfg.puffs }, base, dimension, cfg.anim[i], i);
     });
     if (cfg.particle) {
