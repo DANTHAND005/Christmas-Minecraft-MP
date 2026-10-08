@@ -9,7 +9,8 @@
     "frame_count": 20,
     "frame_step": 91,
     "fps": 10,
-    "easing": "linear"
+    "easing": "linear",
+    "looping": true
   },
   "full_progress_bar": {
     "type": "image",
@@ -31,20 +32,16 @@
     ]
   },
   "progress_text_label": {
-    "type": "panel",
-    "size": [
-      "100%c",
-      "100%c"
-    ],
+    "type": "label",
+    "shadow": false,
+    "text": "#level_number",
+    "color": "$experience_text_color",
+    "font_type": "MinecraftTen",
+    "font_scale_factor": 1.25,
+    "alpha": 0.0,
+    "propagate_alpha": false,
     "anchor_from": "top_middle",
     "anchor_to": "bottom_middle",
-    "bindings": [
-      {
-        "binding_name": "#level_number_visible",
-        "binding_type": "global",
-        "binding_name_override": "#visible"
-      }
-    ],
     "controls": [
       {
         "xp_num_0": {
@@ -68,7 +65,9 @@
               "binding_name": "#level_number",
               "binding_type": "global"
             }
-          ]
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center"
         }
       },
       {
@@ -93,7 +92,9 @@
               "binding_name": "#level_number",
               "binding_type": "global"
             }
-          ]
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center"
         }
       },
       {
@@ -118,7 +119,9 @@
               "binding_name": "#level_number",
               "binding_type": "global"
             }
-          ]
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center"
         }
       },
       {
@@ -143,7 +146,9 @@
               "binding_name": "#level_number",
               "binding_type": "global"
             }
-          ]
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center"
         }
       },
       {
@@ -168,7 +173,9 @@
               "binding_name": "#level_number",
               "binding_type": "global"
             }
-          ]
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center"
         }
       },
       {
@@ -193,8 +200,21 @@
               "binding_name": "#level_number",
               "binding_type": "global"
             }
-          ]
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center"
         }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_name": "#level_number",
+        "binding_type": "global"
+      },
+      {
+        "binding_name": "#level_number_visible",
+        "binding_type": "global",
+        "binding_name_override": "#visible"
       }
     ]
   },

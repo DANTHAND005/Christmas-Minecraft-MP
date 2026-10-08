@@ -72,7 +72,7 @@
    "minecraft:damage_sensor": {
     "triggers": {
      "cause": "all",
-     "deals_damage": false
+     "deals_damage": "no"
     }
    },
    "minecraft:timer": {

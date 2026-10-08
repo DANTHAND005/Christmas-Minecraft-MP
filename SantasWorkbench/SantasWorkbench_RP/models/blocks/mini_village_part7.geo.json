@@ -13825,69 +13825,63 @@
               "uv": {
                 "north": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "south": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "east": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "west": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "up": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "down": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 }
               }
             },
@@ -13905,69 +13899,63 @@
               "uv": {
                 "north": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "south": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "east": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "west": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "up": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 },
                 "down": {
                   "uv": [
-                    82,
-                    18
+                    10,
+                    2
                   ],
                   "uv_size": [
                     4,
                     4
-                  ],
-                  "material_instance": "glass"
+                  ]
                 }
               }
             }

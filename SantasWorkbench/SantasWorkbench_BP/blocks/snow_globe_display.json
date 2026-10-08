@@ -35,11 +35,11 @@
       "minecraft:material_instances": {
         "*": {
           "texture": "santa_decor",
-          "render_method": "alpha_test"
+          "render_method": "blend"
         },
         "glow": {
           "texture": "santa_decor_lit",
-          "render_method": "alpha_test",
+          "render_method": "blend",
           "face_dimming": false,
           "ambient_occlusion": false
         },

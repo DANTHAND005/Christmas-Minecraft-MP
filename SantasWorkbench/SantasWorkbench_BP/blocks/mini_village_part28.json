@@ -27,10 +27,6 @@
           "render_method": "alpha_test",
           "face_dimming": false,
           "ambient_occlusion": false
-        },
-        "glass": {
-          "texture": "santa_glass",
-          "render_method": "blend"
         }
       },
       "minecraft:collision_box": false,

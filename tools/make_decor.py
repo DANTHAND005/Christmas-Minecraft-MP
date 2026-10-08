@@ -1261,7 +1261,7 @@ def mini_village(m):
     lamp(m, -4, 5.5, 50)
     # frozen pond
     m.disc(-14, 4, G - 0.2, G + 0.15, 12, 7.5, 'light_blue')
-    m.disc(-14, 4, G + 0.15, G + 0.2, 10.5, 6.2, 'glass')
+    m.disc(-14, 4, G + 0.15, G + 0.2, 10.5, 6.2, 'snow')                 # icy sheen (solid: one render method per block)
     for x in (-26.5, -1.5):
         m.box(x, G, 2.5, x + 1, G + 0.8, 5.5, 'snow')
     # big Christmas tree with lights, star and presents
@@ -1365,9 +1365,10 @@ def bone_vis(bones):
 
 
 def materials(uses, lit):
-    m = {'*': {'texture': 'santa_decor', 'render_method': 'alpha_test'}}
+    rm = 'blend' if 'glass' in uses else 'alpha_test'      # Minecraft wants one render_method for every instance of a block
+    m = {'*': {'texture': 'santa_decor', 'render_method': rm}}
     if 'glow' in uses:
-        m['glow'] = {'texture': 'santa_decor_lit' if lit else 'santa_decor', 'render_method': 'alpha_test',
+        m['glow'] = {'texture': 'santa_decor_lit' if lit else 'santa_decor', 'render_method': rm,
                      'face_dimming': not lit, 'ambient_occlusion': False}
     if 'glass' in uses:
         m['glass'] = {'texture': 'santa_glass', 'render_method': 'blend'}
