@@ -60,19 +60,19 @@ VARIANTS = 8                                   # Minecraft picks one of these at
 
 
 def pattern(seed):
-    """Random layout for one variant: just 3 lights (sometimes a plus bulb, otherwise dashes and dots), each a
-    different colour, never touching (the tile wraps, so spacing is checked across the edges too)."""
+    """Random layout for one variant: mostly round plus bulbs (2-3) with a few dashes and dots, all in just 3 of
+    the 4 colours, never touching (the tile wraps, so spacing is checked across the edges too)."""
     rnd = random.Random(seed)
-    want = rnd.choice([['plus', 'dash', 'dot'], ['dash', 'dash', 'dot'], ['plus', 'dot', 'dot'], ['dash', 'dot', 'dot']])
+    want = ['plus'] * rnd.randint(2, 3) + ['dash'] * rnd.randint(2, 3) + ['dot'] * rnd.randint(1, 2)
     colours = rnd.sample(list(COLOURS), 3)
     taken, out = set(), []
     for shape in want:
         for _ in range(200):
             x, y = rnd.randrange(16), rnd.randrange(16)
             pix = {((x + dx) % 16, (y + dy) % 16) for dx, dy, _ in SHAPES[shape]}
-            if all((((px + ax) % 16, (py + ay) % 16) not in taken) for px, py in pix for ax in range(-3, 4) for ay in range(-3, 4)):
+            if all((((px + ax) % 16, (py + ay) % 16) not in taken) for px, py in pix for ax in range(-2, 3) for ay in range(-2, 3)):
                 taken |= pix
-                out.append((x, y, shape, colours[len(out)], rnd.uniform(0, 2 * math.pi)))
+                out.append((x, y, shape, colours[len(out) % 3], rnd.uniform(0, 2 * math.pi)))
                 break
     return out
 
