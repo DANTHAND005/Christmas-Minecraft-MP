@@ -165,21 +165,27 @@ def main():
     # inventory & container screens: green panels with a candy-cane border, grey slots with a little tree + snow.
     # Panels are drawn big (160 px) so nine-slice stretching only scales the border stripes a little.
     import json
-    P, B = 160, 8                                              # panel size, nine-slice border
+    P, B = 160, 4                                              # big image, vanilla 4 px border (content fits inside)
+    def green(x, y):
+        return (38, 84, 34) if (x * 7 + y * 3) % 11 else (44, 92, 38)       # dark green, faint speckle
     panel = Image.new('RGBA', (P, P))
     for x in range(P):
         for y in range(P):
             d = min(x, y, P - 1 - x, P - 1 - y)                    # distance from the outer edge
             if d == 0: c = (20, 30, 16)
-            elif d <= 5: c = RED if ((x + y) // 3) % 2 == 0 else WHITE        # candy-cane border
-            elif d == 6: c = (20, 30, 16)
-            elif d == 7: c = (112, 168, 92)                         # thin light-green inner line
-            else: c = (38, 84, 34) if (x * 7 + y * 3) % 11 else (44, 92, 38)   # dark green, faint speckle
+            elif d <= 2: c = RED if ((x + y) // 2) % 2 == 0 else WHITE        # candy-cane border
+            elif d == 3: c = (112, 168, 92)                         # thin light-green inner line
+            else: c = green(x, y)
             panel.putpixel((x, y), c + (255,))
-    for name in ('dialog_background_opaque', 'recipe_back_panel'):
-        save(panel, name)
+    save(panel, 'dialog_background_opaque')
+    fold = Image.new('RGBA', (16, 16))                             # recipe_back_panel = the strip between the two halves:
+    for x in range(16):                                            # plain green so it doesn't show as a third border
+        for y in range(16):
+            fold.putpixel((x, y), ((20, 30, 16) if y in (0, 15) else green(x, y)) + (255,))
+    save(fold, 'recipe_back_panel')
+    for name, size in (('dialog_background_opaque', P), ('recipe_back_panel', 16)):
         with open(os.path.join(OUT, name + '.json'), 'w') as fh:
-            json.dump({'nineslice_size': B, 'base_size': [P, P]}, fh)
+            json.dump({'nineslice_size': B, 'base_size': [size, size]}, fh)
     TREE = ['.......#........', '......###.......', '.....#####......', '.......#........', '.....#####......',
             '....#######.....', '......###.......', '....#######.....', '...#########....', '.......#........']
     cell = Image.new('RGBA', (18, 18))
