@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Make the ornaments on the Christmas Critters spruce leaves glow much more.
+"""Christmas Critters spruce leaves: dark needles strung with glowing Christmas lights.
 
-Ornaments keep their exact original pixels and twinkle; they are pushed to vivid, much brighter colours
-(white-hot glints on the brightest pixels), their halos are lifted, and an emissive (MER) map makes them
-truly light up in Vibrant Visuals / RTX.
+The old ornaments are painted out, the needles darkened a little, and a string-light pattern of dashes, dots
+and plus-shaped bulbs (pink, yellow, blue, orange) is drawn on; each light twinkles on its own through the
+flipbook, needles next to a light catch a faint glow, and an emissive (MER) map makes the lights truly glow
+in Vibrant Visuals / RTX.
 
     python3 tools/glow_leaves.py              # reads the original textures from git (commit b89627e)
 """
@@ -31,33 +32,53 @@ def kind(p):
     return 'L' if s < 0.5 else 'h'
 
 
-def glow(frame):
-    """Every ornament keeps its exact pixels in every frame; it just gets much brighter and lights its halo."""
-    out, mer = frame.copy(), Image.new('RGBA', (16, 16), (0, 0, 0, 255))
+def plain_needles(frame, dark=0.6):
+    """The leaves with the old ornaments painted out (each takes a nearby needle colour), slightly darkened."""
+    out = frame.copy()
     kinds = {(x, y): kind(frame.getpixel((x, y))) for x in range(16) for y in range(16)}
     for (x, y), k in kinds.items():
-        r, g, b, a = frame.getpixel((x, y))
-        h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
-        em = 0.0
-        if k in 'OW':
-            core = v >= 0.7                                    # dimmer ornament-coloured pixels are its halo: keep them softer
-            s = s if k == 'W' else (max(s, 0.88) if core else min(1, s * 1.1))
-            v2 = min(1.0, v * 1.4)                             # proportional boost keeps the original shapes
-            col = [c * 255 for c in colorsys.hsv_to_rgb(h, s, v2)]
-            if v >= 0.85:                                      # the brightest pixels get a white-hot glint
-                col = [c + (255 - c) * 0.12 for c in col]
-            em = v2
-        elif k == 'h':
-            col = [c * 255 for c in colorsys.hsv_to_rgb(h, min(1, s * 1.25), min(1, v * 1.35))]
-            em = 0.45
-        else:
-            col = [r, g, b]
-            near = [kinds.get((x + dx, y + dy)) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))]
-            if k == 'L' and ('O' in near or 'W' in near):     # needles touching an ornament catch a faint glow
-                col = [min(255, c * 1.25 + 12) for c in col]
-                em = 0.2
-        out.putpixel((x, y), tuple(round(c) for c in col) + (a,))
-        mer.putpixel((x, y), (0, round(255 * em), 210, 255))   # R metalness, G emissive, B roughness
+        if k in 'OWh':
+            near = [frame.getpixel(((x + dx) % 16, (y + dy) % 16)) for dx in range(-2, 3) for dy in range(-2, 3)
+                    if kinds[((x + dx) % 16, (y + dy) % 16)] == 'L']
+            out.putpixel((x, y), min(near, key=lambda c: sum(c[:3])) if near else (25, 39, 25, 255))
+    for x in range(16):
+        for y in range(16):
+            r, g, b, a = out.getpixel((x, y))
+            out.putpixel((x, y), (round(r * dark), round(g * dark), round(b * dark), a))
+    return out
+
+
+# String-light pattern: little horizontal dashes, single dots and a couple of plus-shaped bulbs, spread so tiles
+# sit next to each other without clumping. (x, y, shape, colour)
+COLOURS = {'pink': (255, 92, 132), 'yellow': (255, 214, 58), 'blue': (104, 178, 246), 'orange': (255, 160, 36)}
+LIGHTS = [(4, 4, 'plus', 'blue'), (11, 11, 'plus', 'orange'), (9, 2, 'dash', 'yellow'), (13, 6, 'dash', 'pink'),
+          (1, 10, 'dash', 'pink'), (6, 13, 'dash', 'yellow'), (14, 14, 'dot', 'blue'), (7, 8, 'dot', 'pink'),
+          (0, 1, 'dot', 'yellow'), (12, 1, 'dot', 'blue'), (3, 15, 'dot', 'orange'), (9, 6, 'dash', 'blue')]
+SHAPES = {'plus': [(0, 0, 1.0), (1, 0, 0.88), (-1, 0, 0.88), (0, 1, 0.88), (0, -1, 0.88)],
+          'dash': [(0, 0, 1.0), (1, 0, 0.92)], 'dot': [(0, 0, 1.0)]}
+
+
+def lights(base, f, n):
+    """Draw the string lights onto clean needles for twinkle frame f of n; returns (colour, MER)."""
+    out, mer = base.copy(), Image.new('RGBA', (16, 16), (0, 0, 0, 255))
+    lit = {}
+    for i, (x, y, shape, name) in enumerate(LIGHTS):
+        k = 1.0 if n == 1 else 0.88 + 0.12 * math.sin(2 * math.pi * f / n + i * 2.399)   # each light twinkles on its own
+        c = COLOURS[name]
+        for dx, dy, w in SHAPES[shape]:
+            t = 0.35 if (dx, dy) == (0, 0) and shape == 'plus' else 0.0                 # plus bulbs have a pale centre
+            col = tuple(min(255, round((v + (255 - v) * t) * w * k)) for v in c)
+            lit[((x + dx) % 16, (y + dy) % 16)] = (col, w * k)
+    for (x, y), (col, e) in lit.items():
+        out.putpixel((x, y), col + (255,))
+        mer.putpixel((x, y), (0, round(255 * min(1, e)), 210, 255))                   # R metalness, G emissive, B roughness
+    for (x, y), (col, e) in lit.items():                                               # needles touching a light catch a faint glow
+        for q in (((x + 1) % 16, y), ((x - 1) % 16, y), (x, (y + 1) % 16), (x, (y - 1) % 16)):
+            if q in lit: continue
+            r, g, b, a = out.getpixel(q)
+            if a:
+                out.putpixel(q, tuple(min(255, round(v + cv * 0.14 * e)) for v, cv in zip((r, g, b), col)) + (a,))
+                mer.putpixel(q, (0, max(mer.getpixel(q)[1], round(255 * 0.18 * e)), 210, 255))
     return out, mer
 
 
@@ -65,9 +86,10 @@ def main():
     for name in NAMES:
         src = original(name)
         n = src.height // 16
+        base = plain_needles(src.crop((0, 0, 16, 16)))
         col, mer = Image.new('RGBA', src.size), Image.new('RGBA', src.size)
         for i in range(n):
-            c, m = glow(src.crop((0, i * 16, 16, i * 16 + 16)))
+            c, m = lights(base, i, n)
             col.paste(c, (0, i * 16)); mer.paste(m, (0, i * 16))
         col.save(os.path.join(ROOT, BLOCKS, name + '.png'))
         mer.save(os.path.join(ROOT, BLOCKS, name + '_mer.png'))
