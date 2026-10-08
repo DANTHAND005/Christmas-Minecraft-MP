@@ -1,0 +1,155 @@
+{
+  "namespace": "hud",
+  "xp_rainbow_scroll": {
+    "anim_type": "flip_book",
+    "initial_uv": [
+      0,
+      0
+    ],
+    "frame_count": 32,
+    "frame_step": 5,
+    "fps": 16,
+    "looping": true
+  },
+  "full_progress_bar": {
+    "type": "image",
+    "texture": "textures/ui/experiencebarfull",
+    "uv_size": [
+      182,
+      5
+    ],
+    "uv": "@hud.xp_rainbow_scroll",
+    "clip_direction": "left",
+    "clip_pixelperfect": false,
+    "bindings": [
+      {
+        "binding_name": "#exp_progress",
+        "binding_name_override": "#clip_ratio",
+        "binding_type": "global"
+      }
+    ]
+  },
+  "progress_text_label": {
+    "type": "label",
+    "shadow": true,
+    "text": "#level_number",
+    "font_type": "smooth",
+    "color": [
+      1.0,
+      0.3,
+      0.3
+    ],
+    "anims": [
+      "@hud.xp_text_0"
+    ],
+    "anchor_from": "top_middle",
+    "anchor_to": "bottom_middle",
+    "bindings": [
+      {
+        "binding_name": "#level_number",
+        "binding_type": "global"
+      },
+      {
+        "binding_name": "#level_number_visible",
+        "binding_type": "global",
+        "binding_name_override": "#visible"
+      }
+    ]
+  },
+  "xp_text_0": {
+    "anim_type": "color",
+    "easing": "linear",
+    "duration": 0.35,
+    "from": [
+      1.0,
+      0.3,
+      0.3
+    ],
+    "to": [
+      1.0,
+      0.65,
+      0.2
+    ],
+    "next": "@hud.xp_text_1"
+  },
+  "xp_text_1": {
+    "anim_type": "color",
+    "easing": "linear",
+    "duration": 0.35,
+    "from": [
+      1.0,
+      0.65,
+      0.2
+    ],
+    "to": [
+      1.0,
+      0.95,
+      0.3
+    ],
+    "next": "@hud.xp_text_2"
+  },
+  "xp_text_2": {
+    "anim_type": "color",
+    "easing": "linear",
+    "duration": 0.35,
+    "from": [
+      1.0,
+      0.95,
+      0.3
+    ],
+    "to": [
+      0.35,
+      1.0,
+      0.4
+    ],
+    "next": "@hud.xp_text_3"
+  },
+  "xp_text_3": {
+    "anim_type": "color",
+    "easing": "linear",
+    "duration": 0.35,
+    "from": [
+      0.35,
+      1.0,
+      0.4
+    ],
+    "to": [
+      0.3,
+      0.75,
+      1.0
+    ],
+    "next": "@hud.xp_text_4"
+  },
+  "xp_text_4": {
+    "anim_type": "color",
+    "easing": "linear",
+    "duration": 0.35,
+    "from": [
+      0.3,
+      0.75,
+      1.0
+    ],
+    "to": [
+      0.75,
+      0.45,
+      1.0
+    ],
+    "next": "@hud.xp_text_5"
+  },
+  "xp_text_5": {
+    "anim_type": "color",
+    "easing": "linear",
+    "duration": 0.35,
+    "from": [
+      0.75,
+      0.45,
+      1.0
+    ],
+    "to": [
+      1.0,
+      0.3,
+      0.3
+    ],
+    "next": "@hud.xp_text_0"
+  }
+}

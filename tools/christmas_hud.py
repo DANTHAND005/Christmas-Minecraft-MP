@@ -15,6 +15,7 @@ VANILLA = 'https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resourc
 
 RED, WHITE, DARK_RED = (214, 28, 40), (248, 248, 244), (150, 14, 24)
 GREEN, DARK_GREEN = (40, 178, 74), (18, 110, 44)
+XP_W, XP_FRAMES = 182, 32                         # experience bar width, rainbow animation frames
 OUTLINE, HOLLOW = (26, 14, 16), (128, 118, 122)   # empty icons: pale grey 'used up' shape, dark outline
 
 HEART = ['.........',
@@ -142,6 +143,18 @@ def main():
     save(sweater(range(9)), 'armor_full')
     save(sweater(range(0, 4)), 'armor_half')
     save(sweater(()), 'armor_empty')
+    # experience bar: a smooth rainbow, stacked as XP_FRAMES frames that each shift the hues a little further;
+    # ui/hud_screen.json scrolls through them (flip_book) and fades the level number through the same colours
+    import colorsys
+    bar = Image.new('RGBA', (XP_W, 5 * XP_FRAMES))
+    for f in range(XP_FRAMES):
+        for x in range(XP_W):
+            r, g, b = colorsys.hsv_to_rgb((x / XP_W - f / XP_FRAMES) % 1.0, 0.85, 1.0)
+            for y, k in enumerate((1.25, 1.1, 1.0, 0.88, 0.7)):        # glossy: light top edge, darker bottom
+                bar.putpixel((x, f * 5 + y), tuple(min(255, round(c * 255 * k)) for c in (r, g, b)) + (255,))
+    save(bar, 'experiencebarfull')
+    with open(os.path.join(OUT, 'experiencebarfull.json'), 'w') as fh:   # no nine-slicing: one frame spans the bar
+        fh.write('{ "base_size": [ %d, 5 ] }\n' % XP_W)
     print('wrote Christmas HUD textures to', os.path.relpath(OUT, ROOT))
 
 
