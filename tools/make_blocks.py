@@ -141,36 +141,64 @@ BULBS = ['g_red', 'g_blue2', 'g_yellow', 'g_green2', 'g_red2', 'g_blue', 'g_yell
 EDGES = {'n': ('z', -1), 's': ('z', 1), 'e': ('x', -1), 'w': ('x', 1)}
 
 
+PATH_VARIANTS = 4                                                   # random pebble / snow / crack layouts, one picked per block
+
+
+def pebble(m, x, z, r, col, rnd):
+    """A rounded-looking pebble: a flat base with a smaller cap on top, slightly off-centre."""
+    d = r * rnd.uniform(0.6, 1.0)
+    m.box(x - r, 13.6, z - d, x + r, 13.6 + r * 0.35 + 0.1, z + d, col)
+    ox, oz = rnd.uniform(-0.2, 0.2) * r, rnd.uniform(-0.2, 0.2) * r
+    m.box(x - r * 0.65 + ox, 13.6, z - d * 0.65 + oz, x + r * 0.65 + ox, 13.6 + r * 0.6 + 0.12, z + d * 0.65 + oz, col)
+
+
 def light_path_model():
     m = D.Model()
-    m.box(-8, 0, -8, 8, 13.4, 8, 'stone')                           # smooth stone base
-    m.box(-8, 13.4, -8, 8, 13.6, 8, 'silver')
-    rnd = random.Random(4)
-    for _ in range(16):                                              # scattered pebbles, little to semi-big
-        r = rnd.choice([0.5, 0.6, 0.8, 1.0, 1.3, 1.6])
-        x, z = rnd.uniform(-6.5, 6.5), rnd.uniform(-6.5, 6.5)
-        m.box(x - r, 13.6, z - r * rnd.uniform(0.7, 1.0), x + r, 13.8 + r * 0.45, z + r * rnd.uniform(0.7, 1.0),
-              rnd.choice(['gray', 'gray', 'dark_gray', 'slate', 'stone']))
-    for _ in range(5):                                               # snow lying on the path
-        x, z = rnd.uniform(-6, 6), rnd.uniform(-6, 6)
-        w, d = rnd.uniform(1.2, 2.6), rnd.uniform(1.0, 2.2)
-        m.box(x - w, 13.6, z - d, x + w, 13.95, z + d, 'snow')
-    snow_rnd = random.Random(9)
-    for k, (edge, (axis, side)) in enumerate(EDGES.items()):
+    m.box(-8, 0, -8, 8, 13.6, 8, 'stone')                           # flat stone walkway slab
+    clamp = lambda v, r: max(-7.8 + r, min(7.8 - r, v))
+    for v in range(PATH_VARIANTS):
+        m.use('v%d' % v)
+        rnd = random.Random(100 + v)
+        jx, jz = rnd.uniform(-3, 3), rnd.uniform(-3, 3)               # joints split the top into uneven flagstones
+        m.box(jx - 0.12, 13.6, -8, jx + 0.12, 13.63, 8, 'gray')
+        m.box(-8, 13.6, jz - 0.12, jx, 13.63, jz + 0.12, 'gray')
+        jz2 = rnd.uniform(-3, 3)
+        m.box(jx, 13.6, jz2 - 0.12, 8, 13.63, jz2 + 0.12, 'gray')
+        x, z = rnd.uniform(-5, 5), rnd.uniform(-5, 5)                 # a hairline crack
+        for j in range(rnd.randint(2, 4)):
+            L = rnd.uniform(0.7, 1.6) * rnd.choice((-1, 1))
+            if j % 2: m.box(x, 13.6, min(z, z + L), x + 0.15, 13.62, max(z, z + L), 'dark_gray'); z += L
+            else: m.box(min(x, x + L), 13.6, z, max(x, x + L), 13.62, z + 0.15, 'dark_gray'); x += L
+        for _ in range(rnd.randint(8, 13)):                           # pebbles: random spots, mostly small, a few semi-big
+            r = rnd.choice([0.2, 0.25, 0.3, 0.3, 0.4, 0.4, 0.5, 0.6, 0.75, 0.9])
+            pebble(m, clamp(rnd.uniform(-7, 7), r), clamp(rnd.uniform(-7, 7), r), r,
+                   rnd.choice(['gray', 'gray', 'dark_gray', 'slate', 'silver', 'tan']), rnd)
+        for _ in range(rnd.randint(3, 5)):                            # snow splatters: a clump and flecks thrown around it
+            w, d = rnd.uniform(0.5, 1.6), rnd.uniform(0.4, 1.3)
+            x, z = clamp(rnd.uniform(-7, 7), w), clamp(rnd.uniform(-7, 7), d)
+            m.box(x - w, 13.6, z - d, x + w, 13.6 + rnd.uniform(0.12, 0.3), z + d, 'snow')
+            m.box(x - w * 0.6 + 0.3, 13.6, z - d - 0.35, x + w * 0.5, 13.7, z + d + 0.3, 'snow')   # softens the clump outline
+            for _ in range(rnd.randint(2, 4)):
+                fr = rnd.uniform(0.12, 0.35)
+                fx, fz = clamp(x + rnd.uniform(-2.5, 2.5), fr), clamp(z + rnd.uniform(-2.5, 2.5), fr)
+                m.box(fx - fr, 13.6, fz - fr, fx + fr, 13.68, fz + fr, 'white')
+    for k, (edge, (axis, side)) in enumerate(EDGES.items()):         # C9-style bulbs on a wire that wanders a little
         m.use('l' + edge)
-        c = 7.0 * side                                               # just inside the edge
-        def at(t, y0, y1, h):
-            return (t - h, y0, c - h, t + h, y1, c + h) if axis == 'z' else (c - h, y0, t - h, c + h, y1, t + h)
-        for t in range(4):                                           # soft snow bank along the outer edge
-            lo, cell, w = -8 + t * 4, 4, snow_rnd.uniform(1.4, 2.4)
-            hi = 14.0 + snow_rnd.uniform(0, 0.4)
-            inner, outer = sorted((8 * side, 8 * side - side * w))
-            m.box(*((lo, 13.4, inner, lo + cell, hi, outer) if axis == 'z' else (inner, 13.4, lo, outer, hi, lo + cell)), 'snow')
-        wire = (-8, 14.1, c - 0.15, 8, 14.4, c + 0.15) if axis == 'z' else (c - 0.15, 14.1, -8, c + 0.15, 14.4, 8)
-        m.box(*wire, 'dark_green')
-        for j, t in enumerate((-6, -3, 0, 3, 6)):
-            m.box(*at(t, 14.0, 14.7, 0.45), 'dark_green')            # socket
-            m.box(*at(t, 14.7, 15.9, 0.42), BULBS[(j + k * 2) % len(BULBS)])   # bulb
+        rnd = random.Random(10 + k)
+        c = 7.0 * side
+        def put(t, cc, y0, y1, h, col):
+            m.box(*((t - h, y0, cc - h, t + h, y1, cc + h) if axis == 'z' else (cc - h, y0, t - h, cc + h, y1, t + h)), col)
+        pts = [(-8, 0.0)] + [(t, rnd.uniform(-0.3, 0.3)) for t in (-4, 0, 4)] + [(8, 0.0)]
+        for (t0, o0), (t1, o1) in zip(pts, pts[1:]):
+            cc = c + (o0 + o1) / 2
+            m.box(*((t0, 13.6, cc - 0.1, t1, 13.75, cc + 0.1) if axis == 'z' else (cc - 0.1, 13.6, t0, cc + 0.1, 13.75, t1)), 'dark_green')
+        cols = [rnd.choice([g, g + '2']) for g in rnd.sample(['g_red', 'g_blue', 'g_yellow', 'g_green'], 4)]   # all four colours, random order
+        for j, t in enumerate((-5.6, -2.0, 2.0, 5.6)):
+            t += rnd.uniform(-0.6, 0.6)
+            cc = c + pts[1 + (t > -2) + (t > 2)][1] * 0.5                 # roughly on the wire
+            put(t, cc, 13.6, 14.15, 0.22, 'dark_green')                       # socket
+            for y0, y1, h in ((14.15, 14.4, 0.24), (14.4, 14.95, 0.33), (14.95, 15.3, 0.25), (15.3, 15.5, 0.12)):
+                put(t, cc, y0, y1, h, cols[j])                                # teardrop bulb
     m.use('root')
     return m
 
@@ -206,7 +234,9 @@ def main():
     D.dump(os.path.join(RP, 'models', 'blocks', 'light_path.geo.json'), D.geo_json('geometry.santa_light_path', m.cubes, m.bones))
     edges = ['santa:' + e for e in EDGES]
     states = {e: [1, 0] for e in edges}                              # 1 = lights on that edge (default: a lone tile is lit all round)
+    states['santa:v'] = list(range(PATH_VARIANTS))                    # which random pebble/snow layout (picked by the script)
     vis = {'l' + e[6:]: "q.block_state('%s') == 1" % e for e in edges}
+    vis.update({'v%d' % v: "q.block_state('santa:v') == %d" % v for v in range(PATH_VARIANTS)})
     lit = D.materials({'glow'}, True)
     block = {'format_version': '1.21.40', 'minecraft:block': {
         'description': {'identifier': 'santa:light_path', 'menu_category': {'category': 'construction'}, 'states': states},

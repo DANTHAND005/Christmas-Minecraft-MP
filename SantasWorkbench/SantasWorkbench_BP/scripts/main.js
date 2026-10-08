@@ -400,7 +400,13 @@ system.beforeEvents.startup.subscribe((startup) => {
   startup.itemComponentRegistry.registerCustomComponent("santa:gift_box", { onUse(e) { system.run(() => boxMenu(e.source)); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:multipart", { onPlayerBreak(e) { breakStack(e); } });
   startup.blockComponentRegistry.registerCustomComponent("santa:light_path", {
-    onPlace(e) { system.run(() => refreshAround(e.dimension, e.block.location)); },
+    onPlace(e) {
+      system.run(() => {
+        const b = e.dimension.getBlock(e.block.location);   // each path block gets one of the random pebble/snow layouts
+        if (b && b.typeId === "santa:light_path") b.setPermutation(b.permutation.withState("santa:v", Math.floor(Math.random() * 4)));
+        refreshAround(e.dimension, e.block.location);
+      });
+    },
     onPlayerBreak(e) { system.run(() => refreshAround(e.dimension, e.block.location)); },
   });
   startup.blockComponentRegistry.registerCustomComponent("santa:seat", { onPlayerInteract(e) { system.run(() => sit(e.player, e.block)); } });
