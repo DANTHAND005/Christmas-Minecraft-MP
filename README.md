@@ -5,6 +5,6 @@ The big decorations are generated: edit `tools/make_decor.py`, then run
 two `SantasWorkbench_*` folders into `dist/SantasWorkbench.mcaddon`.
 Before packaging, run `python3 tools/check_packs.py`: it checks recipes, names, models,
 textures, script ids and the block-permutation budget for both add-ons.
-Christmas Textures (leaves, vines, HUD): `tools/glow_leaves.py` (spruce leaf lights) and `tools/christmas_hud.py`
+Christmas Textures (leaves, vines, HUD, chests): `tools/glow_leaves.py`, `tools/christmas_chests.py` (spruce leaf lights) and `tools/christmas_hud.py`
 (peppermint hearts, candy-cane hunger, candy-cane hotbar) regenerate their textures; zip the two
 zip `ChristmasTextures_RP` into `dist/ChristmasTextures.mcpack`.
