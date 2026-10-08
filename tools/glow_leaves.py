@@ -53,7 +53,7 @@ def plain_needles(frame, dark=0.6):
     return out
 
 
-COLOURS = {'pink': (255, 92, 132), 'yellow': (255, 214, 58), 'blue': (104, 178, 246), 'orange': (255, 160, 36)}
+COLOURS = {'red': (255, 38, 48), 'blue': (82, 152, 255), 'green': (60, 255, 92), 'yellow': (255, 222, 40)}   # classic Christmas bulbs
 SHAPES = {'plus': [(0, 0, 1.0), (1, 0, 0.88), (-1, 0, 0.88), (0, 1, 0.88), (0, -1, 0.88)],
           'dash': [(0, 0, 1.0), (1, 0, 0.92)], 'dot': [(0, 0, 1.0)]}
 VARIANTS = 6                                   # Minecraft picks one of these at random for every spruce leaf block
@@ -81,11 +81,11 @@ def lights(base, layout, f, n):
     out, mer = base.copy(), Image.new('RGBA', (16, 16), (0, 0, 0, 255))
     lit = {}
     for x, y, shape, name, phase in layout:
-        k = 1.0 if n == 1 else 0.86 + 0.14 * math.sin(2 * math.pi * f / n + phase)   # each light twinkles on its own
+        k = 1.0 if n == 1 else 0.92 + 0.08 * math.sin(2 * math.pi * f / n + phase)   # each light twinkles on its own
         c = COLOURS[name]
         for dx, dy, w in SHAPES[shape]:
             centre = (dx, dy) == (0, 0)
-            t = (0.4 if shape == 'plus' else 0.18 * max(0.0, (k - 0.93) / 0.07)) if centre else 0.0   # white shine
+            t = (0.45 if shape == 'plus' else 0.25) if centre else 0.0                     # white-hot centre
             col = tuple(min(255, round((v + (255 - v) * t) * w * k)) for v in c)
             lit[((x + dx) % 16, (y + dy) % 16)] = (col, w * k)
     for (x, y), (col, e) in lit.items():
@@ -93,11 +93,13 @@ def lights(base, layout, f, n):
         mer.putpixel((x, y), (0, round(255 * min(1, e)), 210, 255))                   # R metalness, G emissive, B roughness
     glow = {}
     for (x, y), (col, e) in lit.items():                                               # light spills onto the needles around it
-        for dx in (-1, 0, 1):
-            for dy in (-1, 0, 1):
+        for dx in (-2, -1, 0, 1, 2):
+            for dy in (-2, -1, 0, 1, 2):
                 q = ((x + dx) % 16, (y + dy) % 16)
-                if q in lit: continue
-                w = (0.2 if dx == 0 or dy == 0 else 0.07) * e
+                d = abs(dx) + abs(dy)
+                if q in lit or d > 2: continue
+                w = {1: 0.3, 2: 0.11 if dx and dy else 0.06}[d] * e         # next to it, diagonal, two away
+                if col[1] > max(col[0], col[2]) * 1.5: w *= 0.6                # green light on green needles needs less
                 g = glow.setdefault(q, [0.0, 0.0, 0.0, 0.0])
                 for i in range(3): g[i] += col[i] * w
                 g[3] = max(g[3], w)
