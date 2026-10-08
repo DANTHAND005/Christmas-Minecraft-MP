@@ -230,7 +230,10 @@ function useDecor(block, dimension, player) {
     return;
   }
   if (cfg.anim) {
-    stepStates(base, dimension, "santa:frame", cfg.anim, cfg.delay, (i) => { if (i % (cfg.every || 99) === 0) decorSound(dimension, base, cfg.sound, 1.2 + Math.random() * 0.3); });
+    stepStates(base, dimension, "santa:frame", cfg.anim, cfg.delay, (i) => {
+      if (i % (cfg.every || 99) === 0) decorSound(dimension, base, cfg.sound, 1.2 + Math.random() * 0.3);
+      if (cfg.puffs) animExtras({ puffs: cfg.puffs }, base, dimension, cfg.anim[i], i);
+    });
     if (cfg.particle) {
       for (let i = 0; i < 12; i++) {
         try { dimension.spawnParticle(cfg.particle, { x: base.x + 0.2 + Math.random() * 0.6, y: base.y + 0.4 + Math.random() * 0.6, z: base.z + 0.2 + Math.random() * 0.6 }); } catch (e) {}
@@ -257,7 +260,22 @@ function idleDecor(block, dimension) {
     if (block.permutation.getState("santa:on") !== on) block.setPermutation(block.permutation.withState("santa:on", on));
     return;
   }
-  if (cfg.idle && (!cfg.toggle || block.permutation.getState("santa:on") === 1)) stepStates(block, dimension, "santa:frame", cfg.idle, cfg.idle_delay);
+  if (cfg.idle && (!cfg.toggle || block.permutation.getState("santa:on") === 1))
+    stepStates(block, dimension, "santa:frame", cfg.idle, cfg.idle_delay, (i) => animExtras(cfg, block, dimension, cfg.idle[i], i));
+}
+// smoke puffs (model pixels per frame, e.g. the toy train's chimney) and an idle sound such as a "choo-choo"
+function animExtras(cfg, base, dimension, frame, i) {
+  try {
+    if (cfg.puffs && cfg.puffs[frame]) {
+      const p = cfg.puffs[frame], dir = base.permutation.getState("minecraft:cardinal_direction");
+      const at = partPos({ x: base.x + 0.5, y: base.y, z: base.z + 0.5 }, dir, [p[0] / 16, p[1] / 16, p[2] / 16]);
+      dimension.spawnParticle("minecraft:campfire_smoke_particle", at);
+    }
+    if (cfg.idle_sound && i % (cfg.idle_every || 99) === 0) {
+      decorSound(dimension, base, cfg.idle_sound, 1.5);
+      system.runTimeout(() => decorSound(dimension, base, cfg.idle_sound, 1.2), 4);   // choo... choo
+    }
+  } catch (e) {}
 }
 // advent calendar: each click opens the next door and pops out one treat
 function openAdvent(block, dimension, player) {

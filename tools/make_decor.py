@@ -190,6 +190,9 @@ FONT = dict(zip('0123456789ADEFNOSTVY', [
     ['101', '101', '101', '101', '010'], ['101', '101', '010', '010', '010']]))
 
 
+FONT['P'] = ['110', '101', '110', '100', '100']
+
+
 def text(m, s, cx, ytop, z, ps, col, depth=0.12):
     """Pixel-font text centred on cx, on a plane facing -z."""
     rows = ['.'.join(FONT[ch][r] for ch in s).replace('0', '.') for r in range(5)]
@@ -1298,6 +1301,423 @@ def mini_village(m):
         person(m, bx - r - 1.0, G, 10, 'pink', hat='purple', arms='front')
         wx = -6 + f * 3.5                                            # someone carrying presents down the street
         person(m, wx, G + 0.12, 18, 'dark_red', hat='green', arms='front', item='gifts')
+    m.use('root')
+
+
+# ---------------------------------------------------------------- more mini towns (5x5x2, same footprint as mini_village)
+G = 1.5                                                            # ground (snow) height in every town
+
+
+def ring(cx, cz, r, y, n=24):
+    """Points of a flat (horizontal) circle."""
+    return [(cx + r * math.cos(2 * math.pi * i / n), y, cz + r * math.sin(2 * math.pi * i / n)) for i in range(n + 1)]
+
+
+def town_ground(m, seed, avoid=lambda x, z: False, drifts=12):
+    m.box(-40, 0, -8, 40, G, 72, 'snow')
+    m.box(-40, 0, -8, 40, 0.6, -7.6, 'light_wood')                 # tabletop edge
+    rnd = random.Random(seed)
+    for _ in range(drifts):
+        x, z = rnd.uniform(-38, 38), rnd.uniform(-6, 70)
+        if not avoid(x, z):
+            m.ell(x, G, z, rnd.uniform(1.5, 3), 0.7, rnd.uniform(1.5, 3), 'snow', ymin=G)
+
+
+def mountains(m, peaks, base=1.5):
+    for cx, h, w in peaks:                                         # rounded snowy peaks along the back edge
+        n = min(int(h / 1.5), int((31.5 - base) / 1.5))
+        for i in range(n):
+            ww = w * (1 - i / n) ** 0.75 + 0.8
+            sh = math.sin(i * 1.7 + cx) * 0.8
+            col = 'snow' if i > n * 0.62 else ('stone' if i % 3 == 0 else 'slate')
+            m.box(cx - ww + sh, base + i * 1.5 - 0.01, 70 - ww * 0.7 - 1.5, cx + ww + sh, base + i * 1.5 + 1.5, 72, col)
+
+
+def victorian(m, x, y, z, wall, roof, trim='white', turret=True):
+    """Tall two-storey house with a porch and a corner turret; front faces -z."""
+    m.box(x - 6, y, z - 4.5, x + 6, y + 12, z + 4.5, wall)
+    m.box(x - 6.2, y + 6.0, z - 4.7, x + 6.2, y + 6.5, z + 4.7, trim)
+    for wx in (x - 4.8, x + 2.4):
+        window(m, 'n', z - 4.5, wx, y + 2.0, wx + 2.2, y + 4.4, frame=trim)
+        window(m, 'n', z - 4.5, wx, y + 7.8, wx + 2.2, y + 10.4, frame=trim, sill=None)
+    m.box(x - 1.0, y, z - 4.7, x + 1.0, y + 3.8, z - 4.5, 'dark_red')
+    m.box(x - 1.3, y + 3.8, z - 4.8, x + 1.3, y + 4.2, z - 4.5, trim)
+    m.box(x - 5, y, z - 7.2, x + 5, y + 0.6, z - 4.5, 'light_wood')        # porch
+    for px in (x - 4.6, x + 4.2):
+        m.box(px, y + 0.6, z - 7.0, px + 0.4, y + 4.6, z - 6.6, trim)
+    m.box(x - 5.4, y + 4.6, z - 7.4, x + 5.4, y + 5.1, z - 4.5, roof)
+    m.box(x - 5.4, y + 5.1, z - 7.4, x + 5.4, y + 5.4, z - 4.5, 'snow')
+    m.tube([(x - 5, y + 4.4, z - 7.5), (x - 2.5, y + 3.6, z - 7.5), (x, y + 4.2, z - 7.5), (x + 2.5, y + 3.6, z - 7.5), (x + 5, y + 4.4, z - 7.5)], 0.5, ['pine', 'g_red', 'pine', 'g_yellow'], stripe=0.6)   # garland
+    snowroof(m, x - 6.8, x + 6.8, z, y + 12, 5.4, 0.7, 0.6, roof)
+    if turret:
+        tx, tz = x + 5.2, z - 3.8
+        m.disc(tx, tz, y, y + 15, 2.6, 2.6, wall)
+        m.disc(tx, tz, y + 14.6, y + 15.2, 2.9, 2.9, trim)
+        for wy in (y + 3, y + 9.5):
+            m.box(tx - 0.6, wy, tz - 2.75, tx + 0.6, wy + 2, tz - 2.5, 'g_window')
+        for i in range(6):
+            r = 3.1 - i * 0.5
+            m.disc(tx, tz, y + 15.2 + i * 0.9, y + 16.1 + i * 0.9, r, r, roof)
+        m.box(tx - 0.2, y + 20.6, tz - 0.2, tx + 0.2, y + 21.6, tz + 0.2, 'gold')
+
+
+def elf_house(m, x, y, z, wall, cap='red'):
+    """Round elf cottage under a big snowy mushroom-cap roof; door faces -z."""
+    m.disc(x, z, y, y + 7, 4.8, 4.8, wall)
+    m.ell(x, y + 7, z, 6.4, 4.8, 6.4, cap, ymin=y + 6.6)
+    for a in range(0, 360, 50):                                    # white spots on the cap
+        sx, sz = x + 4.3 * math.cos(math.radians(a)), z + 4.3 * math.sin(math.radians(a))
+        m.box(sx - 0.6, y + 9.2, sz - 0.6, sx + 0.6, y + 10.0, sz + 0.6, 'white')
+    m.ell(x, y + 11.3, z, 3.4, 0.8, 3.4, 'snow')
+    m.box(x - 1.3, y, z - 5.0, x + 1.3, y + 3.2, z - 4.6, 'brown')
+    m.box(x - 0.9, y + 3.2, z - 5.0, x + 0.9, y + 3.8, z - 4.6, 'brown')
+    m.box(x + 0.6, y + 1.5, z - 5.1, x + 0.9, y + 1.8, z - 5.0, 'gold')
+    for wx in (x - 3.6, x + 2.1):
+        m.box(wx, y + 3.6, z - 4.4, wx + 1.5, y + 5.2, z - 3.6, 'g_window')
+    cane(m, x + 3.5, z + 2.5, y + 8, y + 15, 0.9, 0.7, hook=1)
+
+
+def stall(m, x, y, z, a, b, goods):
+    """Christmas-market hut with a striped awning; counter faces -z."""
+    m.box(x - 4.5, y, z - 2, x + 4.5, y + 6.5, z + 3, 'wood')
+    m.box(x - 4, y + 3, z - 2.1, x + 4, y + 6, z - 1.9, 'g_window')       # lit inside
+    m.box(x - 4.6, y, z - 3.2, x + 4.6, y + 3, z - 2, 'light_wood')        # counter
+    for i, g in enumerate(goods):
+        gx = x - 3.8 + i * 1.6
+        m.box(gx, y + 3, z - 3.0, gx + 1.1, y + 3.9, z - 2.2, g)
+    for i in range(10):                                                     # striped awning
+        ax = x - 5 + i
+        m.box(ax, y + 6.4, z - 4.4, ax + 1, y + 6.9, z - 2, a if i % 2 else b)
+        m.box(ax + 0.2, y + 6.0, z - 4.5, ax + 0.8, y + 6.4, z - 4.2, a if i % 2 else b)
+    snowroof(m, x - 5.2, x + 5.2, z + 0.5, y + 6.9, 3.4, 0.55, 0.6, 'dark_red', icicles=False)
+    m.box(x - 0.3, y + 4.6, z - 4.4, x + 0.3, y + 5.6, z - 3.8, 'g_flame')  # lantern
+
+
+def horse(m, x, y, z, step, coat='brown'):
+    """Small horse facing +x; step 0/1 swaps the legs for a trot."""
+    m.box(x - 1.8, y + 2.0, z - 0.7, x + 1.8, y + 3.5, z + 0.7, coat)
+    m.box(x + 1.4, y + 3.0, z - 0.5, x + 2.4, y + 4.8, z + 0.5, coat)
+    m.box(x + 2.0, y + 4.0, z - 0.45, x + 3.3, y + 4.8, z + 0.45, coat)
+    m.box(x + 1.3, y + 3.5, z - 0.2, x + 1.7, y + 4.9, z + 0.2, 'dark_brown')   # mane
+    for lx in (-1.4, 1.1):
+        for lz in (-0.6, 0.3):
+            d = 0.35 if (lx > 0) == (lz > 0) == bool(step) else -0.35 if (lx > 0) != bool(step) else 0
+            m.box(x + lx + d, y, z + lz, x + lx + d + 0.4, y + 2.0, z + lz + 0.35, 'dark_brown')
+    m.box(x - 2.4, y + 2.2, z - 0.2, x - 1.8, y + 3.3, z + 0.2, 'dark_brown')   # tail
+
+
+def reindeer(m, x, y, z, rudolph=False):
+    """Little reindeer facing +x."""
+    m.box(x - 1.2, y + 1.4, z - 0.5, x + 1.2, y + 2.6, z + 0.5, 'brown')
+    m.box(x + 1.0, y + 2.2, z - 0.4, x + 2.0, y + 3.3, z + 0.4, 'brown')
+    m.box(x + 2.0, y + 2.5, z - 0.2, x + 2.4, y + 2.9, z + 0.2, 'g_red' if rudolph else 'dark_brown')
+    for s in (-1, 1):
+        m.box(x + 1.2, y + 3.3, z + s * 0.3 - 0.1, x + 1.4, y + 4.4, z + s * 0.3 + 0.1, 'tan')
+        m.box(x + 0.8, y + 4.0, z + s * 0.3 - 0.1, x + 1.2, y + 4.2, z + s * 0.3 + 0.1, 'tan')
+    for lx in (-0.9, 0.6):
+        m.box(x + lx, y + 0.2, z - 0.4, x + lx + 0.35, y + 1.4, z + 0.4, 'dark_brown')
+
+
+# ---- 1. Christmas Railway Village: train loops the town square, puffing smoke ----
+RAIL = dict(cx=0.0, cz=30.0, rx=34.0, rz=26.0)
+TRAIN_FRAMES = 16
+
+
+def rail_point(a):
+    return RAIL['cx'] + RAIL['rx'] * math.cos(a), RAIL['cz'] + RAIL['rz'] * math.sin(a)
+
+
+def train_puffs():
+    """Engine chimney position (model px) for every frame: the script puffs smoke there."""
+    out = []
+    for f in range(TRAIN_FRAMES):
+        x, z = rail_point(2 * math.pi * f / TRAIN_FRAMES)
+        out.append([round(x, 1), G + 9.5, round(z, 1)])
+    return out
+
+
+@deco(id='railway_village', name='Christmas Railway Village', cells=TOWN_CELLS, frames=TRAIN_FRAMES, anim_only=True, light=7,
+      tick=[50, 70],
+      cfg=dict(anim=list(range(1, TRAIN_FRAMES)) + [0], delay=3, sound='note.flute', every=8,
+               idle=list(range(1, TRAIN_FRAMES)) + [0], idle_delay=3, idle_sound='note.flute', idle_every=8, puffs=train_puffs()),
+      recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'rail'])
+def railway_village(m):
+    town_ground(m, 5, lambda x, z: ((x - RAIL['cx']) / (RAIL['rx'] + 4)) ** 2 + ((z - RAIL['cz']) / (RAIL['rz'] + 4)) ** 2 < 1.3)
+    mountains(m, [(-30, 22, 11), (-10, 16, 8), (12, 18, 9), (31, 24, 10)])
+    n = 120                                                       # oval track: sleepers + two rails
+    for i in range(n):
+        a = 2 * math.pi * i / n
+        x, z = rail_point(a)
+        nx, nz = math.cos(a), math.sin(a)
+        if i % 2 == 0:
+            m.box(x - 1.3 * abs(nx) - 0.5, G, z - 1.3 * abs(nz) - 0.5, x + 1.3 * abs(nx) + 0.5, G + 0.3, z + 1.3 * abs(nz) + 0.5, 'brown')
+        for s in (-1, 1):
+            rx_, rz_ = x + s * 1.1 * nx, z + s * 1.1 * nz
+            m.box(rx_ - 0.35, G + 0.3, rz_ - 0.35, rx_ + 0.35, G + 0.65, rz_ + 0.35, 'dark_gray')
+    stamp(m, village_toy_shop, -14, G, 34)                         # town square inside the track
+    stamp(m, village_bakery, 14, G, 34)
+    pine(m, 0, G, 26, 20, 5, snow=False, lights=['g_red', 'g_yellow2', 'g_blue', 'g_green2', 'g_white'])
+    m.pixels(['.y.', 'yyy', '.y.'], -0.9, 23.6, 26, 0.6, {'y': 'g_star'}, depth=0.6)
+    for x in (-6, 6):
+        lamp(m, x, G, 18)
+    m.box(-38, G, -7, -22, G + 1.2, -1, 'stone')                   # station platform + building, front left
+    m.box(-36, G + 1.2, -3, -24, G + 7.5, 0.5, 'brick')
+    window(m, 'n', -3, -34.5, G + 3, -32, G + 5.5, frame='white')
+    window(m, 'n', -3, -28, G + 3, -25.5, G + 5.5, frame='white')
+    m.box(-31, G + 1.2, -3.3, -29, G + 5, -3, 'dark_brown')
+    snowroof(m, -37, -23, -1.25, G + 7.5, 3.6, 0.6, 0.6, 'dark_green', icicles=False)
+    m.disc(-30, -3.3, G + 9.5, G + 9.8, 1.4, 1.4, 'white')           # station clock
+    m.box(-30.1, G + 9.5, -3.6, -29.9, G + 10.8, -3.4, 'black')
+    person(m, -35, G + 1.2, -5.5, 'navy', hat='red', arms='down')
+    person(m, -26, G + 1.2, -5.5, 'red', hat='green', arms='front', item='gifts')
+    for f in range(TRAIN_FRAMES):                                  # the train: engine, tender, 2 cars, caboose
+        m.use('f%d' % f)
+        a0 = 2 * math.pi * f / TRAIN_FRAMES
+        cars = [('engine', 0), ('tender', 0.2), ('box', 0.38), ('coach', 0.56), ('caboose', 0.74)]
+        for kind, lag in cars:
+            x, z = rail_point(a0 - lag)
+            tx, tz = -math.sin(a0 - lag), math.cos(a0 - lag)
+            along_x = abs(tx * RAIL['rx']) > abs(tz * RAIL['rz'])
+            L, W = 3.2, 1.6                                           # half length / half width
+            hx, hz = (L, W) if along_x else (W, L)
+            col = {'engine': 'black', 'tender': 'dark_gray', 'box': 'red', 'coach': 'green', 'caboose': 'red'}[kind]
+            m.box(x - hx, G + 1.3, z - hz, x + hx, G + 1.9, z + hz, 'dark_gray')     # chassis + wheels
+            for wx in (-0.6, 0.6):
+                for ws in (-1, 1):
+                    px, pz = (x + wx * hx, z + ws * (hz + 0.1)) if along_x else (x + ws * (hx + 0.1), z + wx * hz)
+                    m.box(px - 0.6, G + 0.5, pz - 0.6, px + 0.6, G + 1.7, pz + 0.6, 'black')
+            if kind == 'engine':
+                m.box(x - hx, G + 1.9, z - hz, x + hx, G + 4.8, z + hz, 'black')
+                m.box(x - hx * 0.9, G + 4.8, z - hz * 0.9, x + hx * 0.9, G + 5.1, z + hz * 0.9, 'red')
+                m.box(x - 0.6, G + 5.1, z - 0.6, x + 0.6, G + 8, z + 0.6, 'dark_gray')   # chimney
+                m.box(x - 0.8, G + 7.6, z - 0.8, x + 0.8, G + 8.1, z + 0.8, 'gold')
+                m.box(x - hx * 0.4 - 0.5, G + 2.5, z - hz * 0.4 - 0.5, x - hx * 0.4 + 0.5, G + 3.4, z - hz * 0.4 + 0.5, 'g_yellow')   # lamp
+                for k, (dy, r) in enumerate(((9.3, 1.0), (10.8, 1.3), (12.6, 1.6))):     # smoke puffs drifting back
+                    sx, sz = x - tx * k * 1.6, z - tz * k * 1.6
+                    m.ell(sx, G + dy, sz, r, r * 0.8, r, 'white' if k < 2 else 'silver')
+            elif kind == 'tender':
+                m.box(x - hx, G + 1.9, z - hz, x + hx, G + 3.6, z + hz, 'dark_gray')
+                m.box(x - hx * 0.8, G + 3.6, z - hz * 0.8, x + hx * 0.8, G + 4.2, z + hz * 0.8, 'coal')
+            elif kind == 'coach':
+                m.box(x - hx, G + 1.9, z - hz, x + hx, G + 4.8, z + hz, 'green')
+                m.box(x - hx * 0.8, G + 3.0, z - hz - 0.05, x + hx * 0.8, G + 4.0, z + hz + 0.05, 'g_window')
+                m.box(x - hx, G + 4.8, z - hz, x + hx, G + 5.3, z + hz, 'snow')
+            else:
+                m.box(x - hx, G + 1.9, z - hz, x + hx, G + 4.6, z + hz, col)
+                m.box(x - hx, G + 4.6, z - hz, x + hx, G + 5.0, z + hz, 'snow' if kind == 'box' else 'dark_red')
+                if kind == 'caboose':
+                    m.box(x - 0.8, G + 5.0, z - 0.8, x + 0.8, G + 6.2, z + 0.8, 'red')
+                    m.box(x - 0.3, G + 6.2, z - 0.3, x + 0.3, G + 6.6, z + 0.3, 'g_red')
+                else:
+                    m.present(x - 0.9, G + 5.0, z - 0.9, x + 0.9, G + 6.3, z + 0.9, 'gold', 'red', w=0.4, bow=False)
+    m.use('root')
+
+
+# ---- 2. Victorian Hill Village: terraces of tall houses, horse and carriage, carolers, couple on the stairs ----
+@deco(id='victorian_village', name='Victorian Hill Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+      cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=4, sound='note.bell', every=4, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=4),
+      recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'brick'])
+def victorian_village(m):
+    town_ground(m, 6, lambda x, z: z > 24)
+    m.box(-40, G, 26, 40, 5.5, 72, 'snow')                           # two snowy terraces with stone walls
+    m.box(-40, G, 25.6, 40, 5.3, 26.2, 'stone')
+    m.box(-40, 5.5, 48, 40, 9.5, 72, 'snow')
+    m.box(-40, 5.5, 47.6, 40, 9.3, 48.2, 'stone')
+    for x0 in (-2.5,):                                               # central stairs
+        for i in range(6):
+            m.box(x0, G + i * 0.7, 19 + i * 1.2, x0 + 5, G + (i + 1) * 0.7, 20.2 + i * 1.2, 'gray')
+        for i in range(6):
+            m.box(x0, 5.5 + i * 0.7, 41 + i * 1.2, x0 + 5, 5.5 + (i + 1) * 0.7, 42.2 + i * 1.2, 'gray')
+    victorian(m, -24, 9.5, 58, 'brick', 'slate')
+    victorian(m, 24, 9.5, 58, 'mint', 'navy', turret=True)
+    victorian(m, -24, 5.5, 36, 'cream', 'dark_green', turret=False)
+    victorian(m, 24, 5.5, 36, 'lilac', 'slate', turret=False)
+    for x in (-34, -12, 12, 34):
+        pine(m, x, 9.5 if x in (-12, 12) else 5.5, 54 if x in (-12, 12) else 42, 9, 2.4)
+    m.box(-40, G, 8, 40, G + 0.12, 14, 'stone')                      # cobbled street along the front
+    for x in (-30, -14, 14, 30):
+        lamp(m, x, G, 15)
+    for x in (-8, 8):
+        lamp(m, x, 5.5, 44)
+    for x in [i * 3 - 39 for i in range(27)]:                         # garland railing on the lower terrace edge
+        m.box(x, 5.5, 26.2, x + 0.3, 7.5, 26.5, 'white')
+    m.tube([(x, 7.3 - 0.4 * math.sin(x / 3 * math.pi) ** 2, 26.35) for x in range(-39, 40, 1)], 0.4, ['pine', 'pine', 'g_red'], stripe=1)
+    for f in range(8):
+        m.use('f%d' % f)
+        cx = -34 + f * 9.5                                            # horse and carriage along the street
+        horse(m, cx + 5, G + 0.12, 11, f % 2)
+        m.box(cx - 3, G + 2.0, 10, cx + 2.6, G + 4.4, 12.4, 'black')
+        m.box(cx - 3, G + 4.4, 10, cx + 2.6, G + 4.8, 12.4, 'red')
+        for wx in (cx - 2.2, cx + 1.6):
+            m.cyl('z', wx, G + 1.5, 9.6, 10.0, 1.4, 1.4, 'red')
+            m.cyl('z', wx, G + 1.5, 12.4, 12.8, 1.4, 1.4, 'red')
+        person(m, cx + 0.8, G + 4.4, 11.2, 'navy', hat='black', arms='front')
+        sway = 0.4 if f % 2 else -0.4                                 # carolers on the lower terrace
+        for i, (c, h) in enumerate((('red', 'green'), ('green', 'red'), ('navy', 'white'), ('purple', 'red'))):
+            person(m, -8 + i * 2.6 + sway, 5.5, 30, c, hat=h, arms='front', item='book')
+        k = f / 8                                                     # couple climbing the upper stairs
+        sy, sz = 5.5 + k * 4.2, 40.5 + k * 7
+        person(m, 0, sy, sz, 'dark_red', hat='white', arms='down')
+        person(m, 1.8, sy, sz, 'teal', hat='pink', arms='down')
+    m.use('root')
+
+
+# ---- 3. North Pole Village: elf houses, the North Pole, sleigh flying overhead, presents on the workshop belt ----
+@deco(id='north_pole_village', name='North Pole Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+      cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=4, sound='note.bell', every=2, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=4),
+      recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'red_dye'])
+def north_pole_village(m):
+    town_ground(m, 7, drifts=16)
+    mountains(m, [(-30, 18, 10), (-8, 14, 8), (10, 16, 8), (30, 20, 10)])
+    for x, z, wall, cap in ((-26, 8, 'cream', 'red'), (26, 8, 'yellow', 'green'), (-28, 32, 'pink', 'red'),
+                            (28, 32, 'mint', 'red'), (-12, 50, 'cream', 'green'), (12, 50, 'yellow', 'red')):
+        elf_house(m, x, G, z, wall, cap)
+    for i in range(16):                                              # the North Pole itself
+        m.box(-0.8, G + i * 1.6, 23.2, 0.8, G + (i + 1) * 1.6, 24.8, 'red' if i % 2 else 'white')
+    m.ell(0, G + 26.5, 24, 1.6, 1.6, 1.6, 'gold')
+    m.box(0.8, G + 18, 23.6, 6, G + 20.5, 24.0, 'light_wood')        # sign
+    text(m, 'NP', 3.4, G + 20.1, 23.6, 0.3, 'red', depth=0.08)
+    m.box(-12, G, 54 - 8, 12, G + 9, 62, 'brick')                    # Santa's workshop with an open front
+    m.box(-11, G, 45.9, 11, G + 7, 46.1, 'g_window')
+    snowroof(m, -13, 13, 54, G + 9, 8.5, 0.7, 0.6, 'dark_red', icicles=True)
+    m.box(-9, G, 40, 9, G + 2, 43, 'dark_gray')                       # conveyor belt in front of the workshop
+    m.box(-9.2, G + 2, 39.8, 9.2, G + 2.3, 43.2, 'black')
+    for x in (-6, 6):
+        person(m, x, G, 38, 'green', hat='red', arms='front')         # elves at the belt
+    pine(m, -34, G, 54, 10, 2.4)
+    pine(m, 34, G, 54, 10, 2.4)
+    for f in range(8):
+        m.use('f%d' % f)
+        for i in range(5):                                            # presents roll along the belt (loops seamlessly)
+            px = -8 + i * 4 + f * 0.5
+            c, r = [('red', 'gold'), ('green', 'red'), ('blue', 'white'), ('purple', 'gold'), ('gold', 'red')][i]
+            m.present(px - 0.9, G + 2.3, 40.6, px + 0.9, G + 3.9, 42.4, c, r, w=0.35, bow=False)
+        a = 2 * math.pi * f / 8                                       # sleigh and reindeer circling overhead
+        for k in range(4):
+            ang = a + 0.35 * (3 - k)
+            sx, sz = 22 * math.cos(ang), 30 + 18 * math.sin(ang)
+            sy = 22 + 1.5 * math.sin(a * 2)
+            if k == 0:
+                m.box(sx - 2, sy, sz - 1.2, sx + 2, sy + 1.6, sz + 1.2, 'red')
+                m.box(sx - 2.2, sy - 0.4, sz - 1.4, sx + 2.2, sy, sz + 1.4, 'gold')
+                person(m, sx, sy + 0.4, sz, 'red', hat='red', arms='front')
+                m.present(sx - 1.6, sy + 1.6, sz + 0.2, sx - 0.4, sy + 2.8, sz + 1.2, 'green', 'red', w=0.3, bow=False)
+            else:
+                reindeer(m, sx, sy - 0.6, sz, rudolph=(k == 3))
+        m.box(-0.6, G + 0.12 + 0.6 * (f % 2), 14, 0.6, G + 1.2 + 0.6 * (f % 2), 15.2, 'white')   # a hopping snowball fight
+    m.use('root')
+    person(m, -4, G, 14.6, 'red', hat='white', arms='up')
+    person(m, 4, G, 14.6, 'blue', hat='green', arms='up')
+
+
+# ---- 4. Frozen Lake Village: spinning skating pairs, a gazebo band, kids sledding, cabins on the shore ----
+LAKE = dict(cx=0.0, cz=22.0, rx=22.0, rz=14.0)
+
+
+@deco(id='frozen_lake_village', name='Frozen Lake Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+      cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=3, sound='note.chime', every=4, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=3),
+      recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'ice'])
+def frozen_lake_village(m):
+    town_ground(m, 8, lambda x, z: ((x - LAKE['cx']) / LAKE['rx']) ** 2 + ((z - LAKE['cz']) / LAKE['rz']) ** 2 < 1.4)
+    mountains(m, [(-28, 20, 11), (-6, 15, 8), (14, 18, 9), (32, 22, 9)])
+    m.disc(LAKE['cx'], LAKE['cz'], G - 0.2, G + 0.15, LAKE['rx'], LAKE['rz'], 'light_blue')
+    m.disc(LAKE['cx'], LAKE['cz'], G + 0.15, G + 0.2, LAKE['rx'] - 2, LAKE['rz'] - 1.5, 'snow')
+    m.disc(LAKE['cx'], LAKE['cz'], G + 0.2, G + 0.22, LAKE['rx'] - 3, LAKE['rz'] - 2.5, 'light_blue')
+    gx, gz = 0, 48                                                   # gazebo bandstand
+    m.disc(gx, gz, G, G + 1, 7, 7, 'white')
+    for a in range(0, 360, 60):
+        px, pz = gx + 6 * math.cos(math.radians(a)), gz + 6 * math.sin(math.radians(a))
+        m.box(px - 0.3, G + 1, pz - 0.3, px + 0.3, G + 8, pz + 0.3, 'white')
+    for i in range(6):
+        r = 7.6 - i * 1.25
+        m.disc(gx, gz, G + 8 + i * 0.9, G + 8.9 + i * 0.9, r, r, 'dark_green' if i < 5 else 'gold')
+        m.disc(gx, gz, G + 8.85 + i * 0.9, G + 8.95 + i * 0.9, r * 0.8, r * 0.8, 'snow')
+    m.tube(ring(gx, gz, 6.3, G + 7.6), 0.4, ['pine', 'g_red', 'pine', 'g_yellow'], stripe=0.8)
+    for x, z in ((-30, 46), (30, 46), (-32, 8), (32, 6)):             # cosy cabins around the lake
+        stamp(m, village_cottage, x, G, z, s=0.8)
+    m.box(-40, G, 54, -24, 9, 72, 'snow')                             # sledding hill on the left
+    for i in range(10):
+        m.box(-40, G, 34 + i * 2, -26, G + 0.75 * (i + 1), 36 + i * 2, 'snow')
+    m.box(16, G, 30, 22, G + 4, 35, 'wood')                            # ice-fishing hut on the lake
+    m.box(15.5, G + 4, 29.5, 22.5, G + 4.6, 35.5, 'snow')
+    m.box(18, G, 29.9, 20, G + 3, 30.1, 'g_window')
+    for f in range(8):
+        m.use('f%d' % f)
+        for k, (px, pz, c1, c2) in enumerate(((-10, 20, 'red', 'navy'), (6, 16, 'purple', 'green'), (-2, 28, 'teal', 'red'))):
+            a = math.pi * f / 8 + k                                       # skating pairs spin (half turn per loop = seamless)
+            for s, c in ((1, c1), (-1, c2)):
+                person(m, px + s * 2.2 * math.cos(a), G + 0.22, pz + s * 2.2 * math.sin(a), c, hat='white', arms='out')
+        bob = 0.4 if f % 2 else 0                                     # the band bobs to the beat
+        for i, (c, inst) in enumerate((('red', 'gold'), ('navy', 'silver'), ('green', 'gold'))):
+            bx = gx - 3 + i * 3
+            person(m, bx, G + 1 + bob * (i % 2 == f % 2), gz - 1, c, hat='black', arms='front')
+            m.box(bx - 0.4, G + 3.4, gz - 2.6, bx + 0.4, G + 4.2, gz - 1.6, inst)
+        k = f / 8                                                      # kid sledding down the hill
+        sz, sy = 52 - k * 22, G + 7.5 * (1 - k)
+        m.box(-36, sy, sz - 1.6, -31, sy + 0.5, sz + 1.6, 'red')
+        person(m, -33.5, sy + 0.5, sz, 'orange', hat='blue', arms='out')
+    m.use('root')
+    lamp(m, -10, G, 6)
+    lamp(m, 10, G, 6)
+
+
+# ---- 5. Christmas Market Village: stalls, a spinning carousel, a turning Ferris wheel, Santa's grotto ----
+@deco(id='market_village', name='Christmas Market Village', cells=TOWN_CELLS, frames=8, anim_only=True, light=7, tick=[40, 60],
+      cfg=dict(anim=[1, 2, 3, 4, 5, 6, 7, 0], delay=3, sound='note.bell', every=4, idle=[1, 2, 3, 4, 5, 6, 7, 0], idle_delay=3),
+      recipe=['oak_planks', 'snowball', 'snowball', 'glowstone_dust', 'torch', 'gold_nugget'])
+def market_village(m):
+    town_ground(m, 9, lambda x, z: z > 40 or abs(x) < 14)
+    m.box(-40, G, 42, 40, G + 0.12, 72, 'stone')                      # market square paving
+    for x, a, b, goods in ((-30, 'red', 'white', ['tan', 'brown', 'yellow', 'tan']), (-16, 'green', 'white', ['red', 'pink', 'red', 'white']),
+                           (16, 'blue', 'white', ['gold', 'silver', 'red', 'green']), (30, 'red', 'gold', ['orange', 'brown', 'cream', 'tan'])):
+        stall(m, x, G, 8, a, b, goods)
+    for x, a, b, goods in ((-30, 'green', 'red', ['white', 'red', 'green', 'white']), (30, 'purple', 'white', ['lilac', 'gold', 'pink', 'blue'])):
+        stall(m, x, G, 28, a, b, goods)
+    cx, cz = 0, 26                                                    # carousel
+    m.disc(cx, cz, G, G + 1, 9, 9, 'dark_red')
+    m.disc(cx, cz, G + 1, G + 1.3, 8.4, 8.4, 'gold')
+    m.disc(cx, cz, G + 1.3, G + 13, 1.0, 1.0, 'gold')
+    for i in range(7):
+        r = 10 - i * 1.4
+        m.disc(cx, cz, G + 13 + i * 0.8, G + 13.8 + i * 0.8, r, r, 'red' if i % 2 == 0 else 'white')
+    m.ell(cx, G + 19, cz, 1, 1, 1, 'gold')
+    m.tube(ring(cx, cz, 9.6, G + 12.8, 30), 0.5, ['g_yellow', 'g_white'], stripe=1.2)
+    wx, wz, R = 0, 58, 11                                             # Ferris wheel (turns in the xy plane)
+    hub = G + 15
+    for s in (-1, 1):
+        m.tube([(wx - 9, G, wz + s * 3), (wx, hub, wz + s * 3), (wx + 9, G, wz + s * 3)], 0.9, ['dark_gray'])
+        m.tube([(wx + R * math.cos(math.radians(a)), hub + R * math.sin(math.radians(a)), wz + s * 2.2) for a in range(0, 361, 10)], 0.7,
+               ['g_red', 'g_white', 'g_green', 'g_white'], stripe=1.0)
+    m.cyl('z', wx, hub, wz - 3, wz + 3, 0.9, 0.9, 'gold')
+    m.box(-12, G, 44, -4, G + 6, 50, 'brick')                          # Santa's grotto with a queue
+    m.box(-12.4, G + 6, 43.6, -3.6, G + 6.6, 50.4, 'snow')
+    m.box(-9.5, G, 43.9, -6.5, G + 4, 44.1, 'g_window')
+    person(m, -8, G, 42.5, 'red', hat='red', arms='out')
+    for i, c in enumerate(('pink', 'blue', 'green')):
+        person(m, -8 + i * 2, G, 39 - i * 2, c, hat='white', arms='down')
+    pine(m, 20, G, 46, 18, 4.5, snow=False, lights=['g_red', 'g_yellow2', 'g_blue', 'g_green2'])
+    m.pixels(['.y.', 'yyy', '.y.'], 19.1, 21.4, 46, 0.6, {'y': 'g_star'}, depth=0.6)
+    for x in (-36, -22, 22, 36):
+        lamp(m, x, G, 18)
+    for f in range(8):
+        m.use('f%d' % f)
+        for k in range(6):                                            # carousel horses go round and bob
+            a = math.radians(k * 60 + f * 7.5)
+            hx, hz = cx + 6.5 * math.cos(a), cz + 6.5 * math.sin(a)
+            up = 0.8 if (k + f) % 2 else 0
+            m.box(hx - 0.15, G + 1.3, hz - 0.15, hx + 0.15, G + 13, hz + 0.15, 'gold')
+            m.box(hx - 1.3, G + 3.4 + up, hz - 0.5, hx + 1.3, G + 4.8 + up, hz + 0.5, ['white', 'cream', 'brown'][k % 3])
+            m.box(hx + 0.9, G + 4.4 + up, hz - 0.4, hx + 1.8, G + 5.8 + up, hz + 0.4, ['white', 'cream', 'brown'][k % 3])
+            m.box(hx - 1.1, G + 2.4 + up, hz - 0.3, hx + 1.1, G + 3.4 + up, hz + 0.3, 'dark_brown')
+            m.box(hx - 0.6, G + 4.8 + up, hz - 0.45, hx + 0.4, G + 5.1 + up, hz + 0.45, 'red')   # saddle
+        for k in range(8):                                            # Ferris wheel spokes and cabins (1/8 turn per loop)
+            a = math.radians(k * 45 + f * 45 / 8)
+            ex, ey = wx + R * math.cos(a), hub + R * math.sin(a)
+            m.tube([(wx, hub, wz), (ex, ey, wz)], 0.45, ['silver'], step=1.6)
+            col = ['red', 'blue', 'green', 'yellow'][k % 4]
+            m.box(ex - 1.2, ey - 3.2, wz - 1.6, ex + 1.2, ey - 1.2, wz + 1.6, col)
+            m.box(ex - 1.3, ey - 1.2, wz - 1.7, ex + 1.3, ey - 0.8, wz + 1.7, 'white')
+            m.box(ex - 0.15, ey - 0.8, wz - 0.15, ex + 0.15, ey, wz + 0.15, 'dark_gray')
     m.use('root')
 
 
