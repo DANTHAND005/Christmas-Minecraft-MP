@@ -23,18 +23,7 @@
           "render_method": "alpha_test"
         }
       },
-      "minecraft:collision_box": {
-        "origin": [
-          -4.178,
-          2.6,
-          -4.178
-        ],
-        "size": [
-          8.356,
-          13.4,
-          8.356
-        ]
-      },
+      "minecraft:collision_box": false,
       "minecraft:selection_box": {
         "origin": [
           -4.178,
