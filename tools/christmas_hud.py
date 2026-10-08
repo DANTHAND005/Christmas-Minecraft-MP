@@ -15,7 +15,7 @@ VANILLA = 'https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resourc
 
 RED, WHITE, DARK_RED = (214, 28, 40), (248, 248, 244), (150, 14, 24)
 GREEN, DARK_GREEN = (40, 178, 74), (18, 110, 44)
-OUTLINE, HOLLOW = (22, 10, 12), (52, 40, 42)
+OUTLINE, HOLLOW = (26, 14, 16), (128, 118, 122)   # empty icons: pale grey 'used up' shape, dark outline
 
 HEART = ['.........',
          '..##.##..',
@@ -112,6 +112,36 @@ def main():
                 c = GREEN if ((x + y) // 2) % 2 == 0 else WHITE
                 sel.putpixel((x, y), (c if not (x in (3, 20) or y in (3, 20)) else (DARK_GREEN if c == GREEN else (220, 226, 220))) + (255,))
     save(sel, 'selected_hotbar_slot')
+
+    # armour: a green Christmas sweater strung with rainbow lights (full), half lit / half grey, and grey when empty
+    SWEATER = ['.##...##.',
+               '#cc#.#cc#',
+               '#ggg#ggg#',
+               '#LgLgLgL#',
+               '.#ggggg#.',
+               '.#LgLgL#.',
+               '.#ggggg#.',
+               '.#wwwww#.',
+               '..#####..']
+    rainbow = [(255, 52, 52), (255, 150, 30), (255, 230, 40), (60, 230, 80), (60, 150, 255), (190, 90, 255), (255, 120, 200)]
+    def sweater(lit_cols):
+        img, k = Image.new('RGBA', (9, 9), (0, 0, 0, 0)), 0
+        for y, row in enumerate(SWEATER):
+            for x, ch in enumerate(row):
+                if ch == '.': continue
+                lit = x in lit_cols
+                if ch == '#': c = OUTLINE
+                elif ch == 'L':
+                    c = rainbow[k % len(rainbow)] if lit else (70, 70, 74); k += 1
+                elif ch in 'cw': c = WHITE if lit else (150, 150, 154)
+                else: c = ((34, 140, 62) if (x + y) % 2 else (28, 120, 52)) if lit else (104, 104, 108)
+                img.putpixel((x, y), c + (255,))
+        if lit_cols == range(0, 4):                                    # half: dark seam down the middle like vanilla
+            for y in range(2, 8): img.putpixel((4, y), OUTLINE + (255,))
+        return img
+    save(sweater(range(9)), 'armor_full')
+    save(sweater(range(0, 4)), 'armor_half')
+    save(sweater(()), 'armor_empty')
     print('wrote Christmas HUD textures to', os.path.relpath(OUT, ROOT))
 
 
