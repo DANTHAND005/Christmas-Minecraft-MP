@@ -152,7 +152,8 @@ for pack in PACKS.values():
         for ns, name in set(re.findall(r'"(santa|xmas):([a-z0-9_]+)"', src)):
             ident = ns + ':' + name
             if ident not in custom and ident not in registered and not ident.endswith('_') and \
-                    not re.fullmatch(r'(santa|xmas):(on|frame|open|day_a|day_b|fill|[habf]\d?|cut|slices|steam|level|kind|bites)', ident):
+                    not any(c.startswith(ident + '_') for c in custom) and \
+                    not re.fullmatch(r'(santa|xmas):(on|frame|open|day_a|day_b|fill|[habf]\d?|[nsew]|cut|slices|steam|level|kind|bites)', ident):
                 problems.append('%s: script mentions %s, which is not a block or item' % (os.path.basename(js), ident))
 for ident, (f, b) in blocks.items():
     for c in walk(b):

@@ -117,6 +117,54 @@
     },
     "santa_glass": {
       "textures": "textures/blocks/glass"
+    },
+    "santa_candy_cane_block": {
+      "textures": "textures/blocks/candy_cane_block"
+    },
+    "santa_mint_candy_block": {
+      "textures": "textures/blocks/mint_candy_block"
+    },
+    "santa_peppermint_block": {
+      "textures": "textures/blocks/peppermint_block"
+    },
+    "santa_gingerbread_block": {
+      "textures": "textures/blocks/gingerbread_block"
+    },
+    "santa_iced_gingerbread_block": {
+      "textures": "textures/blocks/iced_gingerbread_block"
+    },
+    "santa_icing_block_up": {
+      "textures": "textures/blocks/icing_block_up"
+    },
+    "santa_icing_block_side": {
+      "textures": "textures/blocks/icing_block_side"
+    },
+    "santa_icing_block_down": {
+      "textures": "textures/blocks/icing_block_down"
+    },
+    "santa_gumdrop_block_red": {
+      "textures": "textures/blocks/gumdrop_block_red"
+    },
+    "santa_gumdrop_block_green": {
+      "textures": "textures/blocks/gumdrop_block_green"
+    },
+    "santa_gumdrop_block_yellow": {
+      "textures": "textures/blocks/gumdrop_block_yellow"
+    },
+    "santa_gumdrop_block_purple": {
+      "textures": "textures/blocks/gumdrop_block_purple"
+    },
+    "santa_chocolate_block": {
+      "textures": "textures/blocks/chocolate_block"
+    },
+    "santa_white_chocolate_block": {
+      "textures": "textures/blocks/white_chocolate_block"
+    },
+    "santa_fudge_bricks": {
+      "textures": "textures/blocks/fudge_bricks"
+    },
+    "santa_cookie_tile": {
+      "textures": "textures/blocks/cookie_tile"
     }
   }
 }

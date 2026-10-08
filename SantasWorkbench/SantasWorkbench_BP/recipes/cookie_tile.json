@@ -1,0 +1,34 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "santa:cookie_tile_recipe"
+    },
+    "tags": [
+      "santa_bench"
+    ],
+    "unlock": [
+      {
+        "item": "santa:workbench"
+      }
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:cookie"
+      },
+      {
+        "item": "minecraft:cookie"
+      },
+      {
+        "item": "minecraft:cookie"
+      },
+      {
+        "item": "minecraft:cookie"
+      }
+    ],
+    "result": {
+      "item": "santa:cookie_tile",
+      "count": 4
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "format_version": "1.21.40",
+  "santa:candy_cane_block": {
+    "sound": "stone"
+  },
+  "santa:mint_candy_block": {
+    "sound": "stone"
+  },
+  "santa:peppermint_block": {
+    "sound": "stone"
+  },
+  "santa:gingerbread_block": {
+    "sound": "wood"
+  },
+  "santa:iced_gingerbread_block": {
+    "sound": "wood"
+  },
+  "santa:icing_block": {
+    "sound": "snow"
+  },
+  "santa:gumdrop_block_red": {
+    "sound": "slime"
+  },
+  "santa:gumdrop_block_green": {
+    "sound": "slime"
+  },
+  "santa:gumdrop_block_yellow": {
+    "sound": "slime"
+  },
+  "santa:gumdrop_block_purple": {
+    "sound": "slime"
+  },
+  "santa:chocolate_block": {
+    "sound": "wood"
+  },
+  "santa:white_chocolate_block": {
+    "sound": "wood"
+  },
+  "santa:fudge_bricks": {
+    "sound": "stone"
+  },
+  "santa:cookie_tile": {
+    "sound": "wood"
+  },
+  "santa:light_path": {
+    "sound": "stone"
+  }
+}
