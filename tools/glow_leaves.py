@@ -56,22 +56,23 @@ def plain_needles(frame, dark=0.6):
 COLOURS = {'red': (255, 38, 48), 'blue': (82, 152, 255), 'green': (60, 255, 92), 'yellow': (255, 222, 40)}   # classic Christmas bulbs
 SHAPES = {'plus': [(0, 0, 1.0), (1, 0, 0.88), (-1, 0, 0.88), (0, 1, 0.88), (0, -1, 0.88)],
           'dash': [(0, 0, 1.0), (1, 0, 0.92)], 'dot': [(0, 0, 1.0)]}
-VARIANTS = 6                                   # Minecraft picks one of these at random for every spruce leaf block
+VARIANTS = 8                                   # Minecraft picks one of these at random for every spruce leaf block
 
 
 def pattern(seed):
-    """Random string-light layout for one variant: 1-2 plus bulbs, 3-5 dashes, 2-4 dots, never touching
-    (the tile wraps, so spacing is checked across the edges too)."""
+    """Random layout for one variant: just 3 lights (sometimes a plus bulb, otherwise dashes and dots), each a
+    different colour, never touching (the tile wraps, so spacing is checked across the edges too)."""
     rnd = random.Random(seed)
-    want = ['plus'] * rnd.randint(1, 2) + ['dash'] * rnd.randint(3, 5) + ['dot'] * rnd.randint(2, 4)
+    want = rnd.choice([['plus', 'dash', 'dot'], ['dash', 'dash', 'dot'], ['plus', 'dot', 'dot'], ['dash', 'dot', 'dot']])
+    colours = rnd.sample(list(COLOURS), 3)
     taken, out = set(), []
     for shape in want:
         for _ in range(200):
             x, y = rnd.randrange(16), rnd.randrange(16)
             pix = {((x + dx) % 16, (y + dy) % 16) for dx, dy, _ in SHAPES[shape]}
-            if all((((px + ax) % 16, (py + ay) % 16) not in taken) for px, py in pix for ax in (-1, 0, 1) for ay in (-1, 0, 1)):
+            if all((((px + ax) % 16, (py + ay) % 16) not in taken) for px, py in pix for ax in range(-3, 4) for ay in range(-3, 4)):
                 taken |= pix
-                out.append((x, y, shape, rnd.choice(list(COLOURS)), rnd.uniform(0, 2 * math.pi)))
+                out.append((x, y, shape, colours[len(out)], rnd.uniform(0, 2 * math.pi)))
                 break
     return out
 

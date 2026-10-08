@@ -143,5 +143,21 @@
     "atlas_tile_variant": 5,
     "ticks_per_frame": 6,
     "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v6",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 6,
+    "ticks_per_frame": 6,
+    "blend_frames": true
+  },
+  {
+    "flipbook_texture": "textures/blocks/leaves_spruce_v7",
+    "atlas_tile": "spruce_leaves",
+    "atlas_index": 0,
+    "atlas_tile_variant": 7,
+    "ticks_per_frame": 6,
+    "blend_frames": true
   }
 ]

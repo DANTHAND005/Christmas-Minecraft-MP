@@ -31,6 +31,14 @@
             {
               "path": "textures/blocks/leaves_spruce_v5",
               "weight": 1
+            },
+            {
+              "path": "textures/blocks/leaves_spruce_v6",
+              "weight": 1
+            },
+            {
+              "path": "textures/blocks/leaves_spruce_v7",
+              "weight": 1
             }
           ]
         },
@@ -58,6 +66,14 @@
             },
             {
               "path": "textures/blocks/leaves_spruce_opaque_v5",
+              "weight": 1
+            },
+            {
+              "path": "textures/blocks/leaves_spruce_opaque_v6",
+              "weight": 1
+            },
+            {
+              "path": "textures/blocks/leaves_spruce_opaque_v7",
               "weight": 1
             }
           ]
