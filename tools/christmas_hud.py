@@ -162,6 +162,43 @@ def main():
             if x in (0, 12): c = (16, 20, 36)
             empty.putpixel((x, y), c + (255,))
     save(empty, 'experiencebarempty')
+    # inventory & container screens: green panels with a candy-cane border, grey slots with a little tree + snow.
+    # Panels are drawn big (160 px) so nine-slice stretching only scales the border stripes a little.
+    import json
+    P, B = 160, 8                                              # panel size, nine-slice border
+    panel = Image.new('RGBA', (P, P))
+    for x in range(P):
+        for y in range(P):
+            d = min(x, y, P - 1 - x, P - 1 - y)                    # distance from the outer edge
+            if d == 0: c = (20, 30, 16)
+            elif d <= 5: c = RED if ((x + y) // 3) % 2 == 0 else WHITE        # candy-cane border
+            elif d == 6: c = (20, 30, 16)
+            elif d == 7: c = (112, 168, 92)                         # thin light-green inner line
+            else: c = (38, 84, 34) if (x * 7 + y * 3) % 11 else (44, 92, 38)   # dark green, faint speckle
+            panel.putpixel((x, y), c + (255,))
+    for name in ('dialog_background_opaque', 'recipe_back_panel'):
+        save(panel, name)
+        with open(os.path.join(OUT, name + '.json'), 'w') as fh:
+            json.dump({'nineslice_size': B, 'base_size': [P, P]}, fh)
+    TREE = ['.......#........', '......###.......', '.....#####......', '.......#........', '.....#####......',
+            '....#######.....', '......###.......', '....#######.....', '...#########....', '.......#........']
+    cell = Image.new('RGBA', (18, 18))
+    for x in range(18):
+        for y in range(18):
+            if x in (0, 17) or y in (0, 17): c = (84, 52, 26)      # wood-brown frame
+            elif x == 1 or y == 1: c = (120, 120, 126)              # inner shadow
+            else: c = (196, 198, 204)                               # light grey slot
+            cell.putpixel((x, y), c + (255,))
+    for r, row in enumerate(TREE):                                  # faint tree mark in the middle
+        for k, ch in enumerate(row):
+            if ch == '#': cell.putpixel((1 + k, 3 + r), (160, 162, 170, 255))
+    for x in range(1, 17):                                          # snow drift along the bottom
+        h = 2 + (x % 5 == 0) + (x % 3 == 1)
+        for y in range(17 - h, 17):
+            cell.putpixel((x, y), ((255, 255, 255) if y > 17 - h else (232, 240, 250)) + (255,))
+    save(cell, 'cell_image')
+    with open(os.path.join(OUT, 'cell_image.json'), 'w') as fh:
+        json.dump({'nineslice_size': 1, 'base_size': [18, 18]}, fh)
     print('wrote Christmas HUD textures to', os.path.relpath(OUT, ROOT))
 
 
