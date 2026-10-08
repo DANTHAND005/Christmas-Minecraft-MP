@@ -112,20 +112,20 @@ def cookie_tile():
 
 
 BLOCKS = [   # id, name, textures (all faces, or dict up/side/down), sound, recipe ingredients, count
-    ('candy_cane_block', 'Candy Cane Block', stripes(RED, WHITE), 'stone', ['sugar', 'sugar', 'sugar', 'red_dye', 'white_dye'], 4),
-    ('mint_candy_block', 'Mint Candy Cane Block', stripes(MINT, WHITE), 'stone', ['sugar', 'sugar', 'sugar', 'green_dye', 'white_dye'], 4),
-    ('peppermint_block', 'Peppermint Block', peppermint(), 'stone', ['sugar', 'sugar', 'red_dye', 'snowball'], 4),
-    ('gingerbread_block', 'Gingerbread Block', gingerbread(), 'wood', ['wheat', 'wheat', 'wheat', 'sugar', 'cocoa_beans'], 4),
-    ('iced_gingerbread_block', 'Iced Gingerbread Block', iced_gingerbread(), 'wood', ['wheat', 'wheat', 'sugar', 'cocoa_beans', 'snowball'], 4),
-    ('icing_block', 'Icing Block', {'up': icing_top(), 'side': icing_side(), 'down': gingerbread()}, 'snow', ['sugar', 'sugar', 'sugar', 'snowball', 'snowball'], 4),
-    ('gumdrop_block_red', 'Red Gumdrop Block', gumdrop((210, 32, 44)), 'slime', ['sugar', 'slime_ball', 'red_dye'], 4),
-    ('gumdrop_block_green', 'Green Gumdrop Block', gumdrop((44, 176, 70)), 'slime', ['sugar', 'slime_ball', 'green_dye'], 4),
-    ('gumdrop_block_yellow', 'Yellow Gumdrop Block', gumdrop((240, 200, 40)), 'slime', ['sugar', 'slime_ball', 'yellow_dye'], 4),
-    ('gumdrop_block_purple', 'Purple Gumdrop Block', gumdrop((140, 60, 190)), 'slime', ['sugar', 'slime_ball', 'purple_dye'], 4),
-    ('chocolate_block', 'Chocolate Block', chocolate((104, 58, 32)), 'wood', ['cocoa_beans', 'cocoa_beans', 'cocoa_beans', 'sugar'], 4),
-    ('white_chocolate_block', 'White Chocolate Block', chocolate((236, 222, 192)), 'wood', ['cocoa_beans', 'sugar', 'sugar', 'white_dye'], 4),
-    ('fudge_bricks', 'Fudge Bricks', fudge_bricks(), 'stone', ['cocoa_beans', 'cocoa_beans', 'sugar', 'brick'], 4),
-    ('cookie_tile', 'Cookie Tiles', cookie_tile(), 'wood', ['cookie', 'cookie', 'cookie', 'cookie'], 4),
+    ('candy_cane_block', 'Candy Cane Block', stripes(RED, WHITE), 'stone', ['sugar', 'sugar', 'sugar', 'red_dye', 'white_dye'], 8),
+    ('mint_candy_block', 'Mint Candy Cane Block', stripes(MINT, WHITE), 'stone', ['sugar', 'sugar', 'sugar', 'green_dye', 'white_dye'], 8),
+    ('peppermint_block', 'Peppermint Block', peppermint(), 'stone', ['sugar', 'sugar', 'red_dye', 'snowball'], 8),
+    ('gingerbread_block', 'Gingerbread Block', gingerbread(), 'wood', ['wheat', 'wheat', 'wheat', 'sugar', 'cocoa_beans'], 8),
+    ('iced_gingerbread_block', 'Iced Gingerbread Block', iced_gingerbread(), 'wood', ['wheat', 'wheat', 'sugar', 'cocoa_beans', 'snowball'], 8),
+    ('icing_block', 'Icing Block', {'up': icing_top(), 'side': icing_side(), 'down': gingerbread()}, 'snow', ['sugar', 'sugar', 'sugar', 'snowball', 'snowball'], 8),
+    ('gumdrop_block_red', 'Red Gumdrop Block', gumdrop((210, 32, 44)), 'slime', ['sugar', 'slime_ball', 'red_dye'], 8),
+    ('gumdrop_block_green', 'Green Gumdrop Block', gumdrop((44, 176, 70)), 'slime', ['sugar', 'slime_ball', 'green_dye'], 8),
+    ('gumdrop_block_yellow', 'Yellow Gumdrop Block', gumdrop((240, 200, 40)), 'slime', ['sugar', 'slime_ball', 'yellow_dye'], 8),
+    ('gumdrop_block_purple', 'Purple Gumdrop Block', gumdrop((140, 60, 190)), 'slime', ['sugar', 'slime_ball', 'purple_dye'], 8),
+    ('chocolate_block', 'Chocolate Block', chocolate((104, 58, 32)), 'wood', ['cocoa_beans', 'cocoa_beans', 'cocoa_beans', 'sugar'], 8),
+    ('white_chocolate_block', 'White Chocolate Block', chocolate((236, 222, 192)), 'wood', ['cocoa_beans', 'sugar', 'sugar', 'white_dye'], 8),
+    ('fudge_bricks', 'Fudge Bricks', fudge_bricks(), 'stone', ['cocoa_beans', 'cocoa_beans', 'sugar', 'brick'], 8),
+    ('cookie_tile', 'Cookie Tiles', cookie_tile(), 'wood', ['cookie', 'cookie', 'cookie', 'cookie'], 8),
 ]
 
 
@@ -207,7 +207,7 @@ def main():
     D.dump(os.path.join(BP, 'recipes', 'light_path.json'), {'format_version': '1.20.10', 'minecraft:recipe_shapeless': {
         'description': {'identifier': 'santa:light_path_recipe'}, 'tags': ['santa_bench'], 'unlock': [{'item': 'santa:workbench'}],
         'ingredients': [{'item': 'minecraft:' + i} for i in ['cobblestone', 'cobblestone', 'cobblestone', 'glowstone_dust', 'string']],
-        'result': {'item': 'santa:light_path', 'count': 6}}})
+        'result': {'item': 'santa:light_path', 'count': 8}}})
     lang.append('tile.santa:light_path.name=Christmas Light Path (Workshop Block)')
     sounds['santa:light_path'] = {'sound': 'stone'}
 
