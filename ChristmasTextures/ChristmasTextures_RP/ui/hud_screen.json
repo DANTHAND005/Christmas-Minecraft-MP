@@ -6,19 +6,20 @@
       0,
       0
     ],
-    "frame_count": 32,
-    "frame_step": 5,
-    "fps": 16,
-    "looping": true
+    "frame_count": 20,
+    "frame_step": 91,
+    "fps": 10,
+    "easing": "linear"
   },
   "full_progress_bar": {
     "type": "image",
     "texture": "textures/ui/experiencebarfull",
     "uv_size": [
-      182,
+      91,
       5
     ],
     "uv": "@hud.xp_rainbow_scroll",
+    "disable_anim_fast_forward": true,
     "clip_direction": "left",
     "clip_pixelperfect": false,
     "bindings": [
@@ -30,126 +31,327 @@
     ]
   },
   "progress_text_label": {
-    "type": "label",
-    "shadow": true,
-    "text": "#level_number",
-    "font_type": "smooth",
-    "color": [
-      1.0,
-      0.3,
-      0.3
-    ],
-    "anims": [
-      "@hud.xp_text_0"
+    "type": "panel",
+    "size": [
+      "100%c",
+      "100%c"
     ],
     "anchor_from": "top_middle",
     "anchor_to": "bottom_middle",
     "bindings": [
       {
-        "binding_name": "#level_number",
-        "binding_type": "global"
-      },
-      {
         "binding_name": "#level_number_visible",
         "binding_type": "global",
         "binding_name_override": "#visible"
       }
+    ],
+    "controls": [
+      {
+        "xp_num_0": {
+          "type": "label",
+          "text": "#level_number",
+          "font_type": "MinecraftTen",
+          "font_scale_factor": 1.25,
+          "shadow": true,
+          "color": [
+            1.0,
+            0.3,
+            0.3
+          ],
+          "alpha": 0.0,
+          "layer": 0,
+          "anims": [
+            "@hud.xp_wait0_0"
+          ],
+          "bindings": [
+            {
+              "binding_name": "#level_number",
+              "binding_type": "global"
+            }
+          ]
+        }
+      },
+      {
+        "xp_num_1": {
+          "type": "label",
+          "text": "#level_number",
+          "font_type": "MinecraftTen",
+          "font_scale_factor": 1.25,
+          "shadow": true,
+          "color": [
+            1.0,
+            0.65,
+            0.2
+          ],
+          "alpha": 0.0,
+          "layer": 1,
+          "anims": [
+            "@hud.xp_wait0_1"
+          ],
+          "bindings": [
+            {
+              "binding_name": "#level_number",
+              "binding_type": "global"
+            }
+          ]
+        }
+      },
+      {
+        "xp_num_2": {
+          "type": "label",
+          "text": "#level_number",
+          "font_type": "MinecraftTen",
+          "font_scale_factor": 1.25,
+          "shadow": true,
+          "color": [
+            1.0,
+            0.95,
+            0.3
+          ],
+          "alpha": 0.0,
+          "layer": 2,
+          "anims": [
+            "@hud.xp_wait0_2"
+          ],
+          "bindings": [
+            {
+              "binding_name": "#level_number",
+              "binding_type": "global"
+            }
+          ]
+        }
+      },
+      {
+        "xp_num_3": {
+          "type": "label",
+          "text": "#level_number",
+          "font_type": "MinecraftTen",
+          "font_scale_factor": 1.25,
+          "shadow": true,
+          "color": [
+            0.35,
+            1.0,
+            0.4
+          ],
+          "alpha": 0.0,
+          "layer": 3,
+          "anims": [
+            "@hud.xp_wait0_3"
+          ],
+          "bindings": [
+            {
+              "binding_name": "#level_number",
+              "binding_type": "global"
+            }
+          ]
+        }
+      },
+      {
+        "xp_num_4": {
+          "type": "label",
+          "text": "#level_number",
+          "font_type": "MinecraftTen",
+          "font_scale_factor": 1.25,
+          "shadow": true,
+          "color": [
+            0.3,
+            0.75,
+            1.0
+          ],
+          "alpha": 0.0,
+          "layer": 4,
+          "anims": [
+            "@hud.xp_wait0_4"
+          ],
+          "bindings": [
+            {
+              "binding_name": "#level_number",
+              "binding_type": "global"
+            }
+          ]
+        }
+      },
+      {
+        "xp_num_5": {
+          "type": "label",
+          "text": "#level_number",
+          "font_type": "MinecraftTen",
+          "font_scale_factor": 1.25,
+          "shadow": true,
+          "color": [
+            0.8,
+            0.45,
+            1.0
+          ],
+          "alpha": 0.0,
+          "layer": 5,
+          "anims": [
+            "@hud.xp_wait0_5"
+          ],
+          "bindings": [
+            {
+              "binding_name": "#level_number",
+              "binding_type": "global"
+            }
+          ]
+        }
+      }
     ]
   },
-  "xp_text_0": {
-    "anim_type": "color",
-    "easing": "linear",
-    "duration": 0.35,
-    "from": [
-      1.0,
-      0.3,
-      0.3
-    ],
-    "to": [
-      1.0,
-      0.65,
-      0.2
-    ],
-    "next": "@hud.xp_text_1"
+  "xp_wait0_0": {
+    "anim_type": "wait",
+    "duration": 0.001,
+    "next": "@hud.xp_in_0"
   },
-  "xp_text_1": {
-    "anim_type": "color",
+  "xp_in_0": {
+    "anim_type": "alpha",
     "easing": "linear",
-    "duration": 0.35,
-    "from": [
-      1.0,
-      0.65,
-      0.2
-    ],
-    "to": [
-      1.0,
-      0.95,
-      0.3
-    ],
-    "next": "@hud.xp_text_2"
+    "duration": 0.4,
+    "from": 0,
+    "to": 1,
+    "next": "@hud.xp_out_0"
   },
-  "xp_text_2": {
-    "anim_type": "color",
+  "xp_out_0": {
+    "anim_type": "alpha",
     "easing": "linear",
-    "duration": 0.35,
-    "from": [
-      1.0,
-      0.95,
-      0.3
-    ],
-    "to": [
-      0.35,
-      1.0,
-      0.4
-    ],
-    "next": "@hud.xp_text_3"
+    "duration": 0.4,
+    "from": 1,
+    "to": 0,
+    "next": "@hud.xp_rest_0"
   },
-  "xp_text_3": {
-    "anim_type": "color",
-    "easing": "linear",
-    "duration": 0.35,
-    "from": [
-      0.35,
-      1.0,
-      0.4
-    ],
-    "to": [
-      0.3,
-      0.75,
-      1.0
-    ],
-    "next": "@hud.xp_text_4"
+  "xp_rest_0": {
+    "anim_type": "wait",
+    "duration": 1.6,
+    "next": "@hud.xp_in_0"
   },
-  "xp_text_4": {
-    "anim_type": "color",
-    "easing": "linear",
-    "duration": 0.35,
-    "from": [
-      0.3,
-      0.75,
-      1.0
-    ],
-    "to": [
-      0.75,
-      0.45,
-      1.0
-    ],
-    "next": "@hud.xp_text_5"
+  "xp_wait0_1": {
+    "anim_type": "wait",
+    "duration": 0.401,
+    "next": "@hud.xp_in_1"
   },
-  "xp_text_5": {
-    "anim_type": "color",
+  "xp_in_1": {
+    "anim_type": "alpha",
     "easing": "linear",
-    "duration": 0.35,
-    "from": [
-      0.75,
-      0.45,
-      1.0
-    ],
-    "to": [
-      1.0,
-      0.3,
-      0.3
-    ],
-    "next": "@hud.xp_text_0"
+    "duration": 0.4,
+    "from": 0,
+    "to": 1,
+    "next": "@hud.xp_out_1"
+  },
+  "xp_out_1": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 1,
+    "to": 0,
+    "next": "@hud.xp_rest_1"
+  },
+  "xp_rest_1": {
+    "anim_type": "wait",
+    "duration": 1.6,
+    "next": "@hud.xp_in_1"
+  },
+  "xp_wait0_2": {
+    "anim_type": "wait",
+    "duration": 0.801,
+    "next": "@hud.xp_in_2"
+  },
+  "xp_in_2": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 0,
+    "to": 1,
+    "next": "@hud.xp_out_2"
+  },
+  "xp_out_2": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 1,
+    "to": 0,
+    "next": "@hud.xp_rest_2"
+  },
+  "xp_rest_2": {
+    "anim_type": "wait",
+    "duration": 1.6,
+    "next": "@hud.xp_in_2"
+  },
+  "xp_wait0_3": {
+    "anim_type": "wait",
+    "duration": 1.201,
+    "next": "@hud.xp_in_3"
+  },
+  "xp_in_3": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 0,
+    "to": 1,
+    "next": "@hud.xp_out_3"
+  },
+  "xp_out_3": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 1,
+    "to": 0,
+    "next": "@hud.xp_rest_3"
+  },
+  "xp_rest_3": {
+    "anim_type": "wait",
+    "duration": 1.6,
+    "next": "@hud.xp_in_3"
+  },
+  "xp_wait0_4": {
+    "anim_type": "wait",
+    "duration": 1.601,
+    "next": "@hud.xp_in_4"
+  },
+  "xp_in_4": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 0,
+    "to": 1,
+    "next": "@hud.xp_out_4"
+  },
+  "xp_out_4": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 1,
+    "to": 0,
+    "next": "@hud.xp_rest_4"
+  },
+  "xp_rest_4": {
+    "anim_type": "wait",
+    "duration": 1.6,
+    "next": "@hud.xp_in_4"
+  },
+  "xp_wait0_5": {
+    "anim_type": "wait",
+    "duration": 2.001,
+    "next": "@hud.xp_in_5"
+  },
+  "xp_in_5": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 0,
+    "to": 1,
+    "next": "@hud.xp_out_5"
+  },
+  "xp_out_5": {
+    "anim_type": "alpha",
+    "easing": "linear",
+    "duration": 0.4,
+    "from": 1,
+    "to": 0,
+    "next": "@hud.xp_rest_5"
+  },
+  "xp_rest_5": {
+    "anim_type": "wait",
+    "duration": 1.6,
+    "next": "@hud.xp_in_5"
   }
 }
