@@ -137,18 +137,30 @@ EDGES = {'n': ('z', -1), 's': ('z', 1), 'e': ('x', -1), 'w': ('x', 1)}
 
 def light_path_model():
     m = D.Model()
-    m.box(-8, 0, -8, 8, 13.6, 8, 'dark_gray')                       # bed (shows in the gaps between flagstones)
-    for i, (x0, z0, x1, z1) in enumerate(((-7.8, -7.8, -0.2, -0.2), (0.2, -7.8, 7.8, -0.2), (-7.8, 0.2, 0.2, 7.8), (0.6, 0.2, 7.8, 7.8))):
-        m.box(x0, 13.6, z0, x1, 14, z1, ['stone', 'gray', 'gray', 'stone'][i])    # flagstones
+    m.box(-8, 0, -8, 8, 13.4, 8, 'gray')                            # gravel bed (also the sides)
+    m.box(-8, 12.6, -8, 8, 13.4, 8, 'slate')
     rnd = random.Random(4)
-    for _ in range(6):                                               # a dusting of snow
-        x, z = rnd.uniform(-7, 6), rnd.uniform(-7, 6)
-        m.box(x, 14, z, x + rnd.uniform(0.6, 1.4), 14.15, z + rnd.uniform(0.6, 1.4), 'snow')
+    n, cell = 12, 16 / 12
+    for i in range(n):                                               # loose gravel: little stones of mixed size and height
+        for j in range(n):
+            x0, z0 = -8 + i * cell, -8 + j * cell
+            if min(i, j, n - 1 - i, n - 1 - j) > 1 and rnd.random() < 0.1:   # a few snow patches in the middle
+                m.box(x0, 13.4, z0, x0 + cell, 14.1 + rnd.uniform(0, 0.3), z0 + cell, 'snow')
+                continue
+            shrink = rnd.uniform(0.05, 0.25)
+            m.box(x0 + shrink, 13.4, z0 + shrink, x0 + cell - shrink, 13.6 + rnd.uniform(0.1, 0.5), z0 + cell - shrink,
+                  rnd.choice(['stone', 'stone', 'gray', 'silver', 'slate', 'dark_gray']))
+    snow_rnd = random.Random(9)
     for k, (edge, (axis, side)) in enumerate(EDGES.items()):
         m.use('l' + edge)
         c = 7.0 * side                                               # just inside the edge
         def at(t, y0, y1, h):
             return (t - h, y0, c - h, t + h, y1, c + h) if axis == 'z' else (c - h, y0, t - h, c + h, y1, t + h)
+        for t in range(n):                                           # snow bank along the outer edge, uneven
+            lo, w = -8 + t * cell, snow_rnd.uniform(1.6, 3.0)
+            hi = 14.3 + snow_rnd.uniform(0, 0.5)
+            inner, outer = sorted((8 * side, 8 * side - side * w))
+            m.box(*((lo, 13.4, inner, lo + cell, hi, outer) if axis == 'z' else (inner, 13.4, lo, outer, hi, lo + cell)), 'snow')
         wire = (-8, 14.1, c - 0.15, 8, 14.4, c + 0.15) if axis == 'z' else (c - 0.15, 14.1, -8, c + 0.15, 14.4, 8)
         m.box(*wire, 'dark_green')
         for j, t in enumerate((-6, -3, 0, 3, 6)):
