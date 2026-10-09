@@ -1,0 +1,145 @@
+{
+  "tiers": [
+    {
+      "total_exp_required": 0,
+      "trades": [
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:cooked_cod",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 4
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:cooked_salmon",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:dried_kelp",
+              "quantity": 8
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 4
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:tropical_fish",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 5
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:fishing_rod",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:cod",
+              "quantity": 12
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:salmon",
+              "quantity": 8
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:ink_sac",
+              "quantity": 8
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        }
+      ]
+    }
+  ]
+}

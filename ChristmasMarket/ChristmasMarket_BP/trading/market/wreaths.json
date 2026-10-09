@@ -1,0 +1,162 @@
+{
+  "tiers": [
+    {
+      "total_exp_required": 0,
+      "trades": [
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 8
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:wreath",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 8
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:door_wreath",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 5
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:poinsettia",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 5
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:mistletoe",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 8
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:holly_centerpiece",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:sweet_berries",
+              "quantity": 8
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:vine",
+              "quantity": 8
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:sweet_berries",
+              "quantity": 16
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:spruce_leaves",
+              "quantity": 24
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "tiers": [
+    {
+      "total_exp_required": 0,
+      "trades": [
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "xmas:cookie_gingerbread",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "xmas:cookie_sugar",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "xmas:cookie_chocolate_chip",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "xmas:cookie_snickerdoodle",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 4
+            }
+          ],
+          "gives": [
+            {
+              "item": "xmas:cookie_peppermint_chocolate",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:cookie",
+              "quantity": 8
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "xmas:pumpkin_pie_slice",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "xmas:apple_pie_slice",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:wheat",
+              "quantity": 20
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:sugar",
+              "quantity": 16
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:cocoa_beans",
+              "quantity": 12
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        }
+      ]
+    }
+  ]
+}

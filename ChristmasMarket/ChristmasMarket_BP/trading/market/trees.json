@@ -1,0 +1,145 @@
+{
+  "tiers": [
+    {
+      "total_exp_required": 0,
+      "trades": [
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 8
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:christmas_tree",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 14
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:christmas_tree_medium",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 24
+            }
+          ],
+          "gives": [
+            {
+              "item": "santa:tall_christmas_tree",
+              "quantity": 1
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:spruce_sapling",
+              "quantity": 4
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:spruce_log",
+              "quantity": 8
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "gives": [
+            {
+              "item": "minecraft:spruce_leaves",
+              "quantity": 16
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:stick",
+              "quantity": 32
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 2
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        },
+        {
+          "wants": [
+            {
+              "item": "minecraft:spruce_log",
+              "quantity": 16
+            }
+          ],
+          "gives": [
+            {
+              "item": "market:gold_coin",
+              "quantity": 3
+            }
+          ],
+          "max_uses": 64,
+          "trader_exp": 1,
+          "reward_exp": false
+        }
+      ]
+    }
+  ]
+}

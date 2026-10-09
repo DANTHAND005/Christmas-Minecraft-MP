@@ -1,0 +1,69 @@
+{
+  "resource_pack_name": "christmas_market",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "market_gold_coin": {
+      "textures": "textures/items/gold_coin"
+    },
+    "market_cookies_stall": {
+      "textures": "textures/items/cookies_stall"
+    },
+    "market_roasts_stall": {
+      "textures": "textures/items/roasts_stall"
+    },
+    "market_cocoa_stall": {
+      "textures": "textures/items/cocoa_stall"
+    },
+    "market_sweaters_stall": {
+      "textures": "textures/items/sweaters_stall"
+    },
+    "market_books_stall": {
+      "textures": "textures/items/books_stall"
+    },
+    "market_baubles_stall": {
+      "textures": "textures/items/baubles_stall"
+    },
+    "market_candles_stall": {
+      "textures": "textures/items/candles_stall"
+    },
+    "market_toys_stall": {
+      "textures": "textures/items/toys_stall"
+    },
+    "market_fish_stall": {
+      "textures": "textures/items/fish_stall"
+    },
+    "market_bakery_stall": {
+      "textures": "textures/items/bakery_stall"
+    },
+    "market_candy_stall": {
+      "textures": "textures/items/candy_stall"
+    },
+    "market_trees_stall": {
+      "textures": "textures/items/trees_stall"
+    },
+    "market_wreaths_stall": {
+      "textures": "textures/items/wreaths_stall"
+    },
+    "market_skates_stall": {
+      "textures": "textures/items/skates_stall"
+    },
+    "market_lights_stall": {
+      "textures": "textures/items/lights_stall"
+    },
+    "market_bells_stall": {
+      "textures": "textures/items/bells_stall"
+    },
+    "market_cider_stall": {
+      "textures": "textures/items/cider_stall"
+    },
+    "market_fireworks_stall": {
+      "textures": "textures/items/fireworks_stall"
+    },
+    "market_music_stall": {
+      "textures": "textures/items/music_stall"
+    },
+    "market_gifts_stall": {
+      "textures": "textures/items/gifts_stall"
+    }
+  }
+}

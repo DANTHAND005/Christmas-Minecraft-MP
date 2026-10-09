@@ -1,0 +1,69 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "market:stall_toys",
+      "is_spawnable": false,
+      "is_summonable": true
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "market_stall",
+          "inanimate"
+        ]
+      },
+      "minecraft:health": {
+        "value": 100,
+        "max": 100
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 2.6,
+        "height": 3.6
+      },
+      "minecraft:custom_hit_test": {
+        "hitboxes": [
+          {
+            "width": 3.4,
+            "height": 4.2,
+            "pivot": [
+              0,
+              2.1,
+              0
+            ]
+          }
+        ]
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:persistent": {},
+      "minecraft:movement": {
+        "value": 0
+      },
+      "minecraft:economy_trade_table": {
+        "display_name": "entity.market:stall_toys.name",
+        "table": "trading/market/toys.json",
+        "new_screen": true,
+        "persist_trades": true
+      },
+      "minecraft:behavior.trade_with_player": {
+        "priority": 1
+      }
+    }
+  }
+}

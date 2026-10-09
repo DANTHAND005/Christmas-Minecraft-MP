@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Christmas Market RP",
+    "description": "Villager market stalls, gold coins and the Coin Press",
+    "uuid": "99796ef7-e4c7-5b5a-840e-8378cec96941",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      90
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "0f7c86c6-cdd3-5a93-9f4b-b94051e6082b",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ]
+}
