@@ -64,6 +64,9 @@
     },
     "market_gifts_stall": {
       "textures": "textures/items/gifts_stall"
+    },
+    "market_coin_press": {
+      "textures": "textures/items/coin_press"
     }
   }
 }

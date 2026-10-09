@@ -1,6 +1,9 @@
 {
   "format_version": "1.21.40",
-  "market:coin_press": {
+  "market:slot_machine": {
+    "sound": "metal"
+  },
+  "market:slot_machine_top": {
     "sound": "metal"
   }
 }

@@ -1094,23 +1094,69 @@ def build(spec):
 
 
 # ---------------------------------------------------------------- the coin press and the coin
-def coin_press(m):
-    m.box(-7, 0, -6, 7, 3, 6, 'dark_red'); m.box(-7.2, 3, -6.2, 7.2, 3.6, 6.2, 'gold')        # base with gold trim
-    m.box(-5, 3.6, -4, 5, 10, 4, 'red')                                                         # body
-    m.box(-3.6, 5, -4.2, 3.6, 9, -4, 'g_window')                                                # lit window into the press
-    for k in range(3):
-        m.cyl('z', -1.8 + k * 1.8, 6.4 + (k % 2) * 1.2, -4.4, -4.2, 0.7, 0.7, 'gold')
-    m.box(-6, 10, -5, 6, 12, 5, 'dark_red'); m.box(-6.2, 11.4, -5.2, 6.2, 12, 5.2, 'gold')       # press head
-    words(m, 'COINS', 0, 11.3, -5.05, 0.3, 'gold')
-    m.box(-2, 12, -2, 2, 14, 2, 'silver'); m.box(-2.8, 14, -2.8, 2.8, 15, 2.8, 'silver')       # nugget funnel
-    m.box(-2.5, 15, -2.5, 2.5, 15.3, 2.5, 'dark_gold')
-    m.box(-2.2, 3.6, -7.6, 2.2, 4.4, -4, 'silver'); m.box(-2.2, 4.4, -7.6, 2.2, 5, -7.2, 'silver')   # coin tray
-    for x, z in ((-1, -6), (0.8, -5.2), (0.2, -6.6)):
-        m.cyl('y', x, z, 4.4, 4.7, 0.8, 0.8, 'gold')
-    m.tube([(5, 8, 0), (7, 9, 0), (7.5, 12.5, 0)], 0.6, ['silver'])                             # lever with a red knob
-    m.ell(7.5, 13, 0, 0.9, 0.9, 0.9, 'red')
-    m.box(-6, 12, -5, -3, 12.4, 5, 'snow'); m.box(3, 12, -5, 6, 12.4, 0, 'snow')               # snow and holly on top
-    m.box(-5.5, 12.4, 2, -3.5, 13, 3.5, 'holly'); m.box(-4.8, 13, 2.6, -4.2, 13.5, 3.1, 'red')
+SYMBOLS = {   # 5x5 reel pictures
+    'bell': (['.ggg.', 'ggggg', 'ggggg', 'ggggg', '..d..'], {'g': 'gold', 'd': 'dark_gold'}),
+    'star': (['..y..', 'yyyyy', '.yyy.', '.y.y.', 'y...y'], {'y': 'yellow'}),
+    'tree': (['..g..', '.ggg.', 'ggggg', '..b..', '..b..'], {'g': 'green', 'b': 'brown'}),
+    'cane': (['.rw..', 'w..r.', '...w.', '...r.', '...w.'], {'r': 'red', 'w': 'red'}),
+}
+SPIN = 4                                                         # reel frames (block state market:spin)
+
+
+def slot_machine(m):
+    """Coin Press as a two-block Christmas slot machine, front -z, y 0..32 (the top block is y 16..32)."""
+    m.box(-7.5, 0, -6.5, 7.5, 2, 6.5, 'dark_red'); m.box(-7.6, 2, -6.6, 7.6, 2.6, 6.6, 'gold')      # plinth
+    m.box(-6.5, 2.6, -5.5, 6.5, 13, 5.5, 'red')                                                      # lower cabinet
+    for x in (-6.5, 5.6):                                                                            # candy-cane corner trims
+        for k, y in enumerate(range(3, 13)):
+            m.box(x - 0.1, y, -5.7, x + 1, y + 1, -4.8, 'white' if k % 2 else 'red')
+    m.box(-3.6, 4, -7.4, 3.6, 4.8, -5.5, 'silver'); m.box(-3.6, 4.8, -7.6, 3.6, 5.6, -7.2, 'silver')   # payout tray
+    for x, z in ((-2, -6.6), (0.5, -6), (2.2, -6.8), (-0.6, -6.9)):
+        m.cyl('y', x, z, 4.8, 5.1, 0.8, 0.8, 'gold')
+    m.box(-2.6, 5.4, -5.7, 2.6, 7.6, -5.5, 'black'); m.box(-2.3, 5.7, -5.75, 2.3, 7.3, -5.7, 'g_window')  # payout chute
+    words(m, 'COINS', 0, 11.6, -5.55, 0.42, 'gold')
+    m.box(-6.8, 13, -7, 6.8, 14.4, 5.6, 'dark_red'); m.box(-6.9, 14.4, -7.1, 6.9, 14.8, 5.7, 'gold')  # button deck
+    for k, c in enumerate(('g_red', 'g_green', 'g_yellow')):
+        m.box(-5 + k * 2.4, 14.8, -6.4, -3.6 + k * 2.4, 15.4, -5.2, c)
+    m.box(2.8, 14.8, -6.5, 5.8, 15.1, -4.8, 'silver'); m.box(3.6, 15.1, -5.9, 5, 15.2, -5.4, 'black')   # nugget slot
+    m.box(-6, 14.8, -4.5, 6, 26, 4.5, 'red')                                                         # upper cabinet
+    m.box(-5.4, 16.6, -4.75, 5.4, 23.4, -4.5, 'gold')                                                # reel window
+    for i in range(3):
+        x0 = -4.8 + i * 3.3
+        m.box(x0, 17.2, -4.85, x0 + 3, 22.8, -4.75, 'white')
+    m.box(-5.4, 19.85, -4.97, 5.4, 20.15, -4.87, 'red')                                             # pay line
+    for f in range(SPIN):
+        m.use('r%d' % f)
+        for i in range(3):
+            rows, cmap = SYMBOLS[list(SYMBOLS)[(f * (i + 1) + i) % 4]]
+            m.pixels(rows, -4.8 + i * 3.3 + 0.25, 21.25, -4.86, 0.5, cmap, 0.1)
+    m.use('root')
+    words(m, 'XMAS', 0, 25.4, -4.55, 0.4, 'gold')
+    m.box(-6.6, 26, -5.2, 6.6, 30, 5.2, 'dark_red')                                                  # lit marquee
+    m.box(-5.6, 26.6, -5.35, 5.6, 29.4, -5.2, 'gold')
+    words(m, 'COINS', 0, 29.05, -5.4, 0.42, 'dark_red')
+    for k in range(13):                                                                              # chase lights round it
+        x = -6.2 + k
+        for y in (26.1, 29.4):
+            m.box(x - 0.25, y, -5.5, x + 0.25, y + 0.5, -5.3, ('g_red', 'g_yellow', 'g_green')[(k + (y > 27)) % 3])
+    m.box(-6.6, 30, -5.2, 6.6, 30.6, 5.2, 'snow')                                                    # snow, holly and a star
+    m.box(-5.5, 30.6, -1, -3.3, 31.2, 1, 'holly'); m.box(-4.6, 31.2, -0.3, -4, 31.6, 0.3, 'red')
+    m.pixels(['..s..', 'sssss', '.s.s.'], -1.25, 32, 0, 0.5, {'s': 'g_star'}, 0.5)
+    m.box(5.8, 17, -1.2, 7.4, 19.4, 1.2, 'silver')                                                   # lever housing
+    m.use('l0')                                                                                      # lever up
+    m.box(6.3, 19.4, -0.3, 6.9, 27, 0.3, 'silver'); m.ell(6.6, 27.7, 0, 0.9, 0.9, 0.9, 'red')
+    m.use('l1')                                                                                      # lever pulled
+    m.tube([(6.6, 18.4, 0), (6.6, 19.4, -6.4)], 0.6, ['silver']); m.ell(6.6, 19.5, -7, 0.9, 0.9, 0.9, 'red')
+    m.use('root')
+
+
+def split_halves(cubes):
+    """Cut a 32 px tall model into the bottom block (y 0..16) and the top block (shifted down 16)."""
+    lo, hi = [], []
+    for x0, y0, z0, x1, y1, z1, c, b in cubes:
+        if y0 < 16 and min(y1, 16) - y0 >= 0.02: lo.append([x0, y0, z0, x1, min(y1, 16), z1, c, b])
+        if y1 > 16 and y1 - max(y0, 16) >= 0.02: hi.append([x0, max(y0, 16) - 16, z0, x1, y1 - 16, z1, c, b])
+    return lo, hi
 
 
 COIN = ['..oooo..', '.oyyyyo.', 'oyyddyyo', 'oydyydyo', 'oydyydyo', 'oyyddyyo', '.oyyyyo.', '..oooo..']
@@ -1133,7 +1179,7 @@ def coin_icon():
 # ---------------------------------------------------------------- writing the pack
 ROOT = os.path.join(HERE, '..', 'ChristmasMarket')
 BP, RP = os.path.join(ROOT, 'ChristmasMarket_BP'), os.path.join(ROOT, 'ChristmasMarket_RP')
-VERSION = [1, 0, 0]
+VERSION = [1, 0, 1]
 FACES = ['north', 'south', 'east', 'west', 'up', 'down']
 
 
@@ -1201,7 +1247,7 @@ def full(item):
 
 def write_pack(icons):
     check_items()
-    lang = ['## Christmas Market', 'item.market:gold_coin=Gold Coin', 'tile.market:coin_press.name=Coin Press']
+    lang = ['## Christmas Market', 'item.market:gold_coin=Gold Coin', 'item.market:coin_press=Coin Press', 'tile.market:slot_machine.name=Coin Press', 'tile.market:slot_machine_top.name=Coin Press']
     item_tex = {'market_gold_coin': {'textures': 'textures/items/gold_coin'}}
     os.makedirs(os.path.join(RP, 'textures', 'items'), exist_ok=True)
     os.makedirs(os.path.join(RP, 'textures', 'entity'), exist_ok=True)
@@ -1254,22 +1300,42 @@ def write_pack(icons):
         icons[key].save(os.path.join(RP, 'textures', 'items', '%s_stall.png' % key))
         item_tex['market_%s_stall' % key] = {'textures': 'textures/items/%s_stall' % key}
         lang += ['item.%s=%s (Christmas Market)' % (item, s['name']), 'entity.%s.name=%s' % (ent, s['name'])]
-    # coin press block
-    m = D.Model(); coin_press(m)
-    dump(os.path.join(RP, 'models', 'blocks', 'coin_press.geo.json'), D.geo_json('geometry.market_coin_press', m.cubes, ['root']))
+    # Coin Press: one item that places the slot machine's bottom block; the script adds the top block
+    m = D.Model(); slot_machine(m)
+    lo, hi = split_halves(m.cubes)
+    bones = m.bones
+    dump(os.path.join(RP, 'models', 'blocks', 'slot_machine.geo.json'), D.geo_json('geometry.market_slot_machine', lo, ['root']))
+    dump(os.path.join(RP, 'models', 'blocks', 'slot_machine_top.geo.json'), D.geo_json('geometry.market_slot_machine_top', hi, bones))
     mats = {'*': {'texture': 'market_palette', 'render_method': 'alpha_test'},
             'glow': {'texture': 'market_palette', 'render_method': 'alpha_test', 'face_dimming': False, 'ambient_occlusion': False}}
     rot = [{'condition': "q.block_state('minecraft:cardinal_direction') == '%s'" % d, 'components': {'minecraft:transformation': {'rotation': [0, r, 0]}}}
            for d, r in (('north', 0), ('west', 90), ('south', 180), ('east', 270))]
-    dump(os.path.join(BP, 'blocks', 'coin_press.json'), {'format_version': '1.21.40', 'minecraft:block': {
-        'description': {'identifier': 'market:coin_press', 'menu_category': {'category': 'items'},
-                        'traits': {'minecraft:placement_direction': {'enabled_states': ['minecraft:cardinal_direction'], 'y_rotation_offset': 180}}},
-        'components': {'minecraft:geometry': 'geometry.market_coin_press', 'minecraft:material_instances': mats,
-                       'minecraft:collision_box': {'origin': [-7, 0, -6], 'size': [14, 15, 12]},
-                       'minecraft:selection_box': {'origin': [-7, 0, -6], 'size': [14, 15, 12]},
-                       'minecraft:destructible_by_mining': {'seconds_to_destroy': 1.5}, 'minecraft:light_emission': 6,
-                       'minecraft:custom_components': ['market:coin_press']},
-        'permutations': rot}})
+    facing = {'minecraft:placement_direction': {'enabled_states': ['minecraft:cardinal_direction'], 'y_rotation_offset': 180}}
+    hidden = {'category': 'none', 'is_hidden_in_commands': True}
+    box = lambda h: {'origin': [-7, 0, -6], 'size': [14, h, 12]}
+    common = lambda gid, h, light, loot: {
+        'minecraft:geometry': gid, 'minecraft:material_instances': mats, 'minecraft:collision_box': box(h), 'minecraft:selection_box': box(h),
+        'minecraft:destructible_by_mining': {'seconds_to_destroy': 1.5}, 'minecraft:light_emission': light, 'minecraft:loot': loot,
+        'minecraft:custom_components': ['market:coin_press']}
+    dump(os.path.join(BP, 'blocks', 'slot_machine.json'), {'format_version': '1.21.40', 'minecraft:block': {
+        'description': {'identifier': 'market:slot_machine', 'menu_category': hidden, 'traits': facing},
+        'components': common('geometry.market_slot_machine', 16, 6, 'loot_tables/blocks/coin_press.json'), 'permutations': rot}})
+    vis = {'r%d' % f: "q.block_state('market:spin') == %d" % f for f in range(SPIN)}
+    vis.update({'l%d' % k: "q.block_state('market:lever') == %d" % k for k in (0, 1)})
+    top = common({'identifier': 'geometry.market_slot_machine_top', 'bone_visibility': vis}, 16, 9, 'loot_tables/empty.json')
+    dump(os.path.join(BP, 'blocks', 'slot_machine_top.json'), {'format_version': '1.21.40', 'minecraft:block': {
+        'description': {'identifier': 'market:slot_machine_top', 'menu_category': hidden, 'traits': facing,
+                        'states': {'market:spin': list(range(SPIN)), 'market:lever': [0, 1]}},
+        'components': top, 'permutations': rot}})
+    dump(os.path.join(BP, 'loot_tables', 'blocks', 'coin_press.json'), {'pools': [{'rolls': 1, 'entries': [{'type': 'item', 'name': 'market:coin_press'}]}]})
+    dump(os.path.join(BP, 'loot_tables', 'empty.json'), {'pools': []})
+    dump(os.path.join(BP, 'items', 'coin_press.json'), {'format_version': '1.21.40', 'minecraft:item': {
+        'description': {'identifier': 'market:coin_press', 'menu_category': {'category': 'items'}},
+        'components': {'minecraft:icon': 'market_coin_press', 'minecraft:max_stack_size': 64,
+                       'minecraft:block_placer': {'block': 'market:slot_machine'}}}})
+    icon = D.Model(); icon.cubes = [c for c in m.cubes if c[7] in ('root', 'r0', 'l0')]
+    zrender(icon, size=32, pitch=14, ss=6, icon=True).save(os.path.join(RP, 'textures', 'items', 'coin_press.png'))
+    item_tex['market_coin_press'] = {'textures': 'textures/items/coin_press'}
     dump(os.path.join(BP, 'recipes', 'coin_press.json'), {'format_version': '1.20.10', 'minecraft:recipe_shaped': {
         'description': {'identifier': 'market:coin_press_recipe'}, 'tags': ['crafting_table'], 'unlock': {'context': 'AlwaysUnlocked'},
         'pattern': ['III', 'GRG', 'CCC'],
@@ -1281,7 +1347,7 @@ def write_pack(icons):
         'texture_data': {'market_palette': {'textures': 'textures/blocks/market_palette'}}})
     dump(os.path.join(RP, 'textures', 'item_texture.json'), {'resource_pack_name': 'christmas_market', 'texture_name': 'atlas.items',
                                                             'texture_data': item_tex})
-    dump(os.path.join(RP, 'blocks.json'), {'format_version': '1.21.40', 'market:coin_press': {'sound': 'metal'}})
+    dump(os.path.join(RP, 'blocks.json'), {'format_version': '1.21.40', 'market:slot_machine': {'sound': 'metal'}, 'market:slot_machine_top': {'sound': 'metal'}})
     os.makedirs(os.path.join(RP, 'texts'), exist_ok=True)
     open(os.path.join(RP, 'texts', 'en_US.lang'), 'w').write('\n'.join(lang) + '\n')
     dump(os.path.join(RP, 'texts', 'languages.json'), ['en_US'])
@@ -1323,8 +1389,10 @@ def main():
             for i, t in enumerate(tiles[part * 10:part * 10 + 10]):
                 sheet.paste(t, ((i % 5) * 600, (i // 5) * 600))
             sheet.save(os.path.join(out, 'market_sheet_%d.png' % (part + 1)))
-        m = D.Model(); coin_press(m)
-        zrender(m, size=500).save(os.path.join(out, 'market_coin_press.png'))
+        m = D.Model(); slot_machine(m)
+        for f, bones in enumerate((('root', 'r0', 'l0'), ('root', 'r2', 'l1'))):
+            v = D.Model(); v.cubes = [c for c in m.cubes if c[7] in bones]
+            zrender(v, size=500).save(os.path.join(out, 'market_coin_press%s.png' % ('' if f == 0 else '_pulled')))
 
 
 if __name__ == '__main__':

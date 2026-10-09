@@ -2,9 +2,10 @@
   "format_version": "1.21.40",
   "minecraft:block": {
     "description": {
-      "identifier": "market:coin_press",
+      "identifier": "market:slot_machine",
       "menu_category": {
-        "category": "items"
+        "category": "none",
+        "is_hidden_in_commands": true
       },
       "traits": {
         "minecraft:placement_direction": {
@@ -16,7 +17,7 @@
       }
     },
     "components": {
-      "minecraft:geometry": "geometry.market_coin_press",
+      "minecraft:geometry": "geometry.market_slot_machine",
       "minecraft:material_instances": {
         "*": {
           "texture": "market_palette",
@@ -37,7 +38,7 @@
         ],
         "size": [
           14,
-          15,
+          16,
           12
         ]
       },
@@ -49,7 +50,7 @@
         ],
         "size": [
           14,
-          15,
+          16,
           12
         ]
       },
@@ -57,6 +58,7 @@
         "seconds_to_destroy": 1.5
       },
       "minecraft:light_emission": 6,
+      "minecraft:loot": "loot_tables/blocks/coin_press.json",
       "minecraft:custom_components": [
         "market:coin_press"
       ]

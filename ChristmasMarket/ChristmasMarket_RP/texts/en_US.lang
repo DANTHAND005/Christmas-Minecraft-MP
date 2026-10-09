@@ -1,6 +1,8 @@
 ## Christmas Market
 item.market:gold_coin=Gold Coin
-tile.market:coin_press.name=Coin Press
+item.market:coin_press=Coin Press
+tile.market:slot_machine.name=Coin Press
+tile.market:slot_machine_top.name=Coin Press
 item.market:cookies_stall=Cookie Stall (Christmas Market)
 entity.market:stall_cookies.name=Cookie Stall
 item.market:roasts_stall=Roast Chestnut Grill (Christmas Market)
