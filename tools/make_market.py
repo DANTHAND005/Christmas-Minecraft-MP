@@ -1179,7 +1179,7 @@ def coin_icon():
 # ---------------------------------------------------------------- writing the pack
 ROOT = os.path.join(HERE, '..', 'ChristmasMarket')
 BP, RP = os.path.join(ROOT, 'ChristmasMarket_BP'), os.path.join(ROOT, 'ChristmasMarket_RP')
-VERSION = [1, 0, 1]
+VERSION = [1, 0, 2]
 FACES = ['north', 'south', 'east', 'west', 'up', 'down']
 
 

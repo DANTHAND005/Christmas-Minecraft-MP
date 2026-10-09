@@ -1,7 +1,8 @@
 import { world, system, ItemStack, BlockPermutation, GameMode } from "@minecraft/server";
 
 // ---- Coin Press: a two-block slot machine. Hold gold nuggets (1 coin each) or gold ingots (9 coins each) and use it:
-// the lever pulls, the reels spin and the coins drop out. Sneak to press the whole stack at once.
+// the lever pulls, the reels spin and the coins drop out.
+// Right-click presses one; sneak + right-click presses the whole stack.
 const RATES = { "minecraft:gold_nugget": 1, "minecraft:gold_ingot": 9 };
 const BOTTOM = "market:slot_machine", TOP = "market:slot_machine_top";
 const spinning = new Set();
@@ -16,7 +17,7 @@ function halves(block) {
   return { bottom, top: bottom.above() };
 }
 
-function pressCoins(player, block) {
+function pressCoins(player, block, wholeStack) {
   const { bottom, top } = halves(block);
   if (!top || top.typeId !== TOP) return;
   const key = `${bottom.x},${bottom.y},${bottom.z}`;
@@ -29,7 +30,7 @@ function pressCoins(player, block) {
     player.onScreenDisplay.setActionBar("§6Hold gold nuggets or gold ingots to press them into coins");
     return;
   }
-  const used = player.isSneaking ? held.amount : 1;
+  const used = wholeStack ? held.amount : 1;
   if (used === held.amount) inv.setItem(slot, undefined);
   else { held.amount -= used; inv.setItem(slot, held); }
   const dim = bottom.dimension, c = bottom.center();
@@ -63,6 +64,15 @@ function pressCoins(player, block) {
     } catch (e) { system.clearRun(run); spinning.delete(key); }
   }, 2);
 }
+
+// Sneaking with an item in hand skips a block's own interact, so catch every right-click on the machine here.
+world.beforeEvents.playerInteractWithBlock.subscribe((e) => {
+  if (e.block.typeId !== BOTTOM && e.block.typeId !== TOP) return;
+  e.cancel = true;
+  if (e.isFirstEvent === false) return;                             // holding the button repeats the event
+  const player = e.player, block = e.block, wholeStack = player.isSneaking;
+  system.run(() => pressCoins(player, block, wholeStack));
+});
 
 function placeTop(block) {
   const above = block.above();
@@ -112,7 +122,6 @@ world.afterEvents.entityHitEntity.subscribe(({ damagingEntity: p, hitEntity: sta
 
 system.beforeEvents.startup.subscribe((startup) => {
   startup.blockComponentRegistry.registerCustomComponent("market:coin_press", {
-    onPlayerInteract(e) { if (e.player) system.run(() => pressCoins(e.player, e.block)); },
     onPlace(e) { if (e.block.typeId === BOTTOM) system.run(() => placeTop(e.dimension.getBlock(e.block.location))); },
     onPlayerBreak(e) {
       const type = e.brokenBlockPermutation.type.id, loc = e.block.location, p = e.player;
