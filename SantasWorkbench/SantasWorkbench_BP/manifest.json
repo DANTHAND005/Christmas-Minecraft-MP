@@ -7,12 +7,12 @@
     "version": [
       1,
       0,
-      41
+      57
     ],
     "min_engine_version": [
       1,
       21,
-      40
+      90
     ]
   },
   "modules": [
@@ -22,7 +22,7 @@
       "version": [
         1,
         0,
-        41
+        57
       ]
     },
     {
@@ -32,7 +32,7 @@
       "version": [
         1,
         0,
-        41
+        57
       ],
       "entry": "scripts/main.js"
     }
@@ -43,7 +43,7 @@
       "version": [
         1,
         0,
-        41
+        57
       ]
     },
     {

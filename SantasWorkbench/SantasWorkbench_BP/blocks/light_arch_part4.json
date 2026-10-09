@@ -25,11 +25,11 @@
       "minecraft:geometry": "geometry.santa_light_arch_part4",
       "minecraft:material_instances": {
         "*": {
-          "texture": "santa_decor",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test"
         },
         "glow": {
-          "texture": "santa_decor_lit",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test",
           "face_dimming": false,
           "ambient_occlusion": false
@@ -101,14 +101,12 @@
         "components": {
           "minecraft:material_instances": {
             "*": {
-              "texture": "santa_decor",
+              "texture": "santa_xmas2",
               "render_method": "alpha_test"
             },
             "glow": {
-              "texture": "santa_decor",
-              "render_method": "alpha_test",
-              "face_dimming": true,
-              "ambient_occlusion": false
+              "texture": "santa_xmas2",
+              "render_method": "alpha_test"
             }
           },
           "minecraft:light_emission": 0

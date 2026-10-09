@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:cookie_plate",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_cookie_plate",
+      "minecraft:display_name": {
+        "value": "tile.xmas:cookie_plate.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:cookie_plate",
+        "replace_block_item": true
+      }
+    }
+  }
+}

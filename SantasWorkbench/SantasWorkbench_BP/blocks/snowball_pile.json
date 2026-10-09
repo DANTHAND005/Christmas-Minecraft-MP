@@ -1,0 +1,77 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "santa:snowball_pile",
+      "menu_category": {
+        "category": "items"
+      },
+      "states": {
+        "santa:east": [
+          false,
+          true
+        ],
+        "santa:west": [
+          false,
+          true
+        ],
+        "santa:north": [
+          false,
+          true
+        ],
+        "santa:south": [
+          false,
+          true
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": {
+        "identifier": "geometry.santa_snowball_pile",
+        "bone_visibility": {
+          "b_east": "q.block_state('santa:east')",
+          "b_west": "q.block_state('santa:west')",
+          "b_north": "q.block_state('santa:north')",
+          "b_south": "q.block_state('santa:south')"
+        }
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "snow",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          12,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          12,
+          16
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:map_color": "#F0F6FA",
+      "minecraft:custom_components": [
+        "santa:snowball_pile"
+      ]
+    }
+  }
+}

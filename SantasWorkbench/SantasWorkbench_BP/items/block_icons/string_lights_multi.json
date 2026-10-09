@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:string_lights_multi",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_string_lights_multi",
+      "minecraft:display_name": {
+        "value": "tile.santa:string_lights_multi.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:string_lights_multi",
+        "replace_block_item": true
+      }
+    }
+  }
+}

@@ -41,5 +41,17 @@
   },
   "santa:cookie_tile": {
     "sound": "wood"
+  },
+  "santa:milk_cookies": {
+    "sound": "glass"
+  },
+  "santa:snow_machine": {
+    "sound": "metal"
+  },
+  "santa:christmas_jukebox": {
+    "sound": "wood"
+  },
+  "santa:snowball_pile": {
+    "sound": "snow"
   }
 }

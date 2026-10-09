@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:gingerbread_oven",
+      "menu_category": {
+        "category": "construction"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_gingerbread_oven",
+      "minecraft:display_name": {
+        "value": "tile.xmas:gingerbread_oven.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:gingerbread_oven",
+        "replace_block_item": true
+      }
+    }
+  }
+}

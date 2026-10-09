@@ -165,6 +165,9 @@
     },
     "santa_cookie_tile": {
       "textures": "textures/blocks/cookie_tile"
+    },
+    "santa_xmas2": {
+      "textures": "textures/blocks/xmas2"
     }
   }
 }

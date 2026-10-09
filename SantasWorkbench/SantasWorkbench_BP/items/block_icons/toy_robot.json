@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:toy_robot",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_toy_robot",
+      "minecraft:display_name": {
+        "value": "tile.santa:toy_robot.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:toy_robot",
+        "replace_block_item": true
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:snow_globe_display",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_snow_globe_display",
+      "minecraft:display_name": {
+        "value": "tile.santa:snow_globe_display.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:snow_globe_display",
+        "replace_block_item": true
+      }
+    }
+  }
+}

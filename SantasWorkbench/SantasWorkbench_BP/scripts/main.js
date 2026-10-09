@@ -1,4 +1,4 @@
-import { world, system, ItemStack, BlockPermutation } from "@minecraft/server";
+import { world, system, ItemStack, BlockPermutation, EquipmentSlot } from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
 import { NEW_DECOR, NEW_PARTS } from "./decor_config.js";
 
@@ -191,6 +191,11 @@ function breakStack(event) {   // breaking any piece removes the whole decoratio
   if (!offs) return;
   const dir = brokenBlockPermutation.getState("minecraft:cardinal_direction");
   const base = n ? partPos(block, dir, offs[n - 1], -1) : { x: block.x, y: block.y, z: block.z };
+  const tc = DECOR[id.slice("santa:".length)];
+  if (tc && tc.ambient) {   // forget the town's on/off switch and silence it
+    world.setDynamicProperty(townKey(dimension, base), undefined);
+    try { dimension.runCommand(`stopsound @a[x=${base.x},y=${base.y},z=${base.z},r=48] ${tc.ambient}`); } catch (e) {}
+  }
   [[0, 0, 0], ...offs].forEach((o, k) => {
     const p = partPos(base, dir, o);
     if (p.x === block.x && p.y === block.y && p.z === block.z) return;
@@ -199,6 +204,9 @@ function breakStack(event) {   // breaking any piece removes the whole decoratio
   });
   if (n && player && String(player.getGameMode()).toLowerCase() !== "creative") dimension.spawnItem(new ItemStack(id, 1), { x: base.x + 0.5, y: base.y + 0.5, z: base.z + 0.5 });
 }
+// towns: right-click toggles a looping animation + soundscape; off by default
+const townKey = (dimension, l) => "town:" + dimension.id + ":" + l.x + "," + l.y + "," + l.z;
+const townOn = (dimension, l) => world.getDynamicProperty(townKey(dimension, l)) === true;
 function stepStates(block, dimension, state, seq, delay, onStep) {
   const stack = stackOf(block), base = stack[0];
   const loc = { x: base.x, y: base.y, z: base.z }, type = base.typeId, key = dimension.id + loc.x + "," + loc.y + "," + loc.z;
@@ -208,6 +216,8 @@ function stepStates(block, dimension, state, seq, delay, onStep) {
     try {
       const b = dimension.getBlock(loc);
       if (!b || b.typeId !== type || i >= seq.length) { decorBusy.delete(key); return; }
+      const tcfg = DECOR[type.slice("santa:".length)];
+      if (tcfg && tcfg.ambient && !townOn(dimension, loc)) { decorBusy.delete(key); setStack(stackOf(b), state, 0); return; }
       setStack(stackOf(b), state, seq[i]);
       if (onStep) onStep(i);
       system.runTimeout(() => step(i + 1), delay);
@@ -227,6 +237,21 @@ function useDecor(block, dimension, player) {
     const open = base.permutation.getState("santa:frame") === 1;
     setStack(stack, "santa:frame", open ? 0 : 1);
     decorSound(dimension, base, open ? cfg.sound_off : cfg.sound_on);
+    return;
+  }
+  if (cfg.ambient) {   // towns
+    const on = !townOn(dimension, base);
+    world.setDynamicProperty(townKey(dimension, base), on ? true : undefined);
+    if (on) {
+      ambientNext.delete(dimension.id + base.x + "," + base.y + "," + base.z);
+      playAmbient(base, dimension, cfg);
+      stepStates(base, dimension, "santa:frame", cfg.idle, cfg.idle_delay, (i) => animExtras(cfg, base, dimension, cfg.idle[i], i));
+    } else {
+      try { dimension.runCommand(`stopsound @a[x=${base.x},y=${base.y},z=${base.z},r=48] ${cfg.ambient}`); } catch (e) {}
+      setStack(stackOf(base), "santa:frame", 0);
+    }
+    if (player) player.onScreenDisplay.setActionBar(on ? "Town animation and music: ON" : "Town animation and music: OFF");
+    decorSound(dimension, base, "random.click", on ? 1.2 : 0.8);
     return;
   }
   if (cfg.anim) {
@@ -252,9 +277,22 @@ function useDecor(block, dimension, player) {
     else setStack(stack, "santa:on", 1);
   }
 }
+function playerNear(block, dimension, r) {   // only animate big decorations someone can see (saves work on phones)
+  try { return dimension.getPlayers({ location: { x: block.x + 0.5, y: block.y, z: block.z + 0.5 }, maxDistance: r }).length > 0; } catch (e) { return true; }
+}
+const ambientNext = new Map();   // town key -> tick its ambience can play again
+function playAmbient(block, dimension, cfg) {
+  const key = dimension.id + block.x + "," + block.y + "," + block.z, now = system.currentTick;
+  if (now < (ambientNext.get(key) || 0)) return;
+  ambientNext.set(key, now + Math.round(cfg.ambient_len * 20) + 10);
+  try { dimension.playSound(cfg.ambient, { x: block.x + 0.5, y: block.y + 1, z: block.z + 2.5 }, { volume: 0.9 }); } catch (e) {}
+}
 function idleDecor(block, dimension) {
   const cfg = DECOR[block.typeId.slice("santa:".length)];
   if (!cfg) return;
+  if (cfg.ambient && !townOn(dimension, block)) return;
+  if (cfg.idle && cfg.near && !playerNear(block, dimension, cfg.near)) return;
+  if (cfg.ambient) playAmbient(block, dimension, cfg);
   if (cfg.night) {   // village windows light up from dusk to dawn
     const t = world.getTimeOfDay(), on = t > 12500 && t < 23500 ? 1 : 0;
     if (block.permutation.getState("santa:on") !== on) block.setPermutation(block.permutation.withState("santa:on", on));
@@ -427,6 +465,213 @@ system.beforeEvents.startup.subscribe((startup) => {
           dimension.spawnItem(it, center);
         } else dimension.spawnItem(new ItemStack(type, 1), center);
       } catch (e) { console.warn("santa present break error: " + e); }
+    },
+  });
+});
+
+// =====================================================================================================
+// ---- Christmas update: milk & cookies, snow machine, jukebox, snowball pile, outfit bonus, guide ----
+// =====================================================================================================
+const posKey = (prefix, b) => prefix + ":" + b.dimension.id + ":" + b.x + "," + b.y + "," + b.z;
+const isCreativeP = (p) => p && String(p.getGameMode()).toLowerCase() === "creative";
+function takeOne(player, id) {   // remove one `id` from the held stack; true if it was there
+  const inv = player.getComponent("minecraft:inventory")?.container, slot = player.selectedSlotIndex;
+  const it = inv?.getItem(slot);
+  if (!it || it.typeId !== id) return false;
+  if (isCreativeP(player)) return true;
+  if (it.amount <= 1) inv.setItem(slot, undefined); else { it.amount -= 1; inv.setItem(slot, it); }
+  return true;
+}
+function give(player, stack) {
+  const left = player.getComponent("minecraft:inventory")?.container?.addItem(stack);
+  if (left) player.dimension.spawnItem(left, player.location);
+}
+
+// ---- milk & cookies: left out overnight, Santa eats them and leaves a present beside the plate ----
+const SPOTS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]];
+function santaVisits(block) {
+  const dim = block.dimension;
+  block.setPermutation(block.permutation.withState("santa:empty", 1));
+  world.setDynamicProperty(posKey("plate", block), undefined);
+  const spot = SPOTS.map(([dx, dz]) => dim.getBlock({ x: block.x + dx, y: block.y, z: block.z + dz }))
+    .find((b) => b && b.isAir && b.below() && !b.below().isAir && !b.below().isLiquid);
+  const gift = { items: pickGifts().map((s) => ({ id: s.typeId, n: s.amount })), from: "Santa", to: "" };
+  if (spot) {
+    spot.setType(any(GIFTS)[1]);
+    world.setDynamicProperty(giftKey(dim, spot), JSON.stringify(gift));
+  } else {   // no room for a present: Santa leaves the gifts on the plate instead
+    for (const it of gift.items) { const s = makeStack(it.id, it.n); if (s) dim.spawnItem(s, block.center()); }
+  }
+  const c = block.center();
+  for (let i = 0; i < 12; i++) dim.spawnParticle("minecraft:totem_particle", { x: c.x + Math.random() - 0.5, y: c.y + Math.random(), z: c.z + Math.random() - 0.5 });
+  try { dim.playSound("random.levelup", c, { volume: 0.6, pitch: 1.4 }); } catch (e) {}
+}
+
+// ---- snow machine ----
+function snowTick(block) {
+  if (block.permutation.getState("santa:on") !== 1) return;
+  const dim = block.dimension, c = block.center();
+  try { dim.spawnParticle("santa:snow_spray", { x: c.x, y: block.y + 0.9, z: c.z }); } catch (e) {}   // burst out of the nozzle
+  for (let i = 0; i < 8; i++) {
+    dim.spawnParticle("minecraft:snowflake_particle", { x: c.x + (Math.random() - 0.5) * 12, y: c.y + 1.5 + Math.random() * 3, z: c.z + (Math.random() - 0.5) * 12 });
+  }
+  if (Math.random() > 0.35) return;
+  const a = Math.random() * Math.PI * 2, r = Math.random() * 6;   // one snow layer at a random spot within 6 blocks
+  const x = Math.floor(block.x + Math.cos(a) * r), z = Math.floor(block.z + Math.sin(a) * r);
+  for (let y = block.y + 4; y >= block.y - 4; y--) {
+    const b = dim.getBlock({ x, y, z });
+    if (!b || b.isAir) continue;
+    if (b.isLiquid || b.typeId === "minecraft:snow_layer" || b.typeId.startsWith("santa:")) return;
+    const above = b.above();
+    if (above && above.isAir) { try { above.setType("minecraft:snow_layer"); } catch (e) {} }
+    return;
+  }
+}
+
+// ---- snowball piles join up with piles next to them (bridge balls fill the gap) ----
+const PILE_DIRS = { east: [1, 0], west: [-1, 0], north: [0, -1], south: [0, 1] };
+function refreshPile(b) {
+  if (!b || b.typeId !== "santa:snowball_pile") return;
+  let perm = b.permutation;
+  for (const [d, [dx, dz]] of Object.entries(PILE_DIRS)) {
+    const n = b.dimension.getBlock({ x: b.x + dx, y: b.y, z: b.z + dz });
+    perm = perm.withState("santa:" + d, !!n && n.typeId === "santa:snowball_pile");
+  }
+  b.setPermutation(perm);
+}
+function refreshPilesAround(b) {
+  refreshPile(b);
+  for (const [dx, dz] of Object.values(PILE_DIRS)) refreshPile(b.dimension.getBlock({ x: b.x + dx, y: b.y, z: b.z + dz }));
+}
+
+// ---- christmas jukebox ----
+const SONGS = {"jingle_bells": ["Jingle Bells", 47.7], "deck_the_halls": ["Deck the Halls", 57.4], "we_wish_you": ["We Wish You a Merry Christmas", 42.5], "silent_night": ["Silent Night", 88.9], "joy_to_the_world": ["Joy to the World", 79.5]};   // key: [title, seconds]
+const SONG_KEYS = Object.keys(SONGS);
+const playing = new Map();   // block key -> { sound, until }
+function stopSong(block) {
+  const p = playing.get(posKey("juke", block)); playing.delete(posKey("juke", block));
+  if (p) { try { block.dimension.runCommand(`stopsound @a[x=${block.x},y=${block.y},z=${block.z},r=64] ${p.sound}`); } catch (e) {} }
+}
+function jukeboxMenu(block, player) {
+  const form = new ActionFormData().title("Christmas Jukebox").body("Pick a song to play.");
+  SONG_KEYS.forEach((k) => form.button(SONGS[k][0]));
+  form.button("Stop the music");
+  form.show(player).then((r) => {
+    if (r.canceled || r.selection === undefined) return;
+    const b = block.dimension.getBlock(block.location);
+    if (!b || b.typeId !== "santa:christmas_jukebox") return;
+    stopSong(b);
+    if (r.selection >= SONG_KEYS.length) { b.setPermutation(b.permutation.withState("santa:playing", 0)); return; }
+    const k = SONG_KEYS[r.selection], sound = "santa.jukebox." + k;
+    b.dimension.playSound(sound, b.center(), { volume: 1.0 });
+    playing.set(posKey("juke", b), { sound, until: system.currentTick + Math.ceil(SONGS[k][1] * 20) });
+    b.setPermutation(b.permutation.withState("santa:playing", 1));
+    player.onScreenDisplay.setActionBar("Now playing: " + SONGS[k][0]);
+  }).catch((e) => console.warn("jukebox menu: " + e));
+}
+
+// ---- christmas guide: one per player per world; unlocks every Christmas recipe ----
+const ALL_RECIPES = ["xmas:sleigh_harness_recipe", "xmas:toy_soldier_kit_recipe", "xmas:apple_pie_slice_recipe", "xmas:candy_cane_recipe", "xmas:chocolate_bar_recipe", "xmas:chocolate_coins_recipe", "xmas:christmas_pudding_recipe", "xmas:christmas_pudding_recipe_blue_egg", "xmas:christmas_pudding_recipe_brown_egg", "xmas:cinnamon_bun_recipe", "xmas:cinnamon_bun_recipe_blue_egg", "xmas:cinnamon_bun_recipe_brown_egg", "xmas:cinnamon_recipe", "xmas:cocoa_mug_marshmallow_recipe", "xmas:cocoa_mug_marshmallow_unpack_recipe", "xmas:cocoa_mug_recipe", "xmas:cocoa_mug_unpack_recipe", "xmas:cookie_chocolate_chip_gingerbread_man_recipe", "xmas:cookie_chocolate_chip_heart_recipe", "xmas:cookie_chocolate_chip_recipe", "xmas:cookie_chocolate_chip_snowflake_recipe", "xmas:cookie_chocolate_chip_star_recipe", "xmas:cookie_chocolate_chip_tree_recipe", "xmas:cookie_gingerbread_gingerbread_man_recipe", "xmas:cookie_gingerbread_heart_recipe", "xmas:cookie_gingerbread_recipe", "xmas:cookie_gingerbread_snowflake_recipe", "xmas:cookie_gingerbread_star_recipe", "xmas:cookie_gingerbread_tree_recipe", "xmas:cookie_peppermint_chocolate_gingerbread_man_recipe", "xmas:cookie_peppermint_chocolate_heart_recipe", "xmas:cookie_peppermint_chocolate_recipe", "xmas:cookie_peppermint_chocolate_snowflake_recipe", "xmas:cookie_peppermint_chocolate_star_recipe", "xmas:cookie_peppermint_chocolate_tree_recipe", "xmas:cookie_snickerdoodle_gingerbread_man_recipe", "xmas:cookie_snickerdoodle_gingerbread_man_recipe_blue_egg", "xmas:cookie_snickerdoodle_gingerbread_man_recipe_brown_egg", "xmas:cookie_snickerdoodle_heart_recipe", "xmas:cookie_snickerdoodle_heart_recipe_blue_egg", "xmas:cookie_snickerdoodle_heart_recipe_brown_egg", "xmas:cookie_snickerdoodle_recipe", "xmas:cookie_snickerdoodle_recipe_blue_egg", "xmas:cookie_snickerdoodle_recipe_brown_egg", "xmas:cookie_snickerdoodle_snowflake_recipe", "xmas:cookie_snickerdoodle_snowflake_recipe_blue_egg", "xmas:cookie_snickerdoodle_snowflake_recipe_brown_egg", "xmas:cookie_snickerdoodle_star_recipe", "xmas:cookie_snickerdoodle_star_recipe_blue_egg", "xmas:cookie_snickerdoodle_star_recipe_brown_egg", "xmas:cookie_snickerdoodle_tree_recipe", "xmas:cookie_snickerdoodle_tree_recipe_blue_egg", "xmas:cookie_snickerdoodle_tree_recipe_brown_egg", "xmas:cookie_sugar_gingerbread_man_recipe", "xmas:cookie_sugar_gingerbread_man_recipe_blue_egg", "xmas:cookie_sugar_gingerbread_man_recipe_brown_egg", "xmas:cookie_sugar_heart_recipe", "xmas:cookie_sugar_heart_recipe_blue_egg", "xmas:cookie_sugar_heart_recipe_brown_egg", "xmas:cookie_sugar_recipe", "xmas:cookie_sugar_recipe_blue_egg", "xmas:cookie_sugar_recipe_brown_egg", "xmas:cookie_sugar_snowflake_recipe", "xmas:cookie_sugar_snowflake_recipe_blue_egg", "xmas:cookie_sugar_snowflake_recipe_brown_egg", "xmas:cookie_sugar_star_recipe", "xmas:cookie_sugar_star_recipe_blue_egg", "xmas:cookie_sugar_star_recipe_brown_egg", "xmas:cookie_sugar_tree_recipe", "xmas:cookie_sugar_tree_recipe_blue_egg", "xmas:cookie_sugar_tree_recipe_brown_egg", "xmas:cutter_gingerbread_man_recipe", "xmas:cutter_heart_recipe", "xmas:cutter_snowflake_recipe", "xmas:cutter_star_recipe", "xmas:cutter_tree_recipe", "xmas:eggnog_glass_recipe", "xmas:eggnog_glass_unpack_recipe", "xmas:eggnog_recipe", "xmas:eggnog_recipe_blue_egg", "xmas:eggnog_recipe_brown_egg", "xmas:fudge_recipe", "xmas:gingerbread_oven_recipe", "xmas:gumdrop_blue_recipe", "xmas:gumdrop_green_recipe", "xmas:gumdrop_purple_recipe", "xmas:gumdrop_red_recipe", "xmas:gumdrop_yellow_recipe", "xmas:hot_cocoa_marshmallow_recipe", "xmas:hot_cocoa_recipe", "xmas:ice_cream_candy_cane_crunch_recipe", "xmas:ice_cream_chocolate_recipe", "xmas:ice_cream_gingerbread_recipe", "xmas:ice_cream_matcha_recipe", "xmas:ice_cream_peppermint_recipe", "xmas:ice_cream_strawberry_recipe", "xmas:ice_cream_vanilla_recipe", "xmas:lollipop_recipe", "xmas:marshmallow_recipe", "xmas:marshmallow_recipe_blue_egg", "xmas:marshmallow_recipe_brown_egg", "xmas:peppermint_candy_recipe", "xmas:pumpkin_pie_slice_recipe", "xmas:pumpkin_pie_slice_recipe_blue_egg", "xmas:pumpkin_pie_slice_recipe_brown_egg", "xmas:toffee_recipe", "xmas:yule_log_recipe", "xmas:yule_log_recipe_blue_egg", "xmas:yule_log_recipe_brown_egg", "xmas:apple_pie_recipe", "xmas:big_christmas_pudding_recipe", "xmas:candy_bowl_recipe", "xmas:carrot_cake_recipe", "xmas:carrot_cake_recipe_blue_egg", "xmas:carrot_cake_recipe_brown_egg", "xmas:cinnamon_bun_tray_recipe", "xmas:cookie_plate_recipe", "xmas:fruitcake_recipe", "xmas:peppermint_chocolate_cake_recipe", "xmas:pumpkin_pie_recipe", "xmas:red_velvet_cake_recipe", "xmas:red_velvet_cake_recipe_blue_egg", "xmas:red_velvet_cake_recipe_brown_egg", "xmas:yule_log_platter_recipe", "santa:advent_calendar_recipe", "santa:bobble_beanie_recipe", "santa:candy_cane_block_recipe", "santa:candy_cane_lamp_recipe", "santa:candy_cane_pickaxe_recipe", "santa:candy_cane_sword_recipe", "santa:card_stand_recipe", "santa:chocolate_block_recipe", "santa:christmas_candles_recipe", "santa:christmas_jukebox_recipe", "santa:christmas_tree_recipe", "santa:christmas_tree_medium_recipe", "santa:cookie_tile_recipe", "santa:door_wreath_recipe", "santa:earmuffs_recipe", "santa:elf_hat_recipe", "santa:elf_shoes_recipe", "santa:elf_tunic_recipe", "santa:frozen_lake_village_recipe", "santa:fudge_bricks_recipe", "santa:garland_recipe", "santa:giant_candy_cane_recipe", "santa:gift_box_recipe", "santa:gingerbread_block_recipe", "santa:gingerbread_house_recipe", "santa:golden_bells_recipe", "santa:gumdrop_block_green_recipe", "santa:gumdrop_block_purple_recipe", "santa:gumdrop_block_red_recipe", "santa:gumdrop_block_yellow_recipe", "santa:holly_centerpiece_recipe", "santa:iced_gingerbread_block_recipe", "santa:icicle_lights_recipe", "santa:icicles_recipe", "santa:icing_block_recipe", "santa:inflatable_santa_recipe", "santa:jack_in_the_box_recipe", "santa:jingle_bells_recipe", "santa:lawn_reindeer_recipe", "santa:light_arch_recipe", "santa:lightup_snowman_recipe", "santa:market_village_recipe", "santa:milk_cookies_recipe", "santa:mini_village_recipe", "santa:mint_candy_block_recipe", "santa:mistletoe_recipe", "santa:mrs_claus_dress_recipe", "santa:north_pole_village_recipe", "santa:nutcracker_recipe", "santa:nutcracker_statue_recipe", "santa:ornament_blue_recipe", "santa:ornament_gold_recipe", "santa:ornament_green_recipe", "santa:ornament_purple_recipe", "santa:ornament_red_recipe", "santa:ornament_silver_recipe", "santa:pajama_pants_recipe", "santa:pajama_top_recipe", "santa:path_cane_recipe", "santa:peppermint_block_recipe", "santa:poinsettia_recipe", "santa:present_blue_recipe", "santa:present_candy_recipe", "santa:present_cyan_recipe", "santa:present_gold_recipe", "santa:present_green_recipe", "santa:present_orange_recipe", "santa:present_pink_recipe", "santa:present_purple_recipe", "santa:present_red_recipe", "santa:present_silver_recipe", "santa:present_stack_recipe", "santa:railway_village_recipe", "santa:reindeer_antlers_recipe", "santa:rocking_horse_recipe", "santa:rubber_duck_recipe", "santa:santa_boots_recipe", "santa:santa_coat_recipe", "santa:santa_hat_recipe", "santa:santa_pants_recipe", "santa:workbench_recipe", "santa:sleigh_recipe", "santa:snow_globe_recipe", "santa:snow_globe_display_recipe", "santa:snow_machine_recipe", "santa:snowball_launcher_recipe", "santa:snowball_pile_recipe", "santa:snowy_bench_recipe", "santa:spinning_top_recipe", "santa:star_lantern_recipe", "santa:stocking_green_recipe", "santa:stocking_plaid_recipe", "santa:stocking_red_recipe", "santa:stocking_striped_recipe", "santa:string_lights_multi_recipe", "santa:string_lights_redgreen_recipe", "santa:string_lights_warm_recipe", "santa:stuffed_reindeer_recipe", "santa:sweater_bauble_recipe", "santa:sweater_blue_recipe", "santa:sweater_candy_cane_recipe", "santa:sweater_forest_recipe", "santa:sweater_gingerbread_recipe", "santa:sweater_green_recipe", "santa:sweater_hearts_recipe", "santa:sweater_midnight_recipe", "santa:sweater_mint_recipe", "santa:sweater_present_recipe", "santa:sweater_red_recipe", "santa:sweater_reindeer_gray_recipe", "santa:sweater_snowflake_navy_recipe", "santa:sweater_snowman_recipe", "santa:sweater_star_recipe", "santa:tall_christmas_tree_recipe", "santa:teddy_bear_recipe", "santa:toy_airplane_recipe", "santa:toy_car_recipe", "santa:toy_castle_recipe", "santa:toy_drum_recipe", "santa:toy_parts_recipe", "santa:toy_penguin_recipe", "santa:toy_robot_recipe", "santa:toy_sled_recipe", "santa:toy_snowman_recipe", "santa:toy_soldier_recipe", "santa:toy_train_recipe", "santa:victorian_village_recipe", "santa:village_bakery_recipe", "santa:village_church_recipe", "santa:village_cottage_recipe", "santa:village_toy_shop_recipe", "santa:white_chocolate_block_recipe", "santa:window_candle_recipe", "santa:wooden_blocks_recipe", "santa:wreath_recipe", "santa:yo_yo_recipe"];
+const GUIDE_TEXT = [
+  "§lHow to start§r", "Craft these two stations at a normal crafting table.", "",
+  "§6Gingerbread Oven§r (Gingerbread Oven add-on)", "  Brick   Brick    Brick", "  Brick   Furnace  Brick", "  Brick   Brick    Brick", "",
+  "§cSanta's Workbench§r", "  Red Wool  Red Wool        Red Wool", "  Planks    Crafting Table  Planks", "  Planks    (empty)         Planks",
+  "  (planks are spruce)", "",
+  "Every Christmas recipe is now unlocked in your recipe book. Foods are made in the Oven; decorations, toys, outfits and gadgets at the Workbench.",
+].join("\n");
+function unlockAll(player) {
+  if (player.getDynamicProperty("santa:recipes_unlocked") === ALL_RECIPES.length) return;
+  for (const id of ALL_RECIPES) { try { player.runCommand(`recipe give @s ${id}`); } catch (e) {} }   // missing add-on = skip
+  player.setDynamicProperty("santa:recipes_unlocked", ALL_RECIPES.length);
+}
+world.afterEvents.playerSpawn.subscribe((e) => {
+  const p = e.player;
+  if (!e.initialSpawn || p.getDynamicProperty("santa:guide_given")) return;
+  p.setDynamicProperty("santa:guide_given", true);
+  give(p, new ItemStack("santa:christmas_guide", 1));
+  p.sendMessage("§aMerry Christmas! §rYou got the §cChristmas Guide§r. You only get one, so keep it safe!");
+});
+
+// ---- outfit bonus: Christmas pieces in all 4 armor slots (any mix) = snowflakes + Jolly (speed + jump) ----
+const SLOTS = [EquipmentSlot.Head, EquipmentSlot.Chest, EquipmentSlot.Legs, EquipmentSlot.Feet];
+const jolly = new Set();
+system.runInterval(() => {
+  for (const p of world.getAllPlayers()) {
+    let on = false;
+    try { const eq = p.getComponent("minecraft:equippable"); on = SLOTS.every((s) => eq.getEquipment(s)?.typeId.startsWith("santa:")); } catch (e) {}
+    if (!on) { jolly.delete(p.id); continue; }
+    if (!jolly.has(p.id)) { jolly.add(p.id); p.onScreenDisplay.setActionBar("§bYou feel Jolly!§r Christmas outfit bonus"); }
+    p.addEffect("speed", 80, { amplifier: 0, showParticles: false });
+    p.addEffect("jump_boost", 80, { amplifier: 0, showParticles: false });
+    const l = p.location;
+    for (let i = 0; i < 4; i++) p.dimension.spawnParticle("minecraft:snowflake_particle", { x: l.x + (Math.random() - 0.5) * 1.6, y: l.y + 0.3 + Math.random() * 2, z: l.z + (Math.random() - 0.5) * 1.6 });
+  }
+}, 20);
+
+system.beforeEvents.startup.subscribe((startup) => {
+  const reg = startup.blockComponentRegistry;
+  reg.registerCustomComponent("santa:milk_cookies", {
+    onPlace(e) { if (e.block.typeId === "santa:milk_cookies") world.setDynamicProperty(posKey("plate", e.block), world.getDay()); },
+    onTick(e) {
+      const b = e.block;
+      if (b.permutation.getState("santa:empty") === 1) return;
+      const k = posKey("plate", b), placed = world.getDynamicProperty(k);
+      if (placed === undefined) { world.setDynamicProperty(k, world.getDay()); return; }
+      if (world.getDay() > placed && world.getTimeOfDay() < 12000) santaVisits(b);   // a night has passed
+    },
+    onPlayerInteract(e) {
+      const { block, player } = e;
+      if (!player) return;
+      if (block.permutation.getState("santa:empty") === 1) {
+        if (takeOne(player, "minecraft:cookie")) {
+          block.setPermutation(block.permutation.withState("santa:empty", 0));
+          world.setDynamicProperty(posKey("plate", block), world.getDay());
+          player.onScreenDisplay.setActionBar("Refilled! Leave it out tonight for Santa.");
+        } else player.onScreenDisplay.setActionBar("Santa ate everything! Use a cookie on the plate to refill it.");
+      } else player.onScreenDisplay.setActionBar("Leave this out overnight. Santa might stop by...");
+    },
+    onPlayerBreak(e) { world.setDynamicProperty(posKey("plate", e.block), undefined); },
+  });
+  reg.registerCustomComponent("santa:snow_machine", {
+    onTick(e) { snowTick(e.block); },
+    onPlayerInteract(e) {
+      const b = e.block, on = b.permutation.getState("santa:on") === 1;
+      b.setPermutation(b.permutation.withState("santa:on", on ? 0 : 1));
+      try { b.dimension.playSound("random.click", b.center()); } catch (err) {}
+      e.player?.onScreenDisplay.setActionBar(on ? "Snow machine off" : "Snow machine on - let it snow!");
+    },
+  });
+  reg.registerCustomComponent("santa:jukebox", {
+    onPlayerInteract(e) { if (e.player) system.run(() => jukeboxMenu(e.block, e.player)); },
+    onTick(e) {
+      const b = e.block;
+      if (b.permutation.getState("santa:playing") !== 1) return;
+      const p = playing.get(posKey("juke", b));
+      if (!p || system.currentTick > p.until) { playing.delete(posKey("juke", b)); b.setPermutation(b.permutation.withState("santa:playing", 0)); return; }
+      const c = b.center();
+      for (let i = 0; i < 2; i++) {   // rainbow notes floating out of the top
+        const at = { x: c.x + (Math.random() - 0.5) * 0.6, y: b.y + 1.2 + Math.random() * 0.2, z: c.z + (Math.random() - 0.5) * 0.4 };
+        try { b.dimension.spawnParticle("santa:rainbow_note", at); } catch (err) {}
+      }
+    },
+    onPlayerBreak(e) { stopSong(e.block); },
+  });
+  reg.registerCustomComponent("santa:snowball_pile", {
+    onPlace(e) { refreshPilesAround(e.block); },
+    onPlayerBreak(e) { refreshPilesAround(e.block); },
+    onPlayerInteract(e) {
+      if (!e.player) return;
+      give(e.player, new ItemStack("minecraft:snowball", 16));
+      try { e.block.dimension.playSound("dig.snow", e.block.center()); } catch (err) {}
+    },
+  });
+  startup.itemComponentRegistry.registerCustomComponent("santa:guide", {
+    onUse(e) {
+      const p = e.source;
+      system.run(() => {
+        unlockAll(p);
+        new ActionFormData().title("Christmas Guide").body(GUIDE_TEXT).button("Close").show(p).catch(() => {});
+      });
     },
   });
 });

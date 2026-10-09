@@ -1,285 +1,273 @@
 {
-  "format_version": "1.21.40",
-  "minecraft:block": {
-    "description": {
-      "identifier": "xmas:fruitcake",
-      "menu_category": {
-        "category": "items"
-      },
-      "states": {
-        "xmas:bites": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      }
-    },
-    "components": {
-      "minecraft:geometry": "geometry.xmas_cake_0",
-      "minecraft:material_instances": {
-        "*": {
-          "texture": "xmas_fruitcake_side",
-          "render_method": "opaque"
-        },
-        "top": {
-          "texture": "xmas_fruitcake_top",
-          "render_method": "opaque"
-        },
-        "side": {
-          "texture": "xmas_fruitcake_side",
-          "render_method": "opaque"
-        },
-        "cut": {
-          "texture": "xmas_fruitcake_cut",
-          "render_method": "opaque"
-        }
-      },
-      "minecraft:collision_box": {
-        "origin": [
-          -7,
-          0,
-          -7
-        ],
-        "size": [
-          14,
-          8,
-          14
-        ]
-      },
-      "minecraft:selection_box": {
-        "origin": [
-          -7,
-          0,
-          -7
-        ],
-        "size": [
-          14,
-          8,
-          14
-        ]
-      },
-      "minecraft:destructible_by_mining": {
-        "seconds_to_destroy": 0.5
-      },
-      "minecraft:custom_components": [
-        "xmas:cake"
-      ]
-    },
-    "permutations": [
-      {
-        "condition": "q.block_state('xmas:bites') == 0",
-        "components": {
-          "minecraft:geometry": "geometry.xmas_cake_0",
-          "minecraft:collision_box": {
-            "origin": [
-              -7,
-              0,
-              -7
-            ],
-            "size": [
-              14,
-              8,
-              14
-            ]
-          },
-          "minecraft:selection_box": {
-            "origin": [
-              -7,
-              0,
-              -7
-            ],
-            "size": [
-              14,
-              8,
-              14
-            ]
-          }
-        }
-      },
-      {
-        "condition": "q.block_state('xmas:bites') == 1",
-        "components": {
-          "minecraft:geometry": "geometry.xmas_cake_1",
-          "minecraft:collision_box": {
-            "origin": [
-              -5,
-              0,
-              -7
-            ],
-            "size": [
-              12,
-              8,
-              14
-            ]
-          },
-          "minecraft:selection_box": {
-            "origin": [
-              -5,
-              0,
-              -7
-            ],
-            "size": [
-              12,
-              8,
-              14
-            ]
-          }
-        }
-      },
-      {
-        "condition": "q.block_state('xmas:bites') == 2",
-        "components": {
-          "minecraft:geometry": "geometry.xmas_cake_2",
-          "minecraft:collision_box": {
-            "origin": [
-              -3,
-              0,
-              -7
-            ],
-            "size": [
-              10,
-              8,
-              14
-            ]
-          },
-          "minecraft:selection_box": {
-            "origin": [
-              -3,
-              0,
-              -7
-            ],
-            "size": [
-              10,
-              8,
-              14
-            ]
-          }
-        }
-      },
-      {
-        "condition": "q.block_state('xmas:bites') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.xmas_cake_3",
-          "minecraft:collision_box": {
-            "origin": [
-              -1,
-              0,
-              -7
-            ],
-            "size": [
-              8,
-              8,
-              14
-            ]
-          },
-          "minecraft:selection_box": {
-            "origin": [
-              -1,
-              0,
-              -7
-            ],
-            "size": [
-              8,
-              8,
-              14
-            ]
-          }
-        }
-      },
-      {
-        "condition": "q.block_state('xmas:bites') == 4",
-        "components": {
-          "minecraft:geometry": "geometry.xmas_cake_4",
-          "minecraft:collision_box": {
-            "origin": [
-              1,
-              0,
-              -7
-            ],
-            "size": [
-              6,
-              8,
-              14
-            ]
-          },
-          "minecraft:selection_box": {
-            "origin": [
-              1,
-              0,
-              -7
-            ],
-            "size": [
-              6,
-              8,
-              14
-            ]
-          }
-        }
-      },
-      {
-        "condition": "q.block_state('xmas:bites') == 5",
-        "components": {
-          "minecraft:geometry": "geometry.xmas_cake_5",
-          "minecraft:collision_box": {
-            "origin": [
-              3,
-              0,
-              -7
-            ],
-            "size": [
-              4,
-              8,
-              14
-            ]
-          },
-          "minecraft:selection_box": {
-            "origin": [
-              3,
-              0,
-              -7
-            ],
-            "size": [
-              4,
-              8,
-              14
-            ]
-          }
-        }
-      },
-      {
-        "condition": "q.block_state('xmas:bites') == 6",
-        "components": {
-          "minecraft:geometry": "geometry.xmas_cake_6",
-          "minecraft:collision_box": {
-            "origin": [
-              5,
-              0,
-              -7
-            ],
-            "size": [
-              2,
-              8,
-              14
-            ]
-          },
-          "minecraft:selection_box": {
-            "origin": [
-              5,
-              0,
-              -7
-            ],
-            "size": [
-              2,
-              8,
-              14
-            ]
-          }
-        }
-      }
+ "format_version": "1.21.40",
+ "minecraft:block": {
+  "description": {
+   "identifier": "xmas:fruitcake",
+   "menu_category": {
+    "category": "items"
+   },
+   "states": {
+    "xmas:bites": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
     ]
-  }
+   }
+  },
+  "components": {
+   "minecraft:geometry": "geometry.xmas_fruitcake_b0",
+   "minecraft:material_instances": {
+    "*": {
+     "texture": "xmas_cakes",
+     "render_method": "alpha_test"
+    }
+   },
+   "minecraft:collision_box": {
+    "origin": [
+     -4.6,
+     0,
+     -7.4
+    ],
+    "size": [
+     9.2,
+     7.6,
+     14.8
+    ]
+   },
+   "minecraft:selection_box": {
+    "origin": [
+     -4.6,
+     0,
+     -7.4
+    ],
+    "size": [
+     9.2,
+     7.6,
+     14.8
+    ]
+   },
+   "minecraft:destructible_by_mining": {
+    "seconds_to_destroy": 0.5
+   },
+   "minecraft:custom_components": [
+    "xmas:cake"
+   ]
+  },
+  "permutations": [
+   {
+    "condition": "q.block_state('xmas:bites') == 0",
+    "components": {
+     "minecraft:geometry": "geometry.xmas_fruitcake_b0",
+     "minecraft:collision_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     },
+     "minecraft:selection_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     }
+    }
+   },
+   {
+    "condition": "q.block_state('xmas:bites') == 1",
+    "components": {
+     "minecraft:geometry": "geometry.xmas_fruitcake_b1",
+     "minecraft:collision_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     },
+     "minecraft:selection_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     }
+    }
+   },
+   {
+    "condition": "q.block_state('xmas:bites') == 2",
+    "components": {
+     "minecraft:geometry": "geometry.xmas_fruitcake_b2",
+     "minecraft:collision_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     },
+     "minecraft:selection_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     }
+    }
+   },
+   {
+    "condition": "q.block_state('xmas:bites') == 3",
+    "components": {
+     "minecraft:geometry": "geometry.xmas_fruitcake_b3",
+     "minecraft:collision_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     },
+     "minecraft:selection_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     }
+    }
+   },
+   {
+    "condition": "q.block_state('xmas:bites') == 4",
+    "components": {
+     "minecraft:geometry": "geometry.xmas_fruitcake_b4",
+     "minecraft:collision_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     },
+     "minecraft:selection_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     }
+    }
+   },
+   {
+    "condition": "q.block_state('xmas:bites') == 5",
+    "components": {
+     "minecraft:geometry": "geometry.xmas_fruitcake_b5",
+     "minecraft:collision_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     },
+     "minecraft:selection_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     }
+    }
+   },
+   {
+    "condition": "q.block_state('xmas:bites') == 6",
+    "components": {
+     "minecraft:geometry": "geometry.xmas_fruitcake_b6",
+     "minecraft:collision_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     },
+     "minecraft:selection_box": {
+      "origin": [
+       -4.6,
+       0,
+       -7.4
+      ],
+      "size": [
+       9.2,
+       7.6,
+       14.8
+      ]
+     }
+    }
+   }
+  ]
+ }
 }

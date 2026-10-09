@@ -4,14 +4,17 @@
   "description": {
    "identifier": "xmas:reindeer",
    "materials": {
-    "default": "entity_emissive_alpha"
+    "default": "entity_emissive_alpha",
+    "sleigh": "entity_alphatest"
    },
    "textures": {
     "default": "textures/entity/xmas/reindeer",
-    "rudolph": "textures/entity/xmas/reindeer_rudolph"
+    "rudolph": "textures/entity/xmas/reindeer_rudolph",
+    "sleigh": "textures/entity/xmas/reindeer_sleigh"
    },
    "geometry": {
-    "default": "geometry.xmas.reindeer"
+    "default": "geometry.xmas.reindeer",
+    "sleigh": "geometry.xmas.reindeer_sleigh"
    },
    "animations": {
     "look": "animation.xmas.look",
@@ -23,19 +26,22 @@
     "animate": [
      "look",
      {
-      "walk": "!query.property('xmas:sitting')"
+      "walk": "!query.property('xmas:sitting') && !query.property('xmas:flying')"
      },
      {
       "sit": "query.property('xmas:sitting')"
      },
      {
-      "graze": "!query.property('xmas:sitting') && !query.has_rider && query.modified_move_speed < 0.05"
+      "graze": "!query.property('xmas:sitting') && !query.has_rider && query.modified_move_speed < 0.05 && !query.property('xmas:flying')"
      }
     ],
     "scale": "query.is_baby ? 0.55 : 1.0"
    },
    "render_controllers": [
-    "controller.render.xmas.reindeer"
+    "controller.render.xmas.reindeer",
+    {
+     "controller.render.xmas.reindeer_sleigh": "query.property('xmas:hitched')"
+    }
    ],
    "spawn_egg": {
     "texture": "xmas_reindeer_egg",

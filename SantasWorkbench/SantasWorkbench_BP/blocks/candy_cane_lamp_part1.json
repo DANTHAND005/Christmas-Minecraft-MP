@@ -25,7 +25,11 @@
       "minecraft:geometry": "geometry.santa_candy_cane_lamp_part1",
       "minecraft:material_instances": {
         "*": {
-          "texture": "santa_lamp",
+          "texture": "santa_xmas2",
+          "render_method": "alpha_test"
+        },
+        "glow": {
+          "texture": "santa_xmas2",
           "render_method": "alpha_test",
           "face_dimming": false,
           "ambient_occlusion": false
@@ -33,26 +37,26 @@
       },
       "minecraft:collision_box": {
         "origin": [
-          -8,
+          -3,
           0,
-          -8
+          -3
         ],
         "size": [
+          6,
           16,
-          16,
-          16
+          6
         ]
       },
       "minecraft:selection_box": {
         "origin": [
-          -8,
+          -3,
           0,
-          -8
+          -3
         ],
         "size": [
+          6,
           16,
-          16,
-          16
+          6
         ]
       },
       "minecraft:destructible_by_mining": {
@@ -119,7 +123,11 @@
         "components": {
           "minecraft:material_instances": {
             "*": {
-              "texture": "santa_lamp_off",
+              "texture": "santa_xmas2",
+              "render_method": "alpha_test"
+            },
+            "glow": {
+              "texture": "santa_xmas2",
               "render_method": "alpha_test"
             }
           },

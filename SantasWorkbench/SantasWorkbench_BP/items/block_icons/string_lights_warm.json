@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:string_lights_warm",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_string_lights_warm",
+      "minecraft:display_name": {
+        "value": "tile.santa:string_lights_warm.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:string_lights_warm",
+        "replace_block_item": true
+      }
+    }
+  }
+}

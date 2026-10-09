@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:door_wreath",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_door_wreath",
+      "minecraft:display_name": {
+        "value": "tile.santa:door_wreath.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:door_wreath",
+        "replace_block_item": true
+      }
+    }
+  }
+}

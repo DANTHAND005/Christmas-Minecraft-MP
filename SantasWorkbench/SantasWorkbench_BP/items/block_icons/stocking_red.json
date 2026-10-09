@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:stocking_red",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_stocking_red",
+      "minecraft:display_name": {
+        "value": "tile.santa:stocking_red.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:stocking_red",
+        "replace_block_item": true
+      }
+    }
+  }
+}

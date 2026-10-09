@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:eggnog_glass",
+      "menu_category": {
+        "category": "construction"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_eggnog_glass",
+      "minecraft:display_name": {
+        "value": "tile.xmas:eggnog_glass.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:eggnog_glass",
+        "replace_block_item": true
+      }
+    }
+  }
+}

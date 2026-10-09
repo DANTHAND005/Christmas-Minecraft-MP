@@ -1,0 +1,142 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "santa.jukebox.jingle_bells": {
+      "category": "record",
+      "min_distance": 4.0,
+      "max_distance": 40.0,
+      "sounds": [
+        {
+          "name": "sounds/santa/jingle_bells",
+          "stream": true,
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.jukebox.deck_the_halls": {
+      "category": "record",
+      "min_distance": 4.0,
+      "max_distance": 40.0,
+      "sounds": [
+        {
+          "name": "sounds/santa/deck_the_halls",
+          "stream": true,
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.jukebox.we_wish_you": {
+      "category": "record",
+      "min_distance": 4.0,
+      "max_distance": 40.0,
+      "sounds": [
+        {
+          "name": "sounds/santa/we_wish_you",
+          "stream": true,
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.jukebox.silent_night": {
+      "category": "record",
+      "min_distance": 4.0,
+      "max_distance": 40.0,
+      "sounds": [
+        {
+          "name": "sounds/santa/silent_night",
+          "stream": true,
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.jukebox.joy_to_the_world": {
+      "category": "record",
+      "min_distance": 4.0,
+      "max_distance": 40.0,
+      "sounds": [
+        {
+          "name": "sounds/santa/joy_to_the_world",
+          "stream": true,
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.town.mini": {
+      "category": "block",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/santa_town_mini",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.town.railway": {
+      "category": "block",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/santa_town_railway",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.town.victorian": {
+      "category": "block",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/santa_town_victorian",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.town.north_pole": {
+      "category": "block",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/santa_town_north_pole",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.town.frozen_lake": {
+      "category": "block",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/santa_town_frozen_lake",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "santa.town.market": {
+      "category": "block",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/santa_town_market",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    }
+  }
+}

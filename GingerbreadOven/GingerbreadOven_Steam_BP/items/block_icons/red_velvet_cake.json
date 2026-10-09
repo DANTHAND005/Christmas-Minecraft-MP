@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:red_velvet_cake",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_red_velvet_cake",
+      "minecraft:display_name": {
+        "value": "tile.xmas:red_velvet_cake.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:red_velvet_cake",
+        "replace_block_item": true
+      }
+    }
+  }
+}

@@ -6,9 +6,15 @@
       "materials": {
         "default": "entity_alphatest"
       },
-      "textures": {},
-      "geometry": {},
-      "render_controllers": []
+      "textures": {
+        "default": "textures/blocks/xmas2"
+      },
+      "geometry": {
+        "default": "geometry.santa_seat"
+      },
+      "render_controllers": [
+        "controller.render.santa_seat"
+      ]
     }
   }
 }

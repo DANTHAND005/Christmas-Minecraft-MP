@@ -1,0 +1,139 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "santa:christmas_jukebox",
+      "menu_category": {
+        "category": "items"
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180
+        }
+      },
+      "states": {
+        "santa:playing": [
+          0,
+          1
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": {
+        "identifier": "geometry.santa_christmas_jukebox",
+        "bone_visibility": {
+          "lit": "q.block_state('santa:playing') == 1",
+          "unlit": "q.block_state('santa:playing') == 0"
+        }
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "santa_xmas2",
+          "render_method": "alpha_test"
+        },
+        "glow": {
+          "texture": "santa_xmas2",
+          "render_method": "alpha_test",
+          "face_dimming": false,
+          "ambient_occlusion": false
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -6.5,
+          0,
+          -4
+        ],
+        "size": [
+          13,
+          16,
+          8
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -6.5,
+          0,
+          -4
+        ],
+        "size": [
+          13,
+          16,
+          8
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:tick": {
+        "interval_range": [
+          8,
+          8
+        ],
+        "looping": true
+      },
+      "minecraft:custom_components": [
+        "santa:jukebox"
+      ]
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('santa:playing') == 1",
+        "components": {
+          "minecraft:light_emission": 12
+        }
+      }
+    ]
+  }
+}

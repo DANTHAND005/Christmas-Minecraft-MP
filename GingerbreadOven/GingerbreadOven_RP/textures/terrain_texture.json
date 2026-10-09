@@ -117,6 +117,9 @@
     },
     "xmas_cp3d_5": {
       "textures": "textures/blocks/cp3d_gingerbread"
+    },
+    "xmas_cakes": {
+      "textures": "textures/blocks/xmas_cakes"
     }
   }
 }

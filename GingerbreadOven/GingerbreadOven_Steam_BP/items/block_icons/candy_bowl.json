@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:candy_bowl",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_candy_bowl",
+      "minecraft:display_name": {
+        "value": "tile.xmas:candy_bowl.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:candy_bowl",
+        "replace_block_item": true
+      }
+    }
+  }
+}

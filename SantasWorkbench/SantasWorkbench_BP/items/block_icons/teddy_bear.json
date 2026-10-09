@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:teddy_bear",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_teddy_bear",
+      "minecraft:display_name": {
+        "value": "tile.santa:teddy_bear.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:teddy_bear",
+        "replace_block_item": true
+      }
+    }
+  }
+}

@@ -49,6 +49,17 @@
    "textures": [
     "query.is_baby ? Texture.pup : Texture.default"
    ]
+  },
+  "controller.render.xmas.reindeer_sleigh": {
+   "geometry": "Geometry.sleigh",
+   "materials": [
+    {
+     "*": "Material.sleigh"
+    }
+   ],
+   "textures": [
+    "Texture.sleigh"
+   ]
   }
  }
 }

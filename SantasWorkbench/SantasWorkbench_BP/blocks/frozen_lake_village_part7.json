@@ -38,16 +38,18 @@
           "f4": "q.block_state('santa:frame') == 4",
           "f5": "q.block_state('santa:frame') == 5",
           "f6": "q.block_state('santa:frame') == 6",
-          "f7": "q.block_state('santa:frame') == 7"
+          "f7": "q.block_state('santa:frame') == 7",
+          "fe": "q.block_state('santa:frame') == 0 || q.block_state('santa:frame') == 2 || q.block_state('santa:frame') == 4 || q.block_state('santa:frame') == 6",
+          "fo": "q.block_state('santa:frame') == 1 || q.block_state('santa:frame') == 3 || q.block_state('santa:frame') == 5 || q.block_state('santa:frame') == 7"
         }
       },
       "minecraft:material_instances": {
         "*": {
-          "texture": "santa_decor",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test"
         },
         "glow": {
-          "texture": "santa_decor_lit",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test",
           "face_dimming": false,
           "ambient_occlusion": false
@@ -61,7 +63,7 @@
         ],
         "size": [
           16,
-          16,
+          9.64,
           16
         ]
       },
@@ -73,7 +75,7 @@
         ],
         "size": [
           16,
-          16,
+          9.64,
           16
         ]
       },

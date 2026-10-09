@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:cinnamon_bun_tray",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_cinnamon_bun_tray",
+      "minecraft:display_name": {
+        "value": "tile.xmas:cinnamon_bun_tray.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:cinnamon_bun_tray",
+        "replace_block_item": true
+      }
+    }
+  }
+}

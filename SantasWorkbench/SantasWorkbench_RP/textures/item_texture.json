@@ -133,6 +133,273 @@
     },
     "santa_jingle_bells": {
       "textures": "textures/items/jingle_bells"
+    },
+    "santa_blk_present_pink": {
+      "textures": "textures/items/block_icons/present_pink"
+    },
+    "santa_blk_toy_drum": {
+      "textures": "textures/items/block_icons/toy_drum"
+    },
+    "santa_blk_wooden_blocks": {
+      "textures": "textures/items/block_icons/wooden_blocks"
+    },
+    "santa_blk_string_lights_redgreen": {
+      "textures": "textures/items/block_icons/string_lights_redgreen"
+    },
+    "santa_blk_stuffed_reindeer": {
+      "textures": "textures/items/block_icons/stuffed_reindeer"
+    },
+    "santa_blk_rubber_duck": {
+      "textures": "textures/items/block_icons/rubber_duck"
+    },
+    "santa_blk_toy_train": {
+      "textures": "textures/items/block_icons/toy_train"
+    },
+    "santa_blk_tall_christmas_tree": {
+      "textures": "textures/items/block_icons/tall_christmas_tree"
+    },
+    "santa_blk_star_lantern": {
+      "textures": "textures/items/block_icons/star_lantern"
+    },
+    "santa_blk_village_church": {
+      "textures": "textures/items/block_icons/village_church"
+    },
+    "santa_blk_workbench": {
+      "textures": "textures/items/block_icons/workbench"
+    },
+    "santa_blk_wreath": {
+      "textures": "textures/items/block_icons/wreath"
+    },
+    "santa_blk_present_candy": {
+      "textures": "textures/items/block_icons/present_candy"
+    },
+    "santa_blk_toy_penguin": {
+      "textures": "textures/items/block_icons/toy_penguin"
+    },
+    "santa_blk_lightup_snowman": {
+      "textures": "textures/items/block_icons/lightup_snowman"
+    },
+    "santa_blk_window_candle": {
+      "textures": "textures/items/block_icons/window_candle"
+    },
+    "santa_blk_stocking_red": {
+      "textures": "textures/items/block_icons/stocking_red"
+    },
+    "santa_blk_gingerbread_house": {
+      "textures": "textures/items/block_icons/gingerbread_house"
+    },
+    "santa_blk_sleigh": {
+      "textures": "textures/items/block_icons/sleigh"
+    },
+    "santa_blk_christmas_tree_medium": {
+      "textures": "textures/items/block_icons/christmas_tree_medium"
+    },
+    "santa_blk_yo_yo": {
+      "textures": "textures/items/block_icons/yo_yo"
+    },
+    "santa_blk_golden_bells": {
+      "textures": "textures/items/block_icons/golden_bells"
+    },
+    "santa_blk_village_bakery": {
+      "textures": "textures/items/block_icons/village_bakery"
+    },
+    "santa_blk_christmas_tree": {
+      "textures": "textures/items/block_icons/christmas_tree"
+    },
+    "santa_blk_toy_airplane": {
+      "textures": "textures/items/block_icons/toy_airplane"
+    },
+    "santa_blk_spinning_top": {
+      "textures": "textures/items/block_icons/spinning_top"
+    },
+    "santa_blk_rocking_horse": {
+      "textures": "textures/items/block_icons/rocking_horse"
+    },
+    "santa_blk_present_stack": {
+      "textures": "textures/items/block_icons/present_stack"
+    },
+    "santa_blk_present_cyan": {
+      "textures": "textures/items/block_icons/present_cyan"
+    },
+    "santa_blk_nutcracker_statue": {
+      "textures": "textures/items/block_icons/nutcracker_statue"
+    },
+    "santa_blk_village_toy_shop": {
+      "textures": "textures/items/block_icons/village_toy_shop"
+    },
+    "santa_blk_north_pole_village": {
+      "textures": "textures/items/block_icons/north_pole_village"
+    },
+    "santa_blk_toy_car": {
+      "textures": "textures/items/block_icons/toy_car"
+    },
+    "santa_blk_ornament_silver": {
+      "textures": "textures/items/block_icons/ornament_silver"
+    },
+    "santa_blk_present_purple": {
+      "textures": "textures/items/block_icons/present_purple"
+    },
+    "santa_blk_present_silver": {
+      "textures": "textures/items/block_icons/present_silver"
+    },
+    "santa_blk_present": {
+      "textures": "textures/items/block_icons/present"
+    },
+    "santa_blk_toy_robot": {
+      "textures": "textures/items/block_icons/toy_robot"
+    },
+    "santa_blk_string_lights_warm": {
+      "textures": "textures/items/block_icons/string_lights_warm"
+    },
+    "santa_blk_ornament_blue": {
+      "textures": "textures/items/block_icons/ornament_blue"
+    },
+    "santa_blk_christmas_candles": {
+      "textures": "textures/items/block_icons/christmas_candles"
+    },
+    "santa_blk_string_lights_multi": {
+      "textures": "textures/items/block_icons/string_lights_multi"
+    },
+    "santa_blk_stocking_green": {
+      "textures": "textures/items/block_icons/stocking_green"
+    },
+    "santa_blk_card_stand": {
+      "textures": "textures/items/block_icons/card_stand"
+    },
+    "santa_blk_giant_candy_cane": {
+      "textures": "textures/items/block_icons/giant_candy_cane"
+    },
+    "santa_blk_market_village": {
+      "textures": "textures/items/block_icons/market_village"
+    },
+    "santa_blk_icicle_lights": {
+      "textures": "textures/items/block_icons/icicle_lights"
+    },
+    "santa_blk_light_arch": {
+      "textures": "textures/items/block_icons/light_arch"
+    },
+    "santa_blk_mistletoe": {
+      "textures": "textures/items/block_icons/mistletoe"
+    },
+    "santa_blk_ornament_red": {
+      "textures": "textures/items/block_icons/ornament_red"
+    },
+    "santa_blk_path_cane": {
+      "textures": "textures/items/block_icons/path_cane"
+    },
+    "santa_blk_snow_globe_display": {
+      "textures": "textures/items/block_icons/snow_globe_display"
+    },
+    "santa_blk_icicles": {
+      "textures": "textures/items/block_icons/icicles"
+    },
+    "santa_blk_snowy_bench": {
+      "textures": "textures/items/block_icons/snowy_bench"
+    },
+    "santa_blk_present_red": {
+      "textures": "textures/items/block_icons/present_red"
+    },
+    "santa_blk_lawn_reindeer": {
+      "textures": "textures/items/block_icons/lawn_reindeer"
+    },
+    "santa_blk_mini_village": {
+      "textures": "textures/items/block_icons/mini_village"
+    },
+    "santa_blk_railway_village": {
+      "textures": "textures/items/block_icons/railway_village"
+    },
+    "santa_blk_advent_calendar": {
+      "textures": "textures/items/block_icons/advent_calendar"
+    },
+    "santa_blk_victorian_village": {
+      "textures": "textures/items/block_icons/victorian_village"
+    },
+    "santa_blk_present_orange": {
+      "textures": "textures/items/block_icons/present_orange"
+    },
+    "santa_blk_poinsettia": {
+      "textures": "textures/items/block_icons/poinsettia"
+    },
+    "santa_blk_snow_globe": {
+      "textures": "textures/items/block_icons/snow_globe"
+    },
+    "santa_blk_stocking_plaid": {
+      "textures": "textures/items/block_icons/stocking_plaid"
+    },
+    "santa_blk_present_gold": {
+      "textures": "textures/items/block_icons/present_gold"
+    },
+    "santa_blk_candy_cane_lamp": {
+      "textures": "textures/items/block_icons/candy_cane_lamp"
+    },
+    "santa_blk_ornament_green": {
+      "textures": "textures/items/block_icons/ornament_green"
+    },
+    "santa_blk_toy_soldier": {
+      "textures": "textures/items/block_icons/toy_soldier"
+    },
+    "santa_blk_jack_in_the_box": {
+      "textures": "textures/items/block_icons/jack_in_the_box"
+    },
+    "santa_blk_village_cottage": {
+      "textures": "textures/items/block_icons/village_cottage"
+    },
+    "santa_blk_inflatable_santa": {
+      "textures": "textures/items/block_icons/inflatable_santa"
+    },
+    "santa_blk_garland": {
+      "textures": "textures/items/block_icons/garland"
+    },
+    "santa_blk_holly_centerpiece": {
+      "textures": "textures/items/block_icons/holly_centerpiece"
+    },
+    "santa_blk_door_wreath": {
+      "textures": "textures/items/block_icons/door_wreath"
+    },
+    "santa_blk_stocking_striped": {
+      "textures": "textures/items/block_icons/stocking_striped"
+    },
+    "santa_blk_frozen_lake_village": {
+      "textures": "textures/items/block_icons/frozen_lake_village"
+    },
+    "santa_blk_teddy_bear": {
+      "textures": "textures/items/block_icons/teddy_bear"
+    },
+    "santa_blk_ornament_purple": {
+      "textures": "textures/items/block_icons/ornament_purple"
+    },
+    "santa_blk_toy_castle": {
+      "textures": "textures/items/block_icons/toy_castle"
+    },
+    "santa_blk_ornament_gold": {
+      "textures": "textures/items/block_icons/ornament_gold"
+    },
+    "santa_blk_toy_snowman": {
+      "textures": "textures/items/block_icons/toy_snowman"
+    },
+    "santa_blk_present_blue": {
+      "textures": "textures/items/block_icons/present_blue"
+    },
+    "santa_blk_nutcracker": {
+      "textures": "textures/items/block_icons/nutcracker"
+    },
+    "santa_blk_toy_sled": {
+      "textures": "textures/items/block_icons/toy_sled"
+    },
+    "santa_christmas_guide": {
+      "textures": "textures/items/christmas_guide"
+    },
+    "santa_blk_snowball_pile": {
+      "textures": "textures/items/block_icons/snowball_pile"
+    },
+    "santa_blk_milk_cookies": {
+      "textures": "textures/items/block_icons/milk_cookies"
+    },
+    "santa_blk_snow_machine": {
+      "textures": "textures/items/block_icons/snow_machine"
+    },
+    "santa_blk_christmas_jukebox": {
+      "textures": "textures/items/block_icons/christmas_jukebox"
     }
   }
 }

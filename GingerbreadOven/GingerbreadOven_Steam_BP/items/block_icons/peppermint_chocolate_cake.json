@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:peppermint_chocolate_cake",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_peppermint_chocolate_cake",
+      "minecraft:display_name": {
+        "value": "tile.xmas:peppermint_chocolate_cake.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:peppermint_chocolate_cake",
+        "replace_block_item": true
+      }
+    }
+  }
+}

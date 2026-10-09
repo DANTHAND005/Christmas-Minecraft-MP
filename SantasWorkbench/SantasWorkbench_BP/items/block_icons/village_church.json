@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:village_church",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_village_church",
+      "minecraft:display_name": {
+        "value": "tile.santa:village_church.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:village_church",
+        "replace_block_item": true
+      }
+    }
+  }
+}

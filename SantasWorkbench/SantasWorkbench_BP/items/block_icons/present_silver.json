@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:present_silver",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_present_silver",
+      "minecraft:display_name": {
+        "value": "tile.santa:present_silver.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:present_silver",
+        "replace_block_item": true
+      }
+    }
+  }
+}

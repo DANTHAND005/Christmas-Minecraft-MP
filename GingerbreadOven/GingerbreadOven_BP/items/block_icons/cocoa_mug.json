@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:cocoa_mug",
+      "menu_category": {
+        "category": "construction"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_cocoa_mug",
+      "minecraft:display_name": {
+        "value": "tile.xmas:cocoa_mug.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:cocoa_mug",
+        "replace_block_item": true
+      }
+    }
+  }
+}

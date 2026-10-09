@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:big_christmas_pudding",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_big_christmas_pudding",
+      "minecraft:display_name": {
+        "value": "tile.xmas:big_christmas_pudding.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:big_christmas_pudding",
+        "replace_block_item": true
+      }
+    }
+  }
+}

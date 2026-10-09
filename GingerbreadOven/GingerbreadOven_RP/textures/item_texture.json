@@ -193,6 +193,51 @@
     },
     "xmas_yule_log": {
       "textures": "textures/items/yule_log"
+    },
+    "xmas_blk_cinnamon_bun_tray": {
+      "textures": "textures/items/block_icons/cinnamon_bun_tray"
+    },
+    "xmas_blk_red_velvet_cake": {
+      "textures": "textures/items/block_icons/red_velvet_cake"
+    },
+    "xmas_blk_fruitcake": {
+      "textures": "textures/items/block_icons/fruitcake"
+    },
+    "xmas_blk_yule_log_platter": {
+      "textures": "textures/items/block_icons/yule_log_platter"
+    },
+    "xmas_blk_carrot_cake": {
+      "textures": "textures/items/block_icons/carrot_cake"
+    },
+    "xmas_blk_apple_pie": {
+      "textures": "textures/items/block_icons/apple_pie"
+    },
+    "xmas_blk_pumpkin_pie": {
+      "textures": "textures/items/block_icons/pumpkin_pie"
+    },
+    "xmas_blk_candy_bowl": {
+      "textures": "textures/items/block_icons/candy_bowl"
+    },
+    "xmas_blk_cookie_plate": {
+      "textures": "textures/items/block_icons/cookie_plate"
+    },
+    "xmas_blk_big_christmas_pudding": {
+      "textures": "textures/items/block_icons/big_christmas_pudding"
+    },
+    "xmas_blk_peppermint_chocolate_cake": {
+      "textures": "textures/items/block_icons/peppermint_chocolate_cake"
+    },
+    "xmas_blk_cocoa_mug_marshmallow": {
+      "textures": "textures/items/block_icons/cocoa_mug_marshmallow"
+    },
+    "xmas_blk_eggnog_glass": {
+      "textures": "textures/items/block_icons/eggnog_glass"
+    },
+    "xmas_blk_cocoa_mug": {
+      "textures": "textures/items/block_icons/cocoa_mug"
+    },
+    "xmas_blk_gingerbread_oven": {
+      "textures": "textures/items/block_icons/gingerbread_oven"
     }
   }
 }

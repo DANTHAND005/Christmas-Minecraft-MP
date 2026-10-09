@@ -10,6 +10,9 @@
     "unlock": [
       {
         "item": "minecraft:crafting_table"
+      },
+      {
+        "item": "santa:christmas_guide"
       }
     ],
     "pattern": [

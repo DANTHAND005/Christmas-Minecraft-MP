@@ -13,34 +13,65 @@
           ],
           "y_rotation_offset": 180
         }
+      },
+      "states": {
+        "santa:frame": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
       }
     },
     "components": {
-      "minecraft:geometry": "geometry.santa_railway_village_part33",
+      "minecraft:geometry": {
+        "identifier": "geometry.santa_railway_village_part33",
+        "bone_visibility": {
+          "f0": "q.block_state('santa:frame') == 0",
+          "f1": "q.block_state('santa:frame') == 1",
+          "f2": "q.block_state('santa:frame') == 2",
+          "f3": "q.block_state('santa:frame') == 3",
+          "f4": "q.block_state('santa:frame') == 4",
+          "f5": "q.block_state('santa:frame') == 5",
+          "f6": "q.block_state('santa:frame') == 6",
+          "f7": "q.block_state('santa:frame') == 7",
+          "f8": "q.block_state('santa:frame') == 8",
+          "f9": "q.block_state('santa:frame') == 9",
+          "f10": "q.block_state('santa:frame') == 10",
+          "f11": "q.block_state('santa:frame') == 11",
+          "f12": "q.block_state('santa:frame') == 12",
+          "f13": "q.block_state('santa:frame') == 13",
+          "f14": "q.block_state('santa:frame') == 14",
+          "f15": "q.block_state('santa:frame') == 15",
+          "fe": "q.block_state('santa:frame') == 0 || q.block_state('santa:frame') == 2 || q.block_state('santa:frame') == 4 || q.block_state('santa:frame') == 6 || q.block_state('santa:frame') == 8 || q.block_state('santa:frame') == 10 || q.block_state('santa:frame') == 12 || q.block_state('santa:frame') == 14",
+          "fo": "q.block_state('santa:frame') == 1 || q.block_state('santa:frame') == 3 || q.block_state('santa:frame') == 5 || q.block_state('santa:frame') == 7 || q.block_state('santa:frame') == 9 || q.block_state('santa:frame') == 11 || q.block_state('santa:frame') == 13 || q.block_state('santa:frame') == 15"
+        }
+      },
       "minecraft:material_instances": {
         "*": {
-          "texture": "santa_decor",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test"
         },
         "glow": {
-          "texture": "santa_decor_lit",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test",
           "face_dimming": false,
           "ambient_occlusion": false
         }
       },
-      "minecraft:collision_box": {
-        "origin": [
-          -8,
-          0,
-          -8
-        ],
-        "size": [
-          16,
-          16,
-          16
-        ]
-      },
+      "minecraft:collision_box": false,
       "minecraft:selection_box": false,
       "minecraft:destructible_by_mining": {
         "seconds_to_destroy": 0.3

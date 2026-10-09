@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:garland",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_garland",
+      "minecraft:display_name": {
+        "value": "tile.santa:garland.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:garland",
+        "replace_block_item": true
+      }
+    }
+  }
+}

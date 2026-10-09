@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:jack_in_the_box",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_jack_in_the_box",
+      "minecraft:display_name": {
+        "value": "tile.santa:jack_in_the_box.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:jack_in_the_box",
+        "replace_block_item": true
+      }
+    }
+  }
+}

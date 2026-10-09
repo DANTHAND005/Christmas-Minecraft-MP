@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:poinsettia",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_poinsettia",
+      "minecraft:display_name": {
+        "value": "tile.santa:poinsettia.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:poinsettia",
+        "replace_block_item": true
+      }
+    }
+  }
+}

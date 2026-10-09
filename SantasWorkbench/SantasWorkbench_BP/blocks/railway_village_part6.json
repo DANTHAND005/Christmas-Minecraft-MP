@@ -54,16 +54,18 @@
           "f12": "q.block_state('santa:frame') == 12",
           "f13": "q.block_state('santa:frame') == 13",
           "f14": "q.block_state('santa:frame') == 14",
-          "f15": "q.block_state('santa:frame') == 15"
+          "f15": "q.block_state('santa:frame') == 15",
+          "fe": "q.block_state('santa:frame') == 0 || q.block_state('santa:frame') == 2 || q.block_state('santa:frame') == 4 || q.block_state('santa:frame') == 6 || q.block_state('santa:frame') == 8 || q.block_state('santa:frame') == 10 || q.block_state('santa:frame') == 12 || q.block_state('santa:frame') == 14",
+          "fo": "q.block_state('santa:frame') == 1 || q.block_state('santa:frame') == 3 || q.block_state('santa:frame') == 5 || q.block_state('santa:frame') == 7 || q.block_state('santa:frame') == 9 || q.block_state('santa:frame') == 11 || q.block_state('santa:frame') == 13 || q.block_state('santa:frame') == 15"
         }
       },
       "minecraft:material_instances": {
         "*": {
-          "texture": "santa_decor",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test"
         },
         "glow": {
-          "texture": "santa_decor_lit",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test",
           "face_dimming": false,
           "ambient_occlusion": false
@@ -77,7 +79,7 @@
         ],
         "size": [
           16,
-          16,
+          5.8,
           16
         ]
       },
@@ -89,7 +91,7 @@
         ],
         "size": [
           16,
-          16,
+          5.8,
           16
         ]
       },

@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:christmas_guide",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_christmas_guide",
+      "minecraft:max_stack_size": 1,
+      "minecraft:glint": true,
+      "minecraft:custom_components": [
+        "santa:guide"
+      ]
+    }
+  }
+}

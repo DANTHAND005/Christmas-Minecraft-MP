@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:carrot_cake",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_carrot_cake",
+      "minecraft:display_name": {
+        "value": "tile.xmas:carrot_cake.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:carrot_cake",
+        "replace_block_item": true
+      }
+    }
+  }
+}

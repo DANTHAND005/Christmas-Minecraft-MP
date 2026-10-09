@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:nutcracker_statue",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_nutcracker_statue",
+      "minecraft:display_name": {
+        "value": "tile.santa:nutcracker_statue.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:nutcracker_statue",
+        "replace_block_item": true
+      }
+    }
+  }
+}

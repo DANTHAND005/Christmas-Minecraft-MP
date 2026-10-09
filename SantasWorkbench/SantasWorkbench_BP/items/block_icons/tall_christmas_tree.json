@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:tall_christmas_tree",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_tall_christmas_tree",
+      "minecraft:display_name": {
+        "value": "tile.santa:tall_christmas_tree.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:tall_christmas_tree",
+        "replace_block_item": true
+      }
+    }
+  }
+}

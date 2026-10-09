@@ -28,6 +28,9 @@
   },
   "xmas_walrus_egg": {
    "textures": "textures/items/walrus_spawn_egg"
+  },
+  "xmas_sleigh_harness": {
+   "textures": "textures/items/sleigh_harness"
   }
  }
 }

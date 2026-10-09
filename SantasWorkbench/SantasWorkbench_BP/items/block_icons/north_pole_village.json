@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:north_pole_village",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_north_pole_village",
+      "minecraft:display_name": {
+        "value": "tile.santa:north_pole_village.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:north_pole_village",
+        "replace_block_item": true
+      }
+    }
+  }
+}

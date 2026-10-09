@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:present_cyan",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_present_cyan",
+      "minecraft:display_name": {
+        "value": "tile.santa:present_cyan.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:present_cyan",
+        "replace_block_item": true
+      }
+    }
+  }
+}

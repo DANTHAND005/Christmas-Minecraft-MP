@@ -11,6 +11,16 @@
      "type": "bool",
      "default": false,
      "client_sync": true
+    },
+    "xmas:hitched": {
+     "type": "bool",
+     "default": false,
+     "client_sync": true
+    },
+    "xmas:flying": {
+     "type": "bool",
+     "default": false,
+     "client_sync": true
     }
    }
   },
@@ -103,6 +113,76 @@
      }
     },
     "minecraft:behavior.player_ride_tamed": {}
+   },
+   "xmas:sleigh": {
+    "minecraft:is_saddled": {},
+    "minecraft:rideable": {
+     "seat_count": 2,
+     "family_types": [
+      "player"
+     ],
+     "interact_text": "action.interact.ride.horse",
+     "pull_in_entities": false,
+     "seats": [
+      {
+       "position": [
+        0.0,
+        0.62,
+        -1.55
+       ],
+       "min_rider_count": 0,
+       "max_rider_count": 2
+      },
+      {
+       "position": [
+        0.0,
+        0.62,
+        -2.35
+       ],
+       "min_rider_count": 1,
+       "max_rider_count": 2
+      }
+     ]
+    },
+    "minecraft:damage_sensor": {
+     "triggers": [
+      {
+       "cause": "fall",
+       "deals_damage": "no"
+      },
+      {
+       "cause": "fly_into_wall",
+       "deals_damage": "no"
+      }
+     ]
+    }
+   },
+   "xmas:sleigh_ground": {
+    "minecraft:input_ground_controlled": {},
+    "minecraft:behavior.player_ride_tamed": {},
+    "minecraft:movement": {
+     "value": 0.34
+    },
+    "minecraft:physics": {},
+    "minecraft:can_power_jump": {},
+    "minecraft:horse.jump_strength": {
+     "value": {
+      "range_min": 0.7,
+      "range_max": 0.9
+     }
+    }
+   },
+   "xmas:sleigh_fly": {
+    "minecraft:physics": {
+     "has_gravity": false,
+     "has_collision": true
+    },
+    "minecraft:movement": {
+     "value": 0.0
+    }
+   },
+   "xmas:phys": {
+    "minecraft:physics": {}
    }
   },
   "components": {
@@ -348,6 +428,75 @@
      "component_groups": [
       "xmas:saddled"
      ]
+    }
+   },
+   "xmas:hitch": {
+    "remove": {
+     "component_groups": [
+      "xmas:saddled",
+      "xmas:sitting"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "xmas:sleigh",
+      "xmas:sleigh_ground"
+     ]
+    },
+    "set_property": {
+     "xmas:hitched": true,
+     "xmas:sitting": false,
+     "xmas:flying": false
+    }
+   },
+   "xmas:unhitch": {
+    "remove": {
+     "component_groups": [
+      "xmas:sleigh",
+      "xmas:sleigh_ground",
+      "xmas:sleigh_fly"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "xmas:tamed",
+      "xmas:moving",
+      "xmas:phys"
+     ]
+    },
+    "set_property": {
+     "xmas:hitched": false,
+     "xmas:flying": false
+    }
+   },
+   "xmas:sleigh_takeoff": {
+    "remove": {
+     "component_groups": [
+      "xmas:sleigh_ground"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "xmas:sleigh_fly"
+     ]
+    },
+    "set_property": {
+     "xmas:flying": true
+    }
+   },
+   "xmas:sleigh_land": {
+    "remove": {
+     "component_groups": [
+      "xmas:sleigh_fly"
+     ]
+    },
+    "add": {
+     "component_groups": [
+      "xmas:sleigh_ground"
+     ]
+    },
+    "set_property": {
+     "xmas:flying": false
     }
    }
   }

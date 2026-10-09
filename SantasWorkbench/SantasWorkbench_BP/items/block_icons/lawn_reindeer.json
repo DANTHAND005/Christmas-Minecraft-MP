@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:lawn_reindeer",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_lawn_reindeer",
+      "minecraft:display_name": {
+        "value": "tile.santa:lawn_reindeer.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:lawn_reindeer",
+        "replace_block_item": true
+      }
+    }
+  }
+}

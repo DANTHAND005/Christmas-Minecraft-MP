@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:victorian_village",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_victorian_village",
+      "minecraft:display_name": {
+        "value": "tile.santa:victorian_village.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:victorian_village",
+        "replace_block_item": true
+      }
+    }
+  }
+}

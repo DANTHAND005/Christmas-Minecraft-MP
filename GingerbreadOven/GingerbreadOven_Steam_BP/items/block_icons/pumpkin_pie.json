@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xmas:pumpkin_pie",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "xmas_blk_pumpkin_pie",
+      "minecraft:display_name": {
+        "value": "tile.xmas:pumpkin_pie.name"
+      },
+      "minecraft:block_placer": {
+        "block": "xmas:pumpkin_pie",
+        "replace_block_item": true
+      }
+    }
+  }
+}

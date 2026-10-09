@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:light_arch",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_light_arch",
+      "minecraft:display_name": {
+        "value": "tile.santa:light_arch.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:light_arch",
+        "replace_block_item": true
+      }
+    }
+  }
+}

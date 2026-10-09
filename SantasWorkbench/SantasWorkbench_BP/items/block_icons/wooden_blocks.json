@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:wooden_blocks",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_wooden_blocks",
+      "minecraft:display_name": {
+        "value": "tile.santa:wooden_blocks.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:wooden_blocks",
+        "replace_block_item": true
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "xmas.sleigh.bells": {
+      "category": "neutral",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/xmas_sleigh_bells",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "xmas.sleigh.takeoff": {
+      "category": "neutral",
+      "min_distance": 3.0,
+      "max_distance": 28.0,
+      "sounds": [
+        {
+          "name": "sounds/xmas_sfx/xmas_sleigh_takeoff",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        }
+      ]
+    }
+  }
+}

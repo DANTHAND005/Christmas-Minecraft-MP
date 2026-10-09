@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:spinning_top",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_spinning_top",
+      "minecraft:display_name": {
+        "value": "tile.santa:spinning_top.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:spinning_top",
+        "replace_block_item": true
+      }
+    }
+  }
+}

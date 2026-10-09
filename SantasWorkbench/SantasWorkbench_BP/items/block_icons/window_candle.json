@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:window_candle",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_window_candle",
+      "minecraft:display_name": {
+        "value": "tile.santa:window_candle.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:window_candle",
+        "replace_block_item": true
+      }
+    }
+  }
+}

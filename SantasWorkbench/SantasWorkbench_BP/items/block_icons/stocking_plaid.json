@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:stocking_plaid",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_stocking_plaid",
+      "minecraft:display_name": {
+        "value": "tile.santa:stocking_plaid.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:stocking_plaid",
+        "replace_block_item": true
+      }
+    }
+  }
+}

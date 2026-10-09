@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:toy_castle",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_toy_castle",
+      "minecraft:display_name": {
+        "value": "tile.santa:toy_castle.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:toy_castle",
+        "replace_block_item": true
+      }
+    }
+  }
+}

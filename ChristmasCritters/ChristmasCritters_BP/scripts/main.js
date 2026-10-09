@@ -20,10 +20,44 @@ function hearts(entity) {
   try { entity.dimension.spawnParticle("minecraft:heart_particle", { x: entity.location.x, y: entity.location.y + 1, z: entity.location.z }); } catch (e) {}
 }
 
+// ---- sleigh: use a Sleigh Harness on your tamed adult reindeer; sneak + tap it to unhitch ----
+function sleighInteract(e) {
+  const { player, target, itemStack } = e;
+  const tame = target.getComponent("minecraft:tameable");
+  const mine = tame?.isTamed && tame.tamedToPlayerId === player.id;
+  const hitched = target.getProperty("xmas:hitched");
+  const say = (t) => player.onScreenDisplay.setActionBar(t);
+  if (itemStack?.typeId === "xmas:sleigh_harness") {
+    e.cancel = true;
+    system.run(() => {
+      if (!mine) return say("Tame this reindeer first (carrots, apples or golden carrots)");
+      if (target.getComponent("minecraft:is_baby")) return say("This reindeer is too young to pull a sleigh");
+      if (hitched) return say("This reindeer is already pulling a sleigh");
+      if (target.getComponent("minecraft:is_saddled")) return say("Take the saddle off first");
+      target.triggerEvent("xmas:hitch");
+      useOneFromHand(player);
+      say("Hop in! Look up to fly, look down at the ground to land. Sneak + tap to unhitch");
+    });
+    return true;
+  }
+  if (hitched && mine && player.isSneaking) {
+    e.cancel = true;
+    system.run(() => {
+      target.triggerEvent("xmas:unhitch");
+      const h = stack("xmas:sleigh_harness");
+      if (h && !isCreative(player)) player.dimension.spawnItem(h, player.location);
+      say(niceName(target) + " is unhitched");
+    });
+    return true;
+  }
+  return false;
+}
+
 // ---- sneak + tap your own pet: sit / stay, again: follow. Gingerbread men also take any Oven cookie to tame ----
 world.beforeEvents.playerInteractWithEntity.subscribe((e) => {
   const { player, target, itemStack } = e;
   if (!PETS.has(target.typeId)) return;
+  if (target.typeId === "xmas:reindeer" && sleighInteract(e)) return;
   const tame = target.getComponent("minecraft:tameable");
   if (player.isSneaking && tame?.isTamed && tame.tamedToPlayerId === player.id) {
     e.cancel = true;                                   // don't mount the reindeer etc.
@@ -121,3 +155,42 @@ system.runInterval(() => {
     }
   }
 }, 10);
+
+// ---- flying sleigh: driver looks up to take off, steers by looking, looks down at the ground to land ----
+const FLY_SPEED = 0.6, flyingDeer = new Map();   // reindeer id -> last tick it had a driver
+system.runInterval(() => {
+  const tick = system.currentTick;
+  for (const p of world.getAllPlayers()) {
+    const deer = p.getComponent("minecraft:riding")?.entityRidingOn;
+    if (!deer || deer.typeId !== "xmas:reindeer" || !deer.getProperty("xmas:hitched")) continue;
+    const riders = deer.getComponent("minecraft:rideable")?.getRiders() ?? [];
+    if (!riders.length || riders[0].id !== p.id) continue;                       // only the front seat drives
+    const view = p.getViewDirection(), flying = deer.getProperty("xmas:flying");
+    if (!flying) {
+      if (view.y > 0.45) {
+        deer.triggerEvent("xmas:sleigh_takeoff"); p.onScreenDisplay.setActionBar("Up, up and away! Look down at the ground to land");
+        try { deer.dimension.playSound("xmas.sleigh.takeoff", deer.location, { volume: 1 }); } catch (e) {}
+      } else if (tick % 26 === 0) {   // jingling along on the ground while moving
+        try { const v = deer.getVelocity(); if (Math.abs(v.x) + Math.abs(v.z) > 0.04) deer.dimension.playSound("xmas.sleigh.bells", deer.location, { volume: 0.6 }); } catch (e) {}
+      }
+      continue;
+    }
+    flyingDeer.set(deer.id, tick);
+    if (deer.isOnGround && view.y < -0.3) { deer.triggerEvent("xmas:sleigh_land"); flyingDeer.delete(deer.id); continue; }
+    try {
+      deer.clearVelocity();
+      deer.applyImpulse({ x: view.x * FLY_SPEED, y: view.y * FLY_SPEED, z: view.z * FLY_SPEED });
+      deer.setRotation({ x: 0, y: p.getRotation().y });
+      if (tick % 2 === 0) {
+        const l = deer.location;
+        deer.dimension.spawnParticle("minecraft:totem_particle", { x: l.x - view.x * 2.5, y: l.y + 0.6, z: l.z - view.z * 2.5 });
+      }
+      if (tick % 26 === 0) deer.dimension.playSound("xmas.sleigh.bells", deer.location, { volume: 1, pitch: 0.95 + Math.random() * 0.1 });
+    } catch (e) {}
+  }
+  for (const [id, last] of flyingDeer) {           // driver hopped off mid-air: let the reindeer glide down
+    if (tick - last < 5) continue;
+    flyingDeer.delete(id);
+    try { const d = world.getEntity(id); if (d && d.getProperty("xmas:flying")) d.triggerEvent("xmas:sleigh_land"); } catch (e) {}
+  }
+}, 1);

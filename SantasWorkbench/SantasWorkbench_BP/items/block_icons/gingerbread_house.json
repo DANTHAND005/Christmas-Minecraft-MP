@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:gingerbread_house",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_gingerbread_house",
+      "minecraft:display_name": {
+        "value": "tile.santa:gingerbread_house.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:gingerbread_house",
+        "replace_block_item": true
+      }
+    }
+  }
+}

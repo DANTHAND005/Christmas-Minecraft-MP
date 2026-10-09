@@ -241,17 +241,29 @@ function storeComponent(cfg) {
 
 // ---- placeable cakes: right-click eats a slice, 7 slices per cake ----
 system.beforeEvents.startup.subscribe((startup) => {
+  if (globalThis.__xmasCakeRegistered) return; globalThis.__xmasCakeRegistered = true;   // a second copy of this pack would register twice
   startup.blockComponentRegistry.registerCustomComponent("xmas:cake", {
-    onPlayerInteract(event) {
+    onPlayerInteract(event) {   // works like a vanilla cake: one slice = 2 hunger + 0.4 saturation, not when full
       try {
         const { block, player, dimension } = event;
         if (!player) return;
-        const bites = block.permutation.getState("xmas:bites");
-        player.addEffect("saturation", 2, { amplifier: 0, showParticles: false });
+        const creative = String(player.getGameMode()).toLowerCase() === "creative";
+        let hunger, sat;
+        try { hunger = player.getComponent("minecraft:player.hunger"); sat = player.getComponent("minecraft:player.saturation"); } catch (e) {}
+        if (!creative && hunger && hunger.currentValue >= hunger.effectiveMax) {
+          player.onScreenDisplay.setActionBar("You're too full for another slice");
+          return;
+        }
+        if (hunger) {
+          hunger.setCurrentValue(Math.min(hunger.effectiveMax, hunger.currentValue + 2));
+          if (sat) sat.setCurrentValue(Math.min(hunger.currentValue, sat.currentValue + 0.4));
+        } else player.addEffect("saturation", 2, { amplifier: 0, showParticles: false });
         giveJolly(player);
-        try { dimension.playSound("random.eat", block.center()); } catch (e) {}
+        const bites = block.permutation.getState("xmas:bites");
+        try { dimension.playSound("random.eat", block.center(), { pitch: 0.9 + Math.random() * 0.2 }); } catch (e) {}
         if (bites >= 6) {
           block.setType("minecraft:air");
+          try { dimension.playSound("random.burp", block.center(), { volume: 0.6 }); } catch (e) {}
         } else {
           block.setPermutation(block.permutation.withState("xmas:bites", bites + 1));
         }

@@ -71,7 +71,7 @@ for ident, (f, b) in blocks.items():
         if gid and not gid.startswith('minecraft:geometry.') and gid not in geos:
             problems.append('%s: geometry %s not found' % (ident, gid))
         for k, mi in (c.get('minecraft:material_instances') or {}).items():
-            if mi.get('texture') and mi['texture'] not in terrain:
+            if mi.get('texture') and mi['texture'] not in terrain | {'snow'}:   # snow = vanilla terrain texture
                 problems.append('%s: material %s uses unknown texture %s' % (ident, k, mi['texture']))
         lt = c.get('minecraft:loot')
         if lt and lt not in loot:
@@ -153,7 +153,7 @@ for pack in PACKS.values():
             ident = ns + ':' + name
             if ident not in custom and ident not in registered and not ident.endswith('_') and \
                     not any(c.startswith(ident + '_') for c in custom) and \
-                    not re.fullmatch(r'(santa|xmas):(on|frame|open|day_a|day_b|fill|[habf]\d?|cut|slices|steam|level|kind|bites)', ident):
+                    not re.fullmatch(r'(santa|xmas):(on|frame|open|day_a|day_b|fill|[habf]\d?|cut|slices|steam|level|kind|bites|empty|playing|guide_given|recipes_unlocked|rainbow_note|snow_spray|\w+_recipe(_\w+)?)', ident):
                 problems.append('%s: script mentions %s, which is not a block or item' % (os.path.basename(js), ident))
 for ident, (f, b) in blocks.items():
     for c in walk(b):

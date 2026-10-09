@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:toy_soldier",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_toy_soldier",
+      "minecraft:display_name": {
+        "value": "tile.santa:toy_soldier.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:toy_soldier",
+        "replace_block_item": true
+      }
+    }
+  }
+}

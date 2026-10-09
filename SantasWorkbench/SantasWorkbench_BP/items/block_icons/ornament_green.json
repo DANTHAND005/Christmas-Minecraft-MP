@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:ornament_green",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_ornament_green",
+      "minecraft:display_name": {
+        "value": "tile.santa:ornament_green.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:ornament_green",
+        "replace_block_item": true
+      }
+    }
+  }
+}

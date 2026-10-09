@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:village_toy_shop",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_village_toy_shop",
+      "minecraft:display_name": {
+        "value": "tile.santa:village_toy_shop.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:village_toy_shop",
+        "replace_block_item": true
+      }
+    }
+  }
+}

@@ -19,32 +19,38 @@
       "minecraft:geometry": "geometry.santa_giant_candy_cane",
       "minecraft:material_instances": {
         "*": {
-          "texture": "santa_lamp",
+          "texture": "santa_xmas2",
           "render_method": "alpha_test"
+        },
+        "glow": {
+          "texture": "santa_xmas2",
+          "render_method": "alpha_test",
+          "face_dimming": false,
+          "ambient_occlusion": false
         }
       },
       "minecraft:collision_box": {
         "origin": [
-          -2.72,
+          -3,
           0,
-          -2.72
+          -3
         ],
         "size": [
-          5.44,
+          6,
           16,
-          5.44
+          6
         ]
       },
       "minecraft:selection_box": {
         "origin": [
-          -2.72,
+          -3,
           0,
-          -2.72
+          -3
         ],
         "size": [
-          5.44,
+          6,
           16,
-          5.44
+          6
         ]
       },
       "minecraft:destructible_by_mining": {

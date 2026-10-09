@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:star_lantern",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_star_lantern",
+      "minecraft:display_name": {
+        "value": "tile.santa:star_lantern.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:star_lantern",
+        "replace_block_item": true
+      }
+    }
+  }
+}

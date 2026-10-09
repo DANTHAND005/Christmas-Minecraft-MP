@@ -1,0 +1,21 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "santa:snow_machine",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": "santa_blk_snow_machine",
+      "minecraft:display_name": {
+        "value": "tile.santa:snow_machine.name"
+      },
+      "minecraft:block_placer": {
+        "block": "santa:snow_machine",
+        "replace_block_item": true
+      }
+    }
+  }
+}
